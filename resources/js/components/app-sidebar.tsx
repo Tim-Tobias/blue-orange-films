@@ -9,10 +9,54 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'workflows',
+        href: '/workflows',
         icon: LayoutGrid,
     },
+    {
+        title: 'Web Content',
+        href: '/web-content',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'projects',
+        href: '/projects',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'project_files',
+        href: '/project_files',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'settings',
+        href: '/settings',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'project_teams',
+        href: '/project_teams',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'crew_roles',
+        href: '/crew_roles',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'team_names',
+        href: '/team_names',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'project_category',
+        href: '/project_category',
+        icon: LayoutGrid,
+    },
+    
+    
+    
+    
 ];
 
 const footerNavItems: NavItem[] = [
