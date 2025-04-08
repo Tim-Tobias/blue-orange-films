@@ -15,48 +15,44 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Web Content',
-        href: '/web-content',
+        href: '/dashboard/web-contents',
         icon: LayoutGrid,
     },
     {
         title: 'projects',
-        href: '/projects',
+        href: '/dashboard/projects',
         icon: LayoutGrid,
     },
     {
         title: 'project_files',
-        href: '/project_files',
+        href: '/dashboard/project_files',
         icon: LayoutGrid,
     },
     {
         title: 'settings',
-        href: '/settings',
+        href: '/dashboard/settings',
         icon: LayoutGrid,
     },
     {
         title: 'project_teams',
-        href: '/project_teams',
+        href: '/dashboard/project_teams',
         icon: LayoutGrid,
     },
     {
         title: 'crew_roles',
-        href: '/crew_roles',
+        href: '/dashboard/crew_roles',
         icon: LayoutGrid,
     },
     {
         title: 'team_names',
-        href: '/team_names',
+        href: '/dashboard/team_names',
         icon: LayoutGrid,
     },
     {
         title: 'project_category',
-        href: '/project_category',
+        href: '/dashboard/project_category',
         icon: LayoutGrid,
     },
-    
-    
-    
-    
 ];
 
 const footerNavItems: NavItem[] = [

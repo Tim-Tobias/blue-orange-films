@@ -41,3 +41,17 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface WebContent {
+    id: number;
+    title?: string;
+    content?: string;
+    image?: string | null;
+    section: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface CategorySection {
+    section: string;
+}
