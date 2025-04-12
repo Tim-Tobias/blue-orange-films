@@ -52,6 +52,13 @@ export interface WebContent {
     updated_at: string;
 }
 
+export interface ProjectCategory {
+    id: number;
+    name?: string;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface CategorySection {
     section: string;
 }
