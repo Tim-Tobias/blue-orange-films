@@ -71,7 +71,6 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
 
     const onSubmit = (form: WebContentFormData) => {
         const formData = new FormData();
-        formData.append('_method', 'PUT');
         formData.append('title', form.title || '');
         formData.append('section', form.section);
         formData.append('content', content || '');
@@ -81,6 +80,8 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
         }
 
         if (isEdit && data?.id) {
+            formData.append('_method', 'PUT');
+
             router.post(`/dashboard/web-contents/${data.id}`, formData, {
                 forceFormData: true,
                 onSuccess: () => {},
