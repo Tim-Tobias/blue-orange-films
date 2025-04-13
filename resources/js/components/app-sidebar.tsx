@@ -19,25 +19,26 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'projects',
-        href: '/dashboard/projects',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Crew Roles',
-        href: '/dashboard/crew-roles',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Team Names',
-        href: '/dashboard/team-names',
-        icon: LayoutGrid,
-    },
-    {
         title: 'Project Category',
         href: '/dashboard/project-category',
         icon: LayoutGrid,
     },
+    {
+        title: 'projects',
+        href: '/dashboard/projects',
+        icon: LayoutGrid,
+    },
+    // {
+    //     title: 'Crew Roles',
+    //     href: '/dashboard/crew-roles',
+    //     icon: LayoutGrid,
+    // },
+    // {
+    //     title: 'Team Names',
+    //     href: '/dashboard/team-names',
+    //     icon: LayoutGrid,
+    // },
+    
 ];
 
 const footerNavItems: NavItem[] = [

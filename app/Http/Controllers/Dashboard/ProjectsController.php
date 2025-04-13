@@ -3,69 +3,51 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\ProjectCategoryRequest;
 use App\Http\Requests\Dashboard\WebContentRequest;
+use App\Models\ProjectCategory;
 use App\Models\WebContent;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProjectsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $webContents = WebContent::get();
+        $projectCategory = ProjectCategory::get();
 
         return Inertia::render('admin/web-contents/index', [
-            'web_contents' => $webContents
+            'projectCategory' => $projectCategory
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $categories = WebContent::select('section')->get();
+        $projectCategory = ProjectCategory::select('section')->get();
 
         return Inertia::render('admin/web-contents/form', [
             'isEdit' => false,
             'data' => null,
-            'categories' => $categories
+            'projectCategory' => $projectCategory
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(WebContentRequest $request)
+    public function store(ProjectCategoryRequest $request)
     {   
-        $webContent = new WebContent();
+        $webContent = new ProjectCategory();
 
-        if ($request->hasFile('image')) {
-            $webContent->image = $request->file('image')->store('web_contents', 'public');
-        }
-
-        $webContent->title = $request->title;
-        $webContent->content = $request->content;
-        $webContent->section = $request->section;
+    
+        $webContent->name = $request->name;
         $webContent->save();
 
         return redirect()->route('web-contents.index')->with('success', 'Content created');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $categories = WebContent::select('section')->get();
@@ -78,9 +60,6 @@ class ProjectsController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(WebContentRequest $request, string $id)
     {
         $webContent = WebContent::findOrFail($id);
@@ -105,9 +84,6 @@ class ProjectsController extends Controller
         return redirect()->route('web-contents.index')->with('success', 'Content created');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

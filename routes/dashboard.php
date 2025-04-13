@@ -14,11 +14,9 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function ($r
   })->name('dashboard');
 
   $route->resource('web-contents', WebContentController::class);
+  $route->resource('project-category', ProjectCategoryController::class);
   $route->resource('crew-roles', CrewRolesController::class);
 
-  $route->resource('project-category', ProjectCategoryController::class);
-
-  Route::post('project-category/datatable', [ProjectCategoryController::class, 'datatable'])->name('project-category.datatable');
 
 
   $route->resource('projects', ProjectsController::class);

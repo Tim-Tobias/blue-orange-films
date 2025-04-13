@@ -22,10 +22,7 @@ class ProjectCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string', 'max:255'],
-            'section' => $this->isMethod('post') ? ['required', 'string', 'max:255'] : ['nullable', 'string', 'max:255'],
-            'content' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:5048'],
+            'name' => ['required', 'string', 'max:255'],
         ];
     }
 }

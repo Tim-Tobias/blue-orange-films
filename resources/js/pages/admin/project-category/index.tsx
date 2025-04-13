@@ -4,8 +4,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import AppLayout from '@/layouts/app-layout';
 import { ProjectCategory, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
-import { router } from '@inertiajs/react';
+
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -14,7 +13,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/dashboard',
     },
     {
-        title: 'Web Content',
+        title: 'Project Category',
         href: '/dashboard/project-category',
     },
 ];
@@ -25,43 +24,17 @@ interface TableWebContentsProps {
 
 export default function TableWebContents({ projectCategory }: TableWebContentsProps) {
 
-    // const [categories, setCategories] = useState([]);
-
-    const fetchCategories = async () => {
-        try {
-            const response = await fetch('/api/project-category/datatable', {
-                method: 'POST',
-                body: JSON.stringify({
-                    page: 1,
-                    limit: 10
-                })
-            });
-            
-            const data = await response.json();
-            console.log('Success:', data);
-            
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Project Category" />
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                {projectCategory.length < 3 && (
-                    <div className="flex w-full items-center justify-end">
-                        <Link href="/dashboard/project-category/create">
-                            <Button>Create</Button>
-                        </Link>
-                    </div>
-                )}
+                <div className="flex w-full items-center justify-end">
+                    <Link href="/dashboard/project-category/create">
+                        <Button>Create</Button>
+                    </Link>
+                </div>
 
                 <Card>
                     <CardContent>
