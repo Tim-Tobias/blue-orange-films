@@ -10,7 +10,7 @@ import AppLogo from './app-logo';
 const mainNavItems: NavItem[] = [
     {
         title: 'workflows',
-        href: '/workflows',
+        href: '/dashboard/workflows',
         icon: LayoutGrid,
     },
     {

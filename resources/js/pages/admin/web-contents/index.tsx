@@ -1,9 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { limitText } from '@/helpers/limit_text';
 import AppLayout from '@/layouts/app-layout';
 import { WebContent, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
+import parse from 'html-react-parser';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -51,8 +53,8 @@ export default function TableWebContents({ web_contents }: TableWebContentsProps
                                 {web_contents.map((val, index) => (
                                     <TableRow key={index}>
                                         <TableCell className="font-medium">{val.title}</TableCell>
-                                        <TableCell>{val.content}</TableCell>
-                                        <TableCell>{val.image && <img style={{ width: '100px' }} src={val.image} alt="" />}</TableCell>
+                                        <TableCell>{parse(limitText(String(val.content), 50))}</TableCell>
+                                        <TableCell>{val.image_url && <img style={{ width: '100px' }} src={val.image_url} alt="" />}</TableCell>
                                         <TableCell className="text-right">{val.section} section</TableCell>
                                         <TableCell className="text-right">
                                             <Link href={`/dashboard/web-contents/${val.id}/edit`}>
