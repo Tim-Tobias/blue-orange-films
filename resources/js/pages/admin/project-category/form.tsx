@@ -72,15 +72,15 @@ export default function FormWebContent({ isEdit = false, projectCategory }: Form
                         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className="space-y-4">
                             <div>
                                 <label className="block mb-1">Title <span className="text-red-500">*</span></label>
-                                <Input 
-                                    type="text" 
-                                    {...register('name')} 
+                                <Input
+                                    type="text"
+                                    {...register('name')}
                                     className={`form-control mt-2 ${errors.name ? 'border-red-500' : ''}`}
                                 />
                                 {errors.name && (
                                     <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
                                 )}
-                                
+
                             </div>
                             <Button type="submit">Submit</Button>
                         </form>

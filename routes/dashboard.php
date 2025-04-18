@@ -21,6 +21,6 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function ($r
 
   $route->resource('projects', ProjectsController::class);
   $route->resource('team-names', TeamNamesController::class);
- 
+  
 
 });

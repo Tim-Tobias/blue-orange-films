@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('project_teams', function (Blueprint $table) {
             $table->id();
             $table->integer('id_project')->nullable();
-            $table->integer('id_crew_roles')->nullable();
-            $table->integer('id_name_crew')->nullable();
+            $table->string('nameTeam')->nullable();
+            $table->string('nameRoles')->nullable();
             $table->timestamps();
         });
     }
