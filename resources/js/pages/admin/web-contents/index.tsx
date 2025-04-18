@@ -25,7 +25,7 @@ export default function TableWebContents({ web_contents }: TableWebContentsProps
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Web Content" />
 
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+            <div className="a flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 {web_contents.length < 3 && (
                     <div className="flex w-full items-center justify-end">
                         <Link href="/dashboard/web-contents/create">
