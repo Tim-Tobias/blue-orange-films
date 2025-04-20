@@ -15,7 +15,7 @@ createInertiaApp({
             };
         };
 
-        page.default.layout = name.startsWith('dashboard/') ? undefined : (page: ReactNode) => <AppFrontWrapper>{page}</AppFrontWrapper>;
+        page.default.layout = name.startsWith('admin') ? undefined : (page: ReactNode) => <AppFrontWrapper>{page}</AppFrontWrapper>;
 
         return page;
     },

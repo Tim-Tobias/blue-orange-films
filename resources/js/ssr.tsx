@@ -4,7 +4,6 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { JSX, ReactNode } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { type RouteName, route } from 'ziggy-js';
-import { AppFrontWrapper } from './components/app-front-wrapper';
 
 createServer((page) =>
     createInertiaApp({
@@ -17,8 +16,6 @@ createServer((page) =>
                     layout?: (page: ReactNode) => JSX.Element;
                 };
             };
-
-            page.default.layout = name.startsWith('dashboard/') ? undefined : (page: ReactNode) => <AppFrontWrapper>{page}</AppFrontWrapper>;
 
             return page;
         },
