@@ -16,7 +16,7 @@ class WebContentController extends Controller
      */
     public function index()
     {
-        $webContents = WebContent::get();
+        $webContents = WebContent::whereNotNull('title')->orWhereNotNull('content')->get();
 
         return Inertia::render('admin/web-contents/index', [
             'web_contents' => $webContents
@@ -53,7 +53,7 @@ class WebContentController extends Controller
         $webContent->section = $request->section;
         $webContent->save();
 
-        return redirect()->route('web-contents.index')->with('success', 'Content created');
+        return to_route('web-contents.index')->with('success', 'Content created');
     }
 
     /**
@@ -103,7 +103,7 @@ class WebContentController extends Controller
         $webContent->content = $request->content;
         $webContent->save();
 
-        return redirect()->route('web-contents.index')->with('success', 'Content created');
+        return to_route('web-contents.index')->with('success', 'Content updated');
     }
 
     /**

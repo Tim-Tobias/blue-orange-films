@@ -28,6 +28,10 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+    flash: {
+        error?: string;
+        success?: string;
+    };
     [key: string]: unknown;
 }
 
@@ -46,12 +50,26 @@ export interface WebContent {
     id: number;
     title?: string;
     content?: string;
-    image?: string | null;
+    image_url?: string | null;
     section: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface ProjectCategory {
+    id: number;
+    name?: string;
     created_at: string;
     updated_at: string;
 }
 
 export interface CategorySection {
     section: string;
+}
+
+export interface Workflow {
+    id: number;
+    title?: string;
+    desc?: string;
+    order: number;
 }
