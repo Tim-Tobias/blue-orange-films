@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { ProjectCategory, Projects, TeamMember, type BreadcrumbItem } from '@/types';
+import { ProjectCategory, ProjectDetail, Projects, TeamMember, type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 type FormProjectsProps = {
     isEdit?: boolean;
-    projects?: Projects;
+    projects?: ProjectDetail;
     categories?: ProjectCategory[];
 };
 type ProjectEntry = {
@@ -42,16 +42,26 @@ export const webContentScheme = z.object({
 
 export type WebContentFormData = z.infer<typeof webContentScheme>;
 
-export default function FormProjects({ isEdit = false,projects,categories }: FormProjectsProps) {
+export default function FormProjects({ isEdit = false, projects, categories }: FormProjectsProps) {
 
-    const [dataProjects, setdataProjects] = useState<Projects[]>([]);
+
     const [dataCategories, setdataCategories] = useState<ProjectCategory[]>([]);
+
+    const [ProjectDetail, setProjectDetail] = useState<ProjectDetail[]>([]);
+
 
     useEffect(() => {
         if (projects) {
-            setdataProjects([projects]);
+            setProjectDetail([projects]);
+        }
+        return () => {
+
+            
         }
     }, [projects]);
+
+    console.log(`ProjectDetail ${JSON.stringify(ProjectDetail)}`);
+
 
     useEffect(() => {
         if (categories) {
@@ -59,148 +69,21 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
         }
     }, [categories]);
 
-    // console.log(`dataProjects ${JSON.stringify(dataProjects)}`);
-    console.log(`dataCategories ${JSON.stringify(dataCategories)}`);
-
-    // State for form fields
-    const [formData, setFormData] = useState({
-        highlight_link: '',
-        title: '',
-        year: '',
-        duration: '',
-        aspect_ratio: '',
-        description: '',
-        client: '',
-        agency: '',
-        id_project_category: '',
-    });
-
-    const [projectEntries, setProjectEntries] = useState<ProjectEntry[]>([
-        {
-            title: "",
-            project_link: "",
-            category: "image",
-            description: "",
-        },
-    ])
-
-    
-    const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
-
-    
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
-   
-    const handleTeamMemberChange = (id: string, field: keyof TeamMember, value: string) => {
-        setTeamMembers((prevMembers) => prevMembers.map((member) => (member.id === id ? { ...member, [field]: value } : member)));
-    };
 
 
-    const addTeamMember = () => {
-        const newMember: TeamMember = {
-            id: `team-${Date.now()}`,
-            teamName: '',
-            crewRoles: '',
-        };
-        setTeamMembers([...teamMembers, newMember]);
-    };
-
- 
-    const removeTeamMember = (id: string) => {
-        setTeamMembers(teamMembers.filter((member) => member.id !== id));
-    };
-
-
-
-    const handleChange = (index: number, field: keyof ProjectEntry, value: string) => {
-        const updatedEntries = [...projectEntries]
-        updatedEntries[index] = {
-            ...updatedEntries[index],
-            [field]: value,
-        }
-        setProjectEntries(updatedEntries)
-    }
-
-    const addProjectEntry = () => {
-        setProjectEntries([
-            ...projectEntries,
-            {
-                title: "",
-                project_link: "",
-                category: "image",
-                description: "",
-            },
-        ])
-    }
-
-    const removeProjectEntry = (index: number) => {
-        if (projectEntries.length > 1) {
-            const updatedEntries = [...projectEntries]
-            updatedEntries.splice(index, 1)
-            setProjectEntries(updatedEntries)
-        }
-    }
-
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        // Combine form data with team members
-        const projectData = {
-            ...formData,
-            teamMembers: teamMembers.map((member) => ({
-                nameTeams: member.teamName,
-                nameRoles: member.crewRoles,
-            })),
-            projectEntries: projectEntries.map((entry) => ({
-                title: entry.title,
-                project_link: entry.project_link,
-                category: entry.category,
-                description: entry.description,
-            }))
-        };
-
-        // console.log(`Submitting projectData: ${JSON.stringify(projectData)}`);
-        // console.log(`Submitting projectEntries: ${JSON.stringify(projectEntries)}`);
-        router.post(`/dashboard/projects`, projectData, {
-            forceFormData: true,
-            onSuccess: (data) => {
-                console.log('Project created successfully',JSON.stringify(data));
-            },
-            onError: (errors) => {
-                console.error('Error creating project:', JSON.stringify(errors));
-            }
-        });
-
-        // console.log("Submitting data:", projectData)
-
-        // Here you would typically send the data to your API
-        // const response = await fetch('/api/projects', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(projectData)
-        // })
-
-        // Handle response...
-    };
 
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Admin Dashboard - ${isEdit ? 'Edit' : 'Create'} Web Content`} />
+
+            <Head title={`Admin Dashboard - Projects`} />
 
             <AppWrapper>
-                <h1 className="text-2xl font-semibold">{isEdit ? 'Edit' : 'Create'} Web Content</h1>
+                <h1 className="text-2xl font-semibold">Detail Project</h1>
 
                 <Card>
                     <CardContent>
-                        <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
+                        <form encType="multipart/form-data" className="space-y-4">
                             <div className="w-full">
                                 <div className="flex flex-wrap w-full">
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
@@ -209,7 +92,8 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
                                             type="text"
                                             name="title"
                                             className="form-control mt-2"
-                                            onChange={handleInputChange} />
+                                            defaultValue={ProjectDetail[0]?.title}
+                                             />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Highlight Link</label>
@@ -217,7 +101,8 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
                                             type="text"
                                             name='highlight_link'
                                             className="form-control mt-2"
-                                            onChange={handleInputChange} />
+                                            defaultValue={ProjectDetail[0]?.highlight_link}
+                                        />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Year</label>
@@ -228,7 +113,7 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
                                             max="2099"
                                             step="1"
                                             className="form-control mt-2"
-                                            onChange={handleInputChange}
+                                            defaultValue={ProjectDetail[0]?.year}
                                         />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
@@ -240,49 +125,42 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
                                             pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
                                             title="Format: HH:MM:SS"
                                             className="form-control mt-2"
-                                            onChange={handleInputChange}
+                                            defaultValue={ProjectDetail[0]?.duration}
                                         />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Aspect Ratio</label>
-                                        <Input type="text" name="aspect_ratio" className="form-control mt-2" onChange={handleInputChange} />
+                                        <Input type="text" name="aspect_ratio" className="form-control mt-2" 
+                                            defaultValue={ProjectDetail[0]?.aspect_ratio}
+                                        />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Client</label>
-                                        <Input type="text" name="client" className="form-control mt-2" onChange={handleInputChange} />
+                                        <Input type="text" name="client" className="form-control mt-2"
+                                            defaultValue={ProjectDetail[0]?.client}
+
+                                         />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Agency </label>
-                                        <Input type="text" name="agency" className="form-control mt-2" onChange={handleInputChange} />
+                                        <Input type="text" name="agency" className="form-control mt-2"
+                                            defaultValue={ProjectDetail[0]?.agency}
+                                         />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Project Category </label>
-                                        <Select
-                                            name="id_project_category"
-                                            onValueChange={(value) => setFormData({ ...formData, id_project_category: value })}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select category" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {dataCategories.map((category) => (
-                                                    <SelectItem key={category.id} value={category.id.toString()}>
-                                                        {category.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                        <Input type="text" name="agency" className="form-control mt-2"
+                                            defaultValue={ProjectDetail[0]?.id}
+                                        />
                                     </div>
                                     <div className="p-4 w-full">
                                         <label>Description</label>
-                                        <textarea 
-                                        name='description'
-                                        className="mt-2 w-full rounded border p-2"
-                                            onChange={handleInputChange} 
-                                            rows={4}
-                                            
+                                        <textarea
+                                            name='description'
+                                            className="mt-2 w-full rounded border p-2"
+                                            defaultValue={ProjectDetail[0]?.description}
 
-                                         ></textarea>
+                                            rows={4}></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -291,22 +169,20 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
                                 <Card>
                                     <CardHeader className="flex flex-row items-center justify-between">
                                         <CardTitle>Project Files</CardTitle>
-                                        <Button type="button" onClick={addProjectEntry} variant="outline">
-                                            Add Files
-                                        </Button>
+                                        
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-4">
-                                            {projectEntries.map((entry, index) => (
+                                            {ProjectDetail[0]?.projectFiles?.map((entry, index) => (
                                                 <div key={index} className="bg-muted/50 flex items-center gap-4 rounded-lg p-4">
                                                     <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
-                                                      
+
                                                         <div>
                                                             <Label htmlFor={`project-title-${index}`}>Title</Label>
                                                             <Input
                                                                 id={`project-title-${index}`}
-                                                                value={entry.title}
-                                                                onChange={(e) => handleChange(index, 'title', e.target.value)}
+                                                                defaultValue={entry.title}
+
                                                                 className="mt-1"
                                                             />
                                                         </div>
@@ -314,16 +190,15 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
                                                             <Label htmlFor={`project-link-${index}`}>Project Link</Label>
                                                             <Input
                                                                 id={`project-link-${index}`}
-                                                                value={entry.project_link}
-                                                                onChange={(e) => handleChange(index, 'project_link', e.target.value)}
+                                                                defaultValue={entry.project_link}
+
                                                                 className="mt-1"
                                                             />
                                                         </div>
                                                         <div>
                                                             <Label htmlFor={`category-${index}`}>Category</Label>
                                                             <Select
-                                                                value={entry.category}
-                                                                onValueChange={(value) => handleChange(index, 'category', value)}
+                                                                defaultValue={entry.category}
                                                             >
                                                                 <SelectTrigger id={`category-${index}`} className="mt-1">
                                                                     <SelectValue placeholder="Select category" />
@@ -339,51 +214,40 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
                                                             <textarea
                                                                 id={`description-${index}`}
                                                                 value={entry.description}
-                                                                onChange={(e) => handleChange(index, 'description', e.target.value)}
                                                                 className="mt-2 w-full rounded border p-2"
                                                             />
                                                         </div>
                                                     </div>
-                                                    <Button
-                                                        type="button"
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        onClick={() => removeProjectEntry(index)}
-                                                    >
-                                                        <Trash2 />
-                                                    </Button>
+
                                                 </div>
                                             ))}
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                                        </div>
+                                    </CardContent>
+                                </Card>
                             </div>
 
                             <div className="w-full">
                                 <Card>
                                     <CardHeader className="flex flex-row items-center justify-between">
                                         <CardTitle>Project Team</CardTitle>
-                                        <Button type="button" onClick={addTeamMember} variant="outline">
-                                            Add Team
-                                        </Button>
+                                        
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-4">
-                                            {teamMembers.length === 0 && (
+                                            {ProjectDetail[0]?.projectTeams?.length === 0 && (
                                                 <p className="text-muted-foreground text-sm">
                                                     No team members added yet. Click "Add Team" to add team members.
                                                 </p>
                                             )}
 
-                                            {teamMembers.map((member) => (
+                                            {ProjectDetail[0]?.projectTeams?.map((member) => (
                                                 <div key={member.id} className="bg-muted/50 flex items-center gap-4 rounded-lg p-4">
                                                     <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
                                                         <div>
                                                             <Label htmlFor={`team-name-${member.id}`}>Team Name</Label>
                                                             <Input
                                                                 id={`team-name-${member.id}`}
-                                                                value={member.teamName}
-                                                                onChange={(e) => handleTeamMemberChange(member.id, 'teamName', e.target.value)}
+                                                                defaultValue={member.nameTeam}
                                                                 className="mt-1"
                                                             />
                                                         </div>
@@ -391,29 +255,19 @@ export default function FormProjects({ isEdit = false,projects,categories }: For
                                                             <Label htmlFor={`crew-roles-${member.id}`}>Crew Roles</Label>
                                                             <Input
                                                                 id={`crew-roles-${member.id}`}
-                                                                value={member.crewRoles}
-                                                                onChange={(e) => handleTeamMemberChange(member.id, 'crewRoles', e.target.value)}
+                                                                defaultValue={member.nameRoles}
                                                                 className="mt-1"
                                                             />
                                                         </div>
                                                     </div>
-                                                    <Button
-                                                        type="button"
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        onClick={() => removeTeamMember(member.id)}
-                                                        className="h-9 w-9 shrink-0"
-                                                    >
-                                                        <Trash2 className="h-5 w-5" />
-                                                        <span className="sr-only">Remove team member</span>
-                                                    </Button>
+
                                                 </div>
                                             ))}
                                         </div>
                                     </CardContent>
                                 </Card>
                             </div>
-                            <Button type="submit">Submit</Button>
+                           
                         </form>
                     </CardContent>
                 </Card>
