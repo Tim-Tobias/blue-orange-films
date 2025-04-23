@@ -6,10 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/layouts/app-layout';
 import { CategorySection, WebContent, type BreadcrumbItem } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Editor, { ContentEditableEvent } from 'react-simple-wysiwyg';
+import { SyncLoader } from 'react-spinners';
 import { z } from 'zod';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -39,10 +40,13 @@ const SECTION_CATEGORIES = ['home', 'service', 'contact'];
 export type WebContentFormData = z.infer<typeof webContentScheme>;
 
 export default function FormWebContent({ isEdit = false, data, categories }: FormWebContentProps) {
+    const { errors: errorsBackend } = usePage().props;
+
     const [content, setContent] = useState(data?.content || '');
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [existingCategories, setExistingCategories] = useState<CategorySection[]>([]);
     const [image, setImage] = useState<File | null>();
-    const [previewUrl, setPreviewUrl] = useState<string | null>(data?.image || null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(data?.image_url || null);
 
     function onChange(e: ContentEditableEvent) {
         setContent(e.target.value);
@@ -70,8 +74,9 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
     };
 
     const onSubmit = (form: WebContentFormData) => {
+        setIsSubmitting(true);
+
         const formData = new FormData();
-        formData.append('_method', 'PUT');
         formData.append('title', form.title || '');
         formData.append('section', form.section);
         formData.append('content', content || '');
@@ -81,13 +86,20 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
         }
 
         if (isEdit && data?.id) {
+            formData.append('_method', 'PUT');
+
             router.post(`/dashboard/web-contents/${data.id}`, formData, {
                 forceFormData: true,
-                onSuccess: () => {},
+                onFinish: () => {
+                    setIsSubmitting(false);
+                },
             });
         } else {
             router.post('/dashboard/web-contents', formData, {
                 forceFormData: true,
+                onFinish: () => {
+                    setIsSubmitting(false);
+                },
             });
         }
     };
@@ -120,16 +132,15 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
                             <div>
                                 <label>Title</label>
                                 <Input type="text" {...register('title')} className="form-control mt-2" />
-                                {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+                                {(errors.title || errorsBackend) && <p className="text-red-500">{errors.title?.message ?? errorsBackend.title}</p>}
                             </div>
 
                             <div>
                                 <label>Content</label>
                                 <Editor value={content} onChange={onChange}></Editor>
-                                {errors.title && <p className="text-red-500">{errors.title.message}</p>}
                             </div>
 
-                            {!data?.section ? (
+                            {!data?.section && (
                                 <div>
                                     <label>Section</label>
                                     <Select onValueChange={(val) => setValue('section', val)} name="section">
@@ -142,10 +153,10 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    {errors.section && <p className="text-red-500">{errors.section.message}</p>}
+                                    {(errors.section || errorsBackend) && (
+                                        <p className="text-red-500">{errors.section?.message ?? errorsBackend.section}</p>
+                                    )}
                                 </div>
-                            ) : (
-                                <Input type="hidden" {...register('section')} className="form-control mt-2" />
                             )}
 
                             {previewUrl && (
@@ -158,9 +169,12 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
                             <div>
                                 <label>File</label>
                                 <Input type="file" onChange={handleImageChange} className="form-control mt-2" accept="image/*" />
+                                {errorsBackend && <p className="text-red-500">{errorsBackend.image}</p>}
                             </div>
 
-                            <Button type="submit">Submit</Button>
+                            <Button disabled={isSubmitting} type="submit">
+                                {isSubmitting ? <SyncLoader size={10} color="#59b4c7" /> : 'submit'}
+                            </Button>
                         </form>
                     </CardContent>
                 </Card>

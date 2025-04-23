@@ -20,14 +20,18 @@ class WebContent extends Model
         'section',
     ];
 
-    public function getImageAttribute($value)
+    protected $hidden = ['image'];
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute(): ?string
     {
-        return $value ? URL::to(asset('storage/'. $value)) : null;
+        return $this->image ? asset('storage/' . $this->image) : null;
     }
 
     public function scopeSection($query, $section)
     {
-        return $query->where('section', true);
+        return $query->where('section', $section);
     }
 
     public function scopeOrderedCreatedAt($query, $orderType)

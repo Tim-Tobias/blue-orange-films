@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('workflows', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->string('desc')->nullable();
-            $table->enum('type', ['1', '2'])->nullable(); 
-            $table->string('logo')->nullable();
+            $table->string('title');
+            $table->string('desc');
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

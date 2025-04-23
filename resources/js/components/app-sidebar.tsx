@@ -9,8 +9,8 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'workflows',
-        href: '/workflows',
+        title: 'Workflows',
+        href: '/dashboard/workflows',
         icon: LayoutGrid,
     },
     {
@@ -19,40 +19,26 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
+        title: 'Project Category',
+        href: '/dashboard/project-category',
+        icon: LayoutGrid,
+    },
+    {
         title: 'projects',
         href: '/dashboard/projects',
         icon: LayoutGrid,
     },
-    {
-        title: 'project_files',
-        href: '/dashboard/project_files',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'settings',
-        href: '/dashboard/settings',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'project_teams',
-        href: '/dashboard/project_teams',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'crew_roles',
-        href: '/dashboard/crew_roles',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'team_names',
-        href: '/dashboard/team_names',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'project_category',
-        href: '/dashboard/project_category',
-        icon: LayoutGrid,
-    },
+    // {
+    //     title: 'Crew Roles',
+    //     href: '/dashboard/crew-roles',
+    //     icon: LayoutGrid,
+    // },
+    // {
+    //     title: 'Team Names',
+    //     href: '/dashboard/team-names',
+    //     icon: LayoutGrid,
+    // },
+    
 ];
 
 const footerNavItems: NavItem[] = [
