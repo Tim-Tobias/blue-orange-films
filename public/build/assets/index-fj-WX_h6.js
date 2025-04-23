@@ -1,0 +1,1 @@
+import{j as e,L as t}from"./app-BDehd-ey.js";/* empty css            */function r(){return e.jsxs(e.Fragment,{children:[e.jsxs(t,{title:"Welcome",children:[e.jsx("link",{rel:"preconnect",href:"https://fonts.bunny.net"}),e.jsx("link",{href:"https://fonts.bunny.net/css?family=instrument-sans:400,500,600",rel:"stylesheet"})]}),"test"]})}export{r as default};

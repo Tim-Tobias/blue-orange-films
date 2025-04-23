@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectTeams extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'project_teams';
     protected $primaryKey = 'id';
 }
