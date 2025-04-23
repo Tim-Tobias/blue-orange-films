@@ -23,12 +23,16 @@ const ProjectList = [
 const ProjectSection = () => {
     return (
         <AppFrontWrapper>
-            <div className="space-y-10 py-25">
-                <h1 className="text-center md:text-3xl">Latest Work</h1>
+            <div className="space-y-10 py-12 md:py-25">
+                <h1 data-aos="fade-right" data-aos-delay="50" className="text-center md:text-3xl">
+                    Latest Work
+                </h1>
 
-                <div className="flex justify-between">
+                <div className="flex flex-col justify-between gap-5 md:flex-row">
                     {ProjectList.map((val, index) => (
-                        <ProjectCard imageUrl={val.imageUrl} title={val.title} key={index} />
+                        <div key={index} data-aos="fade-left" data-aos-delay={index * 100}>
+                            <ProjectCard imageUrl={val.imageUrl} title={val.title} />
+                        </div>
                     ))}
                 </div>
             </div>

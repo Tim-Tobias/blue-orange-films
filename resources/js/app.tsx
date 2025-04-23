@@ -4,9 +4,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { JSX, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ParallaxProvider } from 'react-scroll-parallax';
-import FooterLayout from './layouts/client/footer-layout';
-import HeaderLayout from './layouts/client/header-layout';
+import AppParent from './components/app-parent';
 
 createInertiaApp({
     title: (title) => title,
@@ -17,15 +15,7 @@ createInertiaApp({
             };
         };
 
-        page.default.layout = name.startsWith('admin')
-            ? undefined
-            : (page: ReactNode) => (
-                  <ParallaxProvider>
-                      <HeaderLayout />
-                      {page}
-                      <FooterLayout />
-                  </ParallaxProvider>
-              );
+        page.default.layout = name.startsWith('admin') ? undefined : (page: ReactNode) => <AppParent>{page}</AppParent>;
 
         return page;
     },
