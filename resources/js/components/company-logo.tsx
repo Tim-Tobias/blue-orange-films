@@ -1,0 +1,12 @@
+import BlueOrangeLogo from '@/images/BLUE ORANGE LOGO - STANDARD.png';
+import { Link } from '@inertiajs/react';
+
+const CompanyLogo = () => {
+    return (
+        <Link href="/">
+            <img src={BlueOrangeLogo} className="w-32" alt="Company Logo" />
+        </Link>
+    );
+};
+
+export default CompanyLogo;
