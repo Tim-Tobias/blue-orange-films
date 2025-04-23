@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/react';
 const CompanyLogo = () => {
     return (
         <Link href="/">
-            <img src={BlueOrangeLogo} className="w-32" alt="Company Logo" />
+            <img data-aos="fade-left" data-aos-delay="500" src={BlueOrangeLogo} className="w-32" alt="Company Logo" />
         </Link>
     );
 };
