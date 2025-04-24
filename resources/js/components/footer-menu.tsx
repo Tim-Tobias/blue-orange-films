@@ -10,7 +10,7 @@ const FooterMenu = () => {
                 <Link href="/">Contact</Link>
             </div>
 
-            <p>© 2025 Klesis Bocilos All Right Reserved.</p>
+            <p>© 2025 Blue Orange Films All Right Reserved.</p>
         </div>
     );
 };

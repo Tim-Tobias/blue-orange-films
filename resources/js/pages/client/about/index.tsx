@@ -8,6 +8,8 @@ const ServiceSection = lazy(() => import('./sections/serviceSection'));
 const HowWorks = lazy(() => import('./sections/HowWeWorks'));
 
 const AboutPage = () => {
+
+    
     return (
         <>
             <Head title="About Section">
