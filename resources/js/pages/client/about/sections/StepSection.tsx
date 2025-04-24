@@ -51,7 +51,7 @@ const StepSection = () => {
                     className="absolute top-0 w-[40%]"
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 1 * 0.1 }}
+                    transition={{ delay: 1 * 0.3 }}
                 >
                     <Step description={steps[0].description} title={steps[0].title} number={steps[0].number} />
                 </motion.div>
@@ -60,7 +60,7 @@ const StepSection = () => {
                     className="absolute top-[20%] left-1/2 w-[40%] -translate-x-1/2"
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 2 * 0.1 }}
+                    transition={{ delay: 2 * 0.3 }}
                 >
                     <Step description={steps[1].description} title={steps[1].title} number={steps[1].number} />
                 </motion.div>
@@ -69,7 +69,7 @@ const StepSection = () => {
                     className="absolute top-[40%] right-0 w-[40%]"
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 3 * 0.1 }}
+                    transition={{ delay: 3 * 0.3 }}
                 >
                     <Step description={steps[2].description} title={steps[2].title} number={steps[2].number} />
                 </motion.div>
@@ -78,7 +78,7 @@ const StepSection = () => {
                     className="absolute top-[55%] left-0 w-[40%]"
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 4 * 0.1 }}
+                    transition={{ delay: 4 * 0.3 }}
                 >
                     <Step description={steps[3].description} title={steps[3].title} number={steps[3].number} />
                 </motion.div>
@@ -87,7 +87,7 @@ const StepSection = () => {
                     className="absolute bottom-10 left-1/2 w-[40%] -translate-x-1/2"
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 5 * 0.1 }}
+                    transition={{ delay: 5 * 0.3 }}
                 >
                     <Step description={steps[4].description} title={steps[4].title} number={steps[4].number} />
                 </motion.div>
@@ -96,7 +96,7 @@ const StepSection = () => {
                     className="absolute right-0 bottom-[25%] w-[40%]"
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 5 * 0.1 }}
+                    transition={{ delay: 6 * 0.3 }}
                 >
                     <Step description={steps[5].description} title={steps[5].title} number={steps[5].number} />
                 </motion.div>
