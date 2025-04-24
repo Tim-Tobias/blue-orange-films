@@ -1,7 +1,7 @@
-
 import { Head } from '@inertiajs/react';
 import { lazy } from 'react';
 import AboutSection from './sections/aboutSection';
+import ClientSection from './sections/ClientSection';
 
 const StepSection = lazy(() => import('./sections/StepSection'));
 const ServiceSection = lazy(() => import('./sections/serviceSection'));
@@ -19,7 +19,7 @@ const AboutPage = () => {
             <ServiceSection />
             <HowWorks />
             <StepSection />
-            
+            <ClientSection />
         </>
     );
 };

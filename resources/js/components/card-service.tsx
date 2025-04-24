@@ -1,4 +1,4 @@
-interface CardServiceProps {
+export interface CardServiceProps {
     imageUrl: string;
     title: string;
     tags: { name: string }[];
