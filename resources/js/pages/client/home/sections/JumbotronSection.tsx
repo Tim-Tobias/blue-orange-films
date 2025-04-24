@@ -16,11 +16,13 @@ const JumbotronSection = () => {
 
             <AppFrontWrapper>
                 <div className="absolute bottom-8 flex gap-5">
-                    <Link href="#">
-                        <Button className="cursor-pointer bg-[#1E4E79] transition-all hover:bg-[#ED7D31]">All Projects</Button>
-                    </Link>
-                    <Link href="#">
-                        <Button className="cursor-pointer bg-[#1E4E79] transition-all hover:bg-[#ED7D31]">Detail Project</Button>
+                    <Link href="/works">
+                        <Button
+                            size="lg"
+                            className="cursor-pointer border border-[#1E4E79] bg-transparent py-5 text-[#1E4E79] transition-all hover:bg-[#1E4E79] hover:text-white"
+                        >
+                            All Projects
+                        </Button>
                     </Link>
                 </div>
             </AppFrontWrapper>
