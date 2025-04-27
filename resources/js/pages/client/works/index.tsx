@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import IntroduceSection from './sections/IntroduceSection';
+import IntroduceSection from '../../../layouts/client/IntroduceLayout';
 import WorkSection from './sections/WorkSection';
 
 const Work = () => {
@@ -7,7 +7,7 @@ const Work = () => {
         <>
             <Head title="Works" />
 
-            <IntroduceSection />
+            <IntroduceSection imgUrl="https://picsum.photos/id/302/200/300" title="Works" />
             <WorkSection />
         </>
     );

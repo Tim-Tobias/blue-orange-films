@@ -9,7 +9,7 @@ const FooterLayout = () => {
             <AppFrontWrapper className="flex flex-col items-center gap-10 md:justify-between md:flex-row">
                 <CompanyLogoFooter />
                 <FooterMenu />
-                <SocialMediaFooter />
+                <SocialMediaFooter color='white' />
             </AppFrontWrapper>
         </footer>
     );

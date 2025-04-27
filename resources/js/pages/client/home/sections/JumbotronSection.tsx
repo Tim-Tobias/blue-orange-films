@@ -1,8 +1,5 @@
 import AppFrontContainer from '@/components/app-front-container';
-import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import Player from '@/components/player';
-import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
 import { Parallax } from 'react-scroll-parallax';
 
 const JumbotronSection = () => {
@@ -19,19 +16,7 @@ const JumbotronSection = () => {
                     />
                 </Parallax>
             </div>
-
-            <AppFrontWrapper>
-                <div className="absolute bottom-8 flex gap-5">
-                    <Link href="/works">
-                        <Button
-                            size="lg"
-                            className="cursor-pointer border border-[#1E4E79] bg-transparent py-5 text-[#1E4E79] transition-all hover:bg-[#1E4E79] hover:text-white"
-                        >
-                            All Projects
-                        </Button>
-                    </Link>
-                </div>
-            </AppFrontWrapper>
+            <div className="absolute top-0 left-0 h-full w-full bg-black opacity-50" />
         </AppFrontContainer>
     );
 };
