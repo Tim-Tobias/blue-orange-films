@@ -71,31 +71,31 @@ const WorkSection = () => {
     }, [selectedCategory]);
 
     return (
-        <AppFrontWrapper>
-            <div ref={ref}>
+        <>
+            <AppFrontWrapper>
                 <div className="py-10">
                     <CategoryFilter categories={categories} onSelect={setSelectedCategory} selected={selectedCategory} />
                 </div>
+            </AppFrontWrapper>
 
-                <AnimatePresence mode="wait">
-                    <div key={selectedCategory} className="grid grid-cols-1 pb-10 md:grid-cols-4">
-                        {filteredList.map((service, index) => (
-                            <motion.div
-                                variants={item}
-                                initial="hidden"
-                                animate={inView ? 'show' : 'hidden'}
-                                transition={{ delay: index * 0.1 }}
-                                className="w-full cursor-pointer"
-                            >
-                                <Link href="/works/1">
-                                    <CardWork imageUrl={service.imageUrl} tags={service.categories} />
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
-                </AnimatePresence>
-            </div>
-        </AppFrontWrapper>
+            <AnimatePresence mode="wait">
+                <div ref={ref} key={selectedCategory} className="grid grid-cols-1 pb-10 md:grid-cols-4">
+                    {filteredList.map((service, index) => (
+                        <motion.div
+                            variants={item}
+                            initial="hidden"
+                            animate={inView ? 'show' : 'hidden'}
+                            transition={{ delay: index * 0.1 }}
+                            className="w-full cursor-pointer"
+                        >
+                            <Link href="/works/1">
+                                <CardWork imageUrl={service.imageUrl} tags={service.categories} />
+                            </Link>
+                        </motion.div>
+                    ))}
+                </div>
+            </AnimatePresence>
+        </>
     );
 };
 

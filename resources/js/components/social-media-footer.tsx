@@ -1,9 +1,13 @@
 import { Link } from '@inertiajs/react';
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 
-const SocialMediaFooter = () => {
+interface SocialMediaFooterProps {
+    color: 'white' | 'black';
+}
+
+const SocialMediaFooter = ({ color }: SocialMediaFooterProps) => {
     return (
-        <div className="flex items-center gap-5 text-white">
+        <div className={`flex items-center gap-5 text-${color}`}>
             <Link href="#" rel="noopenner">
                 <FaInstagram className="text-xl" />
             </Link>
