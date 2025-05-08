@@ -28,7 +28,7 @@ const ContactPage = () => {
             <AppFrontWrapper className="mb-20">
                 <div className="grid grid-cols-1 gap-8 p-8 lg:grid-cols-3">
                     <div className="col-span-2 flex flex-col">
-                        <Swiper className="h-[300px] w-full" modules={[Pagination]} loop pagination={true}>
+                        <Swiper className="h-[300px] w-full" autoplay={true} modules={[Pagination]} loop pagination={true}>
                             {contactList.map((src, i) => (
                                 <SwiperSlide key={i}>
                                     <img src={src.imageUrl} alt={`Slide ${i}`} className="h-full w-full object-cover" />

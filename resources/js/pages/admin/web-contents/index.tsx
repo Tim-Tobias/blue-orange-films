@@ -1,9 +1,9 @@
+import DataTable from '@/components/DataTable';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { limitText } from '@/helpers/limit_text';
 import AppLayout from '@/layouts/app-layout';
-import { WebContent, type BreadcrumbItem } from '@/types';
+import { PaginatedResponse, WebContent, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import parse from 'html-react-parser';
 
@@ -19,7 +19,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface TableWebContentsProps {
-    web_contents: WebContent[];
+    web_contents: PaginatedResponse<WebContent>;
 }
 
 export default function TableWebContents({ web_contents }: TableWebContentsProps) {
@@ -28,7 +28,7 @@ export default function TableWebContents({ web_contents }: TableWebContentsProps
             <Head title="Web Content" />
 
             <div className="a a a flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                {web_contents.length < 3 && (
+                {web_contents.data.length < 3 && (
                     <div className="flex w-full items-center justify-end">
                         <Link href="/dashboard/web-contents/create">
                             <Button>Create</Button>
@@ -38,33 +38,50 @@ export default function TableWebContents({ web_contents }: TableWebContentsProps
 
                 <Card>
                     <CardContent>
-                        <Table>
-                            <TableCaption>A list of your web contents.</TableCaption>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Title</TableHead>
-                                    <TableHead>Content</TableHead>
-                                    <TableHead>Image</TableHead>
-                                    <TableHead className="text-right">Section</TableHead>
-                                    <TableHead className="text-right">Action</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {web_contents.map((val, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell className="font-medium">{val.title}</TableCell>
-                                        <TableCell>{parse(limitText(String(val.content), 50))}</TableCell>
-                                        <TableCell>{val.image_url && <img style={{ width: '100px' }} src={val.image_url} alt="" />}</TableCell>
-                                        <TableCell className="text-right">{val.section} section</TableCell>
-                                        <TableCell className="text-right">
-                                            <Link href={`/dashboard/web-contents/${val.id}/edit`}>
-                                                <Button>Edit</Button>
-                                            </Link>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                        <DataTable
+                            columns={[
+                                { header: 'Title', accessor: 'title', searchable: true },
+                                {
+                                    header: 'Content',
+                                    accessor: (row) => {
+                                        return parse(limitText(String(row.content), 50));
+                                    },
+                                    searchable: true,
+                                },
+                                {
+                                    header: 'Image',
+                                    accessor: (row) => {
+                                        return (
+                                            row.image_url && <img src={row.image_url} alt={row.title} className="h-16 w-16 rounded-lg object-cover" />
+                                        );
+                                    },
+                                },
+                                { header: 'Section', accessor: 'section' },
+                                {
+                                    header: 'Action',
+                                    accessor: (row) => {
+                                        return (
+                                            <div className="flex gap-2">
+                                                <Link href={`/dashboard/web-contents/${row.id}/edit`}>
+                                                    <Button className="cursor-pointer" variant="outline">
+                                                        Edit
+                                                    </Button>
+                                                </Link>
+                                                <Link href={`/dashboard/web-contents/${row.id}/delete`}>
+                                                    <Button className="cursor-pointer" variant="destructive">
+                                                        Delete
+                                                    </Button>
+                                                </Link>
+                                            </div>
+                                        );
+                                    },
+                                },
+                            ]}
+                            data={web_contents.data}
+                            currentPage={web_contents.current_page}
+                            totalPages={web_contents.last_page}
+                            caption="List of Web Contents"
+                        />
                     </CardContent>
                 </Card>
             </div>

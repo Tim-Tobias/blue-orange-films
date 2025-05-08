@@ -1,10 +1,9 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -19,38 +18,20 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Project Category',
-        href: '/dashboard/project-category',
+        title: 'Projects Sections',
         icon: LayoutGrid,
-    },
-    {
-        title: 'projects',
-        href: '/dashboard/projects',
-        icon: LayoutGrid,
-    },
-    // {
-    //     title: 'Crew Roles',
-    //     href: '/dashboard/crew-roles',
-    //     icon: LayoutGrid,
-    // },
-    // {
-    //     title: 'Team Names',
-    //     href: '/dashboard/team-names',
-    //     icon: LayoutGrid,
-    // },
-    
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
+        items: [
+            {
+                title: 'Categories',
+                href: '/dashboard/project-categories',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Projects',
+                href: '/dashboard/projects',
+                icon: LayoutGrid,
+            },
+        ],
     },
 ];
 
@@ -74,7 +55,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

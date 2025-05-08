@@ -1,14 +1,24 @@
 <?php
 
-use App\Http\Controllers\Api\ProjectCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::get('/roles', function (Request $request) {
+    $search = $request->query('search');
+    
+    return \App\Models\CrewRole::query()
+        ->when($search, fn($q) => $q->where('name', 'like', "%$search%"))
+        ->select('id', 'name')
+        ->limit(10)
+        ->get();
+});
 
-Route::prefix('project-category')->group(function () {
-    // Route::apiResource('/', ProjectCategoryController::class);
-    Route::post('datatable', [ProjectCategoryController::class, 'datatable'])->name('project-category.datatable');
+Route::get('/team-names', function (Request $request) {
+    $search = $request->query('search');
+    
+    return \App\Models\TeamNames::query()
+        ->when($search, fn($q) => $q->where('name', 'like', "%$search%"))
+        ->select('id', 'name')
+        ->limit(10)
+        ->get();
 });

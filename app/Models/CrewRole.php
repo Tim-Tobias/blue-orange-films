@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectTeams extends Model
+class CrewRole extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $table = 'project_teams';
-    protected $primaryKey = 'id';
+  protected $fillable = [
+    'name',
+  ];
 }

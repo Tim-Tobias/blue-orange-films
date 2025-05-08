@@ -25,7 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type FormWorkflowProps = {
+interface FormWorkflowProps {
     isEdit?: boolean;
     data?: Workflow;
     orders?: number;

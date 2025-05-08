@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\WebContentRequest;
 use App\Models\WebContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -14,9 +15,42 @@ class WebContentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $webContents = WebContent::whereNotNull('title')->orWhereNotNull('content')->get();
+        $query = WebContent::query();
+
+        $query->where(function ($q) {
+            $q->whereNotNull('title')
+                ->orWhereNotNull('content');
+        });
+
+        $perPage = $request->query('perPage', 10);
+
+        $search = $request->query('search');
+
+        $searchableColumns = explode(',', $request->query('searchable', ''));
+
+        if ($search && !empty($searchableColumns)) {
+            $query->where(function ($q) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
+                    if (Schema::hasColumn('web_contents', $column)) {
+                        $q->orWhere($column, 'like', "%{$search}%");
+                    }
+                }
+            });
+        }
+
+        if ($sort = $request->query('sort')) {
+            $column = $sort;
+            $order = $request->query('order', 'asc');
+    
+            if (Schema::hasColumn('web_contents', $column)) {
+                $query->orderBy($column, $order);
+            }
+        }
+
+        $webContents = $query->paginate($perPage)->withQueryString();
+
 
         return Inertia::render('admin/web-contents/index', [
             'web_contents' => $webContents

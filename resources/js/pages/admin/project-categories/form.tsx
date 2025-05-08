@@ -32,7 +32,6 @@ export const projectCategoryScheme = z.object({
 export type ProjectCategoryFormData = z.infer<typeof projectCategoryScheme>;
 
 export default function FormWebContent({ isEdit = false, projectCategory }: FormWebContentProps) {
-
     const {
         register,
         handleSubmit,
@@ -47,20 +46,19 @@ export default function FormWebContent({ isEdit = false, projectCategory }: Form
     const onSubmit = (form: ProjectCategoryFormData) => {
         const formData = new FormData();
         formData.append('name', form.name);
+
         if (isEdit && projectCategory?.id) {
             formData.append('_method', 'PUT');
-            router.post(`/dashboard/project-category/${projectCategory.id}`, formData, {
+            router.post(`/dashboard/project-categories/${projectCategory.id}`, formData, {
                 forceFormData: true,
-                onSuccess: () => { },
+                onSuccess: () => {},
             });
         } else {
-            router.post('/dashboard/project-category', formData, {
+            router.post('/dashboard/project-categories', formData, {
                 forceFormData: true,
             });
         }
     };
-
-
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -71,16 +69,11 @@ export default function FormWebContent({ isEdit = false, projectCategory }: Form
                     <CardContent>
                         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className="space-y-4">
                             <div>
-                                <label className="block mb-1">Title <span className="text-red-500">*</span></label>
-                                <Input
-                                    type="text"
-                                    {...register('name')}
-                                    className={`form-control mt-2 ${errors.name ? 'border-red-500' : ''}`}
-                                />
-                                {errors.name && (
-                                    <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                                )}
-
+                                <label className="mb-1 block">
+                                    Title <span className="text-red-500">*</span>
+                                </label>
+                                <Input type="text" {...register('name')} className={`form-control mt-2 ${errors.name ? 'border-red-500' : ''}`} />
+                                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
                             </div>
                             <Button type="submit">Submit</Button>
                         </form>
