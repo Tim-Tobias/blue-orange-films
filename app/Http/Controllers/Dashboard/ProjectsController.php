@@ -87,13 +87,13 @@ class ProjectsController extends Controller
         ]);
 
         $teamsToInsert = collect($data['teams'])->map(function ($team) use ($project) {
-            $nameId = $team['id_name'] !== 0
+            $nameId = (int)$team['id_name'] !== 0
                 ? $team['id_name']
-                : TeamName::firstOrCreate(['name' => $team['name']])->id;
+                : TeamName::create(['name' => $team['name']])->id;
 
-            $roleId = $team['id_role'] !== 0
+            $roleId = (int)$team['id_role'] !== 0
                 ? $team['id_role']
-                : CrewRole::firstOrCreate(['name' => $team['role']])->id;
+                : CrewRole::create(['name' => $team['role']])->id;
 
             return [
                 'id_project' => $project->id,

@@ -51,22 +51,31 @@ export default function TeamForm({ form }: TeamFormProps) {
                     {fields.map((field, index) => (
                         <div key={field.id} className="flex items-center gap-5">
                             <div className="grid flex-1 grid-cols-1 gap-3 md:grid-cols-2">
-                                <SearchableSelect
-                                    value={watch(`teams.${index}.role`)}
-                                    onChange={(val) => val && handleTeamChange(index, ['id_role', 'role'], [val.id, val.name])}
-                                    endpoint="/roles"
-                                    placeholder="Search role..."
-                                />
-                                {errorText(`teams.${index}.role`) && <p className="text-sm text-red-500">{errorText(`teams.${index}.role`)}</p>}
-                                {errorText(`teams.${index}.id_role`) && <p className="text-sm text-red-500">{errorText(`teams.${index}.id_role`)}</p>}
-                                <SearchableSelect
-                                    value={watch(`teams.${index}.name`)}
-                                    onChange={(val) => val && handleTeamChange(index, ['id_name', 'name'], [val.id, val.name])}
-                                    endpoint="/team-names"
-                                    placeholder="Search name..."
-                                />
-                                {errorText(`teams.${index}.name`) && <p className="text-sm text-red-500">{errorText(`teams.${index}.name`)}</p>}
-                                {errorText(`teams.${index}.id_name`) && <p className="text-sm text-red-500">{errorText(`teams.${index}.id_name`)}</p>}
+                                <div>
+                                    <SearchableSelect
+                                        value={watch(`teams.${index}.role`)}
+                                        onChange={(val) => val && handleTeamChange(index, ['id_role', 'role'], [val.id, val.name])}
+                                        endpoint="/roles"
+                                        placeholder="Search role..."
+                                    />
+                                    {errorText(`teams.${index}.role`) && <p className="text-sm text-red-500">{errorText(`teams.${index}.role`)}</p>}
+                                    {errorText(`teams.${index}.id_role`) && (
+                                        <p className="text-sm text-red-500">{errorText(`teams.${index}.id_role`)}</p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <SearchableSelect
+                                        value={watch(`teams.${index}.name`)}
+                                        onChange={(val) => val && handleTeamChange(index, ['id_name', 'name'], [val.id, val.name])}
+                                        endpoint="/team-names"
+                                        placeholder="Search name..."
+                                    />
+                                    {errorText(`teams.${index}.name`) && <p className="text-sm text-red-500">{errorText(`teams.${index}.name`)}</p>}
+                                    {errorText(`teams.${index}.id_name`) && (
+                                        <p className="text-sm text-red-500">{errorText(`teams.${index}.id_name`)}</p>
+                                    )}
+                                </div>
                             </div>
                             {fields.length > 1 && <X onClick={() => remove(index)} className="cursor-pointer text-red-600" />}
                         </div>

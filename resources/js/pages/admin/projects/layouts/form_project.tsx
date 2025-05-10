@@ -47,7 +47,7 @@ export default function ProjectForm({ categories, form }: ProjectFormProps) {
                 </div>
 
                 <div>
-                    <Input placeholder="Year" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" {...register('year')} />
+                    <Input placeholder="Year" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" type="number" {...register('year')} />
                     {errorText('year') && <p className="text-sm text-red-500">{errorText('year')}</p>}
                 </div>
 
