@@ -24,11 +24,14 @@ const projectSchema = z.object({
     aspect_ratio: z.string(),
     category: z.string(),
     description: z.string(),
-    highlight_video: z.any().optional(),
+    highlight: z.union([z.string(), z.instanceof(File)]),
+    highlight_type: z.enum(['image', 'video']),
 
     teams: z.array(
         z.object({
+            id_name: z.number(),
             name: z.string(),
+            id_role: z.number(),
             role: z.string(),
         }),
     ),
@@ -36,7 +39,7 @@ const projectSchema = z.object({
         z.object({
             title: z.string(),
             category: z.enum(['video', 'image']),
-            project_link: z.any(),
+            project_link: z.union([z.string(), z.instanceof(File)]),
             description: z.string(),
         }),
     ),
@@ -59,9 +62,10 @@ export default function FormProjects({ isEdit = false, categories }: FormProject
             aspect_ratio: '',
             category: '',
             description: '',
-            highlight_video: undefined,
-            teams: [{ name: '', role: '' }],
-            files: [{ title: '', category: 'image', project_link: null, description: '' }],
+            highlight: '',
+            highlight_type: 'image',
+            teams: [{ id_name: 0, name: '', id_role: 0, role: '' }],
+            files: [{ title: '', category: 'image', project_link: '', description: '' }],
         },
     });
 
@@ -70,17 +74,35 @@ export default function FormProjects({ isEdit = false, categories }: FormProject
     const onSubmit = (data: ProjectFormData) => {
         const formData = new FormData();
 
-        Object.entries(data).forEach(([key, value]) => {
-            if (key === 'highlight_video' && value instanceof FileList) {
-                formData.append(key, value[0]);
-            } else if (key === 'teams' || key === 'files') {
-                formData.append(key, JSON.stringify(value));
-            } else {
-                formData.append(key, value as string);
-            }
+        formData.append('title', data.title);
+        formData.append('year', data.year);
+        formData.append('duration', data.duration);
+        formData.append('aspect_ratio', data.aspect_ratio);
+        formData.append('category', data.category);
+        formData.append('description', data.description);
+        formData.append('highlight_type', data.highlight_type);
+
+        if (data.highlight instanceof File) {
+            formData.append('highlight', data.highlight);
+        } else if (typeof data.highlight === 'string') {
+            formData.append('highlight', data.highlight);
+        }
+
+        data.teams.forEach((team, i) => {
+            formData.append(`teams[${i}][id_name]`, String(team.id_name));
+            formData.append(`teams[${i}][id_role]`, String(team.id_role));
+            formData.append(`teams[${i}][name]`, String(team.name));
+            formData.append(`teams[${i}][role]`, String(team.role));
         });
 
-        router.post('/dsahboard/projects', formData, {
+        data.files.forEach((file, i) => {
+            formData.append(`files[${i}][title]`, file.title);
+            formData.append(`files[${i}][category]`, file.category);
+            formData.append(`files[${i}][description]`, file.description);
+            formData.append(`files[${i}][project_link]`, file.project_link);
+        });
+
+        router.post('/dashboard/projects', formData, {
             forceFormData: true,
         });
     };

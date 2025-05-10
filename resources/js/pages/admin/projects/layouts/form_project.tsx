@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ProjectCategory } from '@/types';
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import Editor from 'react-simple-wysiwyg';
@@ -14,56 +15,79 @@ interface ProjectFormProps {
 }
 
 export default function ProjectForm({ categories, form }: ProjectFormProps) {
-    const [highlightType, setHighlightType] = useState<'photo' | 'video'>('photo');
+    const { errors: inertiaErrors } = usePage().props;
+
+    console.log('inertiaErrors', inertiaErrors, 'formProject');
 
     const {
         register,
         setValue,
         watch,
-        formState: { errors },
+        formState: { errors: hookErrors },
     } = form;
+
+    const [highlightType, setHighlightType] = useState<'image' | 'video'>('image');
+
+    const handleChangeType = (type: 'image' | 'video') => {
+        setHighlightType(type);
+        setValue('highlight', '');
+        console.log('highlightType', type);
+        setValue('highlight_type', type);
+    };
+
+    const errorText = (key: string) => hookErrors[key as keyof typeof hookErrors]?.message || inertiaErrors[key];
 
     return (
         <Card>
             <CardHeader className="text-xl font-semibold">Project Data</CardHeader>
             <CardContent className="space-y-4">
-                <Input placeholder="Title" {...register('title')} />
-                {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+                <div>
+                    <Input placeholder="Title" {...register('title')} />
+                    {errorText('title') && <p className="text-sm text-red-500">{errorText('title')}</p>}
+                </div>
 
-                <Input placeholder="Year" {...register('year')} />
-                {errors.year && <p className="text-sm text-red-500">{errors.year.message}</p>}
+                <div>
+                    <Input placeholder="Year" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" {...register('year')} />
+                    {errorText('year') && <p className="text-sm text-red-500">{errorText('year')}</p>}
+                </div>
 
-                <Input placeholder="Duration" {...register('duration')} />
-                {errors.duration && <p className="text-sm text-red-500">{errors.duration.message}</p>}
+                <div>
+                    <Input placeholder="Duration" {...register('duration')} />
+                    {errorText('duration') && <p className="text-sm text-red-500">{errorText('duration')}</p>}
+                </div>
 
-                <Input placeholder="Aspect Ratio" {...register('aspect_ratio')} />
-                {errors.aspect_ratio && <p className="text-sm text-red-500">{errors.aspect_ratio.message}</p>}
+                <div>
+                    <Input placeholder="Aspect Ratio" {...register('aspect_ratio')} />
+                    {errorText('aspect_ratio') && <p className="text-sm text-red-500">{errorText('aspect_ratio')}</p>}
+                </div>
 
-                <Select onValueChange={(val) => setValue('category', val)}>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {categories.map((c) => (
-                            <SelectItem key={c.id} value={String(c.id)}>
-                                {c.name}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                {errors.category && <p className="text-sm text-red-500">{errors.category.message}</p>}
+                <div>
+                    <Select onValueChange={(val) => setValue('category', val)} defaultValue={watch('category')}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select Category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {categories.map((c) => (
+                                <SelectItem key={c.id} value={String(c.id)}>
+                                    {c.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    {errorText('category') && <p className="text-sm text-red-500">{errorText('category')}</p>}
+                </div>
 
                 <div>
                     <label className="mb-1 block font-medium">Description</label>
                     <Editor value={watch('description') || ''} onChange={(e) => setValue('description', e.target.value)} />
-                    {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+                    {errorText('description') && <p className="text-sm text-red-500">{errorText('description')}</p>}
                 </div>
 
                 <div>
                     <label className="mb-1 block font-medium">Highlight Type</label>
-                    <RadioGroup defaultValue="photo" onValueChange={(val) => setHighlightType(val as 'photo' | 'video')} className="flex gap-4">
+                    <RadioGroup value={highlightType} onValueChange={(val) => handleChangeType(val as 'image' | 'video')} className="flex gap-4">
                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="photo" id="highlight-photo" />
+                            <RadioGroupItem value="image" id="highlight-photo" />
                             <label htmlFor="highlight-photo">Upload Photo</label>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -71,16 +95,20 @@ export default function ProjectForm({ categories, form }: ProjectFormProps) {
                             <label htmlFor="highlight-video">YouTube Link</label>
                         </div>
                     </RadioGroup>
+                    {errorText('highlight_type') && <p className="text-sm text-red-500">{errorText('highlight')}</p>}
                 </div>
 
-                {highlightType === 'photo' ? (
-                    <div>
-                        <label className="mb-1 block">Upload Image</label>
-                        <Input type="file" accept="image/*" {...register('highlight_video')} />
-                    </div>
-                ) : (
-                    <Input type="text" placeholder="YouTube Link" {...register('highlight_video')} />
-                )}
+                <div>
+                    {highlightType === 'image' ? (
+                        <>
+                            <label className="mb-1 block">Upload Image</label>
+                            <Input type="file" accept="image/*" onChange={(e) => setValue('highlight', e.target.files?.[0] ?? '')} />
+                        </>
+                    ) : (
+                        <Input type="text" placeholder="YouTube Link" {...register('highlight')} />
+                    )}
+                    {errorText('highlight') && <p className="text-sm text-red-500">{errorText('highlight')}</p>}
+                </div>
             </CardContent>
         </Card>
     );

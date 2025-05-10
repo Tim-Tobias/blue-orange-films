@@ -16,7 +16,7 @@ Route::get('/roles', function (Request $request) {
 Route::get('/team-names', function (Request $request) {
     $search = $request->query('search');
     
-    return \App\Models\TeamNames::query()
+    return \App\Models\TeamName::query()
         ->when($search, fn($q) => $q->where('name', 'like', "%$search%"))
         ->select('id', 'name')
         ->limit(10)

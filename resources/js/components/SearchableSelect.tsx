@@ -9,12 +9,12 @@ interface Option {
 
 interface SearchableSelectProps {
     value: string;
-    onChange: (value: string) => void;
+    onChange: (value: Option) => void;
     endpoint: string;
     placeholder?: string;
 }
 
-export const SearchableSelect = ({ value, onChange, placeholder = 'Select...', endpoint }: SearchableSelectProps) => {
+const SearchableSelect = ({ value, onChange, placeholder = 'Select...', endpoint }: SearchableSelectProps) => {
     const [search, setSearch] = useState(value);
     const [showDropdown, setShowDropdown] = useState(false);
     const [options, setOptions] = useState<Option[]>([]);
@@ -58,7 +58,7 @@ export const SearchableSelect = ({ value, onChange, placeholder = 'Select...', e
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            onChange(search);
+            onChange({ id: 0, name: search });
             setShowDropdown(false);
         }
     };
@@ -88,7 +88,7 @@ export const SearchableSelect = ({ value, onChange, placeholder = 'Select...', e
                                 key={opt.id}
                                 className="cursor-pointer px-3 py-2 hover:bg-gray-100"
                                 onMouseDown={() => {
-                                    onChange(opt.name);
+                                    onChange(opt);
                                     setSearch(opt.name);
                                     setShowDropdown(false);
                                 }}
@@ -104,3 +104,5 @@ export const SearchableSelect = ({ value, onChange, placeholder = 'Select...', e
         </div>
     );
 };
+
+export default SearchableSelect;

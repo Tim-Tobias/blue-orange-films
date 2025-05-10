@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class CrewRole extends Model
 {
-  use HasFactory;
+  protected $table = 'crew_roles';
 
-  protected $fillable = [
-    'name',
-  ];
+  protected $fillable = ['name'];
+
+  public function teams()
+  {
+      return $this->hasMany(ProjectTeam::class, 'id_crew_roles');
+  }
 }
