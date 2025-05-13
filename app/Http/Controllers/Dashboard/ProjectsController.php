@@ -3,143 +3,150 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dashboard\ProjectsRequest;
+use App\Http\Requests\Dashboard\ProjectRequest;
+use App\Models\CrewRole;
+use App\Models\Project;
 use App\Models\ProjectCategory;
-use App\Models\ProjectFiles;
-use App\Models\Projects;
-use App\Models\ProjectTeams;
-use App\Models\TeamNames;
+use App\Models\ProjectFile;
+use App\Models\ProjectTeam;
+use App\Models\TeamName;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 
 class ProjectsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Projects::get();
+        $query = Project::query();
+
+        $perPage = $request->query('perPage', 10);
+
+        $search = $request->query('search');
+
+        $searchableColumns = explode(',', $request->query('searchable', ''));
+
+        if ($search && !empty($searchableColumns)) {
+            $query->where(function ($q) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
+                    if (Schema::hasColumn('web_contents', $column)) {
+                        $q->orWhere($column, 'like', "%{$search}%");
+                    }
+                }
+            });
+        }
+
+        if ($sort = $request->query('sort')) {
+            $column = $sort;
+            $order = $request->query('order', 'asc');
+    
+            if (Schema::hasColumn('web_contents', $column)) {
+                $query->orderBy($column, $order);
+            }
+        }
+
+        $projects = $query->paginate($perPage)->withQueryString();
+
         return Inertia::render('admin/projects/index', [
-            'projects' => $projects
+            'projects' => $projects,
         ]);
     }
 
     public function create()
     {
-        $categories = ProjectCategory::select('*')->get();
-
+        $categories = ProjectCategory::all();
+        
         return Inertia::render('admin/projects/form', [
-            'isEdit' => false,
-            'projects' => null,
             'categories' => $categories,
         ]);
     }
 
-    public function store(ProjectsRequest $request)
+    public function store(ProjectRequest $request)
     {
+        DB::beginTransaction();
 
+    try {
+        $data = $request->validated();
 
-        try {
-            DB::beginTransaction();
-
-            $projects = new Projects();
-            $projects->highlight_link = $request->highlight_link;
-            $projects->title = $request->title;
-            $projects->year = $request->year;
-            $projects->duration = $request->duration;
-            $projects->aspect_ratio = $request->aspect_ratio;
-            $projects->description = $request->description;
-            $projects->client = $request->client;
-            $projects->agency = $request->agency;
-            $projects->id_project_category = $request->id_project_category;
-            $projects->save();
-
-            // Get the ID of the newly created project
-            $idProjects = $projects->id;
-
-            $created_at = date('Y-m-d H:i:s');
-
-            $teamMembers = $request->teamMembers;
-            $teamNamesData = [];
-            foreach ($teamMembers as $member) {
-                $teamNamesData[] = [
-                    'id_project' => $idProjects,
-                    'nameTeam' => $member['nameTeams'],
-                    'nameRoles' => $member['nameRoles'],
-                    'created_at' => $created_at,
-                ];
-            }
-
-            ProjectTeams::insert($teamNamesData);
-
-            $projectEntries = $request->projectEntries;
-            $projectFiles = [];
-            foreach ($projectEntries as $member) {
-                $projectFiles[] = [
-                    'project_id' => $idProjects,
-                    'title' => $member['title'],
-                    'project_link' => $member['project_link'],
-                    'category' => $member['category'],
-                    'description' => $member['description'],
-                    'created_at' => $created_at,
-                ];
-            }
-
-            ProjectFiles::insert($projectFiles);
-
-            DB::commit();
-            return redirect()->route('projects.index')->with('success', 'Content created Successfully');
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-            return redirect()->route('projects.index')->with('error', 'Failed To Create Project');
+        $highlightPath = null;
+        if ($data['highlight_type'] === 'image' && $request->hasFile('highlight')) {
+            $highlightPath = $request->file('highlight')->store('highlights', 'public');
+        } elseif ($data['highlight_type'] === 'video') {
+            $highlightPath = $data['highlight'];
         }
+
+        $project = Project::create([
+            'title' => $data['title'],
+            'year' => $data['year'],
+            'duration' => $data['duration'],
+            'aspect_ratio' => $data['aspect_ratio'],
+            'id_project_category' => $data['category'],
+            'description' => $data['description'],
+            'highlight_link' => $highlightPath,
+        ]);
+
+        $teamsToInsert = collect($data['teams'])->map(function ($team) use ($project) {
+            $nameId = (int)$team['id_name'] !== 0
+                ? $team['id_name']
+                : TeamName::create(['name' => $team['name']])->id;
+
+            $roleId = (int)$team['id_role'] !== 0
+                ? $team['id_role']
+                : CrewRole::create(['name' => $team['role']])->id;
+
+            return [
+                'id_project' => $project->id,
+                'id_name_crew' => $nameId,
+                'id_crew_roles' => $roleId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        });
+
+        ProjectTeam::insert($teamsToInsert->toArray());
+
+        $filesToInsert = collect($data['files'])->map(function ($file) use ($project) {
+            $link = $file['category'] === 'image' && $file['project_link'] ? $file['project_link']->store('project_files', 'public')
+                : $file['project_link'];
+
+            return [
+                'project_id' => $project->id,
+                'title' => $file['title'],
+                'category' => $file['category'],
+                'project_link' => $link,
+                'description' => $file['description'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        });
+
+        ProjectFile::insert($filesToInsert->toArray());
+
+        DB::commit();
+
+        return redirect()->route('projects.index')->with('success', 'Project created successfully.');
+    } catch (\Throwable $e) {
+        DB::rollBack();
+
+        report($e);
+        return back()->withErrors('Failed to save project. Please try again.')->withInput();
     }
-
-
+    }
 
     public function edit(string $id)
     {
-        $projects = Projects::findOrFail($id);
-
-        $categories = ProjectCategory::select('*')->get();
-
-
-        return Inertia::render('admin/projects/form', [
-            'isEdit' => true,
-            'data' => $projects,
-            'categories' => $categories,
-        ]);
+        
     }
-
 
     public function show(string $id)
     {
-        $projects = Projects::findOrFail($id);
-
-        $projectsId = $projects->id;
-        $projects->projectTeams = ProjectTeams::where('id_project', $projectsId)->get();
-        $projects->projectFiles = ProjectFiles::where('project_id', $projectsId)->get();
-
-     
-        $categories = ProjectCategory::select('*')->get();
-
-
-        return Inertia::render('admin/projects/detail', [
-            'isEdit' => true,
-            'projects' => $projects,
-            'categories' => $categories,
-        ]);
+        
     }
 
-    public function update(ProjectsRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
-        $webContent = Projects::findOrFail($id);
-
-
-        $webContent->title = $request->title;
-        $webContent->content = $request->content;
-        $webContent->save();
-
-        return redirect()->route('projects.index')->with('success', 'Content created');
+        
     }
 
     public function destroy(string $id)

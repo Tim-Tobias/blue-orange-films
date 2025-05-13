@@ -9,6 +9,7 @@ use App\Models\WebContent;
 use App\Models\Workflow;
 use enshrined\svgSanitize\Sanitizer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -17,14 +18,42 @@ class WorkflowController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $workflows = Workflow::get();
+        $query = Workflow::query();
+
+        $perPage = $request->query('perPage', 10);
+
+        $search = $request->query('search');
+
+        $searchableColumns = explode(',', $request->query('searchable', ''));
+
+        if ($search && !empty($searchableColumns)) {
+            $query->where(function ($q) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
+                    if (Schema::hasColumn('workflows', $column)) {
+                        $q->orWhere($column, 'like', "%{$search}%");
+                    }
+                }
+            });
+        }
+
+        if ($sort = $request->query('sort')) {
+            $column = $sort;
+            $order = $request->query('order', 'asc');
+    
+            if (Schema::hasColumn('workflows', $column)) {
+                $query->orderBy($column, $order);
+            }
+        }
+
+        $workflows = $query->paginate($perPage)->withQueryString();
+
         $background = WebContent::section('workflows')->first();
 
         return Inertia::render('admin/workflows/index', [
             'workflows' => $workflows,
-            'webContent' => $background
+            'webContent' => $background,
         ]);
     }
 

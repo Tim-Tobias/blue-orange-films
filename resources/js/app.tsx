@@ -15,7 +15,7 @@ createInertiaApp({
             };
         };
 
-        page.default.layout = name.startsWith('admin') ? undefined : (page: ReactNode) => <AppParent>{page}</AppParent>;
+        page.default.layout = name.startsWith('admin') || name.startsWith('auth') ? undefined : (page: ReactNode) => <AppParent>{page}</AppParent>;
 
         return page;
     },

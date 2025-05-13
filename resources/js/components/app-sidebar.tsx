@@ -1,56 +1,67 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
+    {
+        title: 'Banner',
+        href: '/dashboard/banners',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'About',
+        href: '/dashboard/abouts',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'About - Services',
+        href: '/dashboard/services',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'About - How We Work',
+        href: '/dashboard/hww',
+        icon: LayoutGrid,
+    },
     {
         title: 'Workflows',
         href: '/dashboard/workflows',
         icon: LayoutGrid,
     },
     {
-        title: 'Web Content',
-        href: '/dashboard/web-contents',
+        title: 'About - Client',
+        href: '/dashboard/clients',
         icon: LayoutGrid,
     },
     {
-        title: 'Project Category',
-        href: '/dashboard/project-category',
+        title: 'Contact',
+        href: '/dashboard/contacts',
         icon: LayoutGrid,
     },
     {
-        title: 'projects',
-        href: '/dashboard/projects',
+        title: 'Socials',
+        href: '/dashboard/socials',
         icon: LayoutGrid,
     },
-    // {
-    //     title: 'Crew Roles',
-    //     href: '/dashboard/crew-roles',
-    //     icon: LayoutGrid,
-    // },
-    // {
-    //     title: 'Team Names',
-    //     href: '/dashboard/team-names',
-    //     icon: LayoutGrid,
-    // },
-    
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
+        title: 'Projects Sections',
+        icon: LayoutGrid,
+        items: [
+            {
+                title: 'Categories',
+                href: '/dashboard/project-categories',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Projects',
+                href: '/dashboard/projects',
+                icon: LayoutGrid,
+            },
+        ],
     },
 ];
 
@@ -74,7 +85,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
