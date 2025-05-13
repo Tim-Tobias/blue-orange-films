@@ -54,10 +54,9 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
-export interface WebContent {
+export interface Banner {
     id: number;
     title?: string;
-    content?: string;
     image_url?: string | null;
     section: string;
     created_at: string;
@@ -112,6 +111,51 @@ export interface Workflow {
     title?: string;
     desc?: string;
     order: number;
+}
+
+export interface About {
+    id: number;
+    image_url?: string;
+    content?: string;
+}
+
+export interface Service {
+    id: number;
+    image_url?: string;
+    title?: string;
+    description: string;
+}
+
+export interface Hww {
+    id: number;
+    title?: string;
+    content?: string;
+}
+
+export interface Step {
+    id: number;
+    number?: string;
+    title?: string;
+    description: string;
+}
+
+export interface Client {
+    id: number;
+    name?: string;
+    image_url?: string;
+}
+
+export interface Contact {
+    id: number;
+    phone?: string;
+    email?: string;
+    address: string;
+}
+
+export interface Social {
+    id: number;
+    name?: string;
+    link?: string;
 }
 
 export interface PaginatedResponse<T> {

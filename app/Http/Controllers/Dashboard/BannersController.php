@@ -3,25 +3,24 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dashboard\WebContentRequest;
-use App\Models\WebContent;
+use App\Http\Requests\Dashboard\BannersRequest;
+use App\Models\Banners;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class WebContentController extends Controller
+class BannersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $query = WebContent::query();
+        $query = Banners::query();
 
         $query->where(function ($q) {
-            $q->whereNotNull('title')
-                ->orWhereNotNull('content');
+            $q->whereNotNull('title');
         });
 
         $perPage = $request->query('perPage', 10);
@@ -33,7 +32,7 @@ class WebContentController extends Controller
         if ($search && !empty($searchableColumns)) {
             $query->where(function ($q) use ($search, $searchableColumns) {
                 foreach ($searchableColumns as $column) {
-                    if (Schema::hasColumn('web_contents', $column)) {
+                    if (Schema::hasColumn('banners', $column)) {
                         $q->orWhere($column, 'like', "%{$search}%");
                     }
                 }
@@ -44,16 +43,16 @@ class WebContentController extends Controller
             $column = $sort;
             $order = $request->query('order', 'asc');
     
-            if (Schema::hasColumn('web_contents', $column)) {
+            if (Schema::hasColumn('banners', $column)) {
                 $query->orderBy($column, $order);
             }
         }
 
-        $webContents = $query->paginate($perPage)->withQueryString();
+        $banners = $query->paginate($perPage)->withQueryString();
 
 
-        return Inertia::render('admin/web-contents/index', [
-            'web_contents' => $webContents
+        return Inertia::render('admin/banners/index', [
+            'banners' => $banners
         ]);
     }
 
@@ -62,9 +61,9 @@ class WebContentController extends Controller
      */
     public function create()
     {
-        $categories = WebContent::select('section')->get();
+        $categories = Banners::select('section')->get();
 
-        return Inertia::render('admin/web-contents/form', [
+        return Inertia::render('admin/banners/form', [
             'isEdit' => false,
             'data' => null,
             'categories' => $categories
@@ -74,20 +73,19 @@ class WebContentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(WebContentRequest $request)
+    public function store(BannersRequest $request)
     {   
-        $webContent = new WebContent();
+        $banners = new Banners();
 
         if ($request->hasFile('image')) {
-            $webContent->image = $request->file('image')->store('web_contents', 'public');
+            $banners->image = $request->file('image')->store('banners', 'public');
         }
 
-        $webContent->title = $request->title;
-        $webContent->content = $request->content;
-        $webContent->section = $request->section;
-        $webContent->save();
+        $banners->title = $request->title;
+        $banners->section = $request->section;
+        $banners->save();
 
-        return to_route('web-contents.index')->with('success', 'Content created');
+        return to_route('banners.index')->with('success', 'Content created');
     }
 
     /**
@@ -103,12 +101,12 @@ class WebContentController extends Controller
      */
     public function edit(string $id)
     {
-        $categories = WebContent::select('section')->get();
-        $webContent = WebContent::findOrFail($id);
+        $categories = Banners::select('section')->get();
+        $banner = Banners::findOrFail($id);
 
-        return Inertia::render('admin/web-contents/form', [
+        return Inertia::render('admin/banners/form', [
             'isEdit' => true,
-            'data' => $webContent,
+            'data' => $banner,
             'categories' => $categories
         ]);
     }
@@ -116,28 +114,27 @@ class WebContentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(WebContentRequest $request, string $id)
+    public function update(BannersRequest $request, string $id)
     {
-        $webContent = WebContent::findOrFail($id);
+        $banner = Banners::findOrFail($id);
         
         if ($request->hasFile('image')) {
-            if($webContent->image) {
-                $imageName = basename($webContent->image);
-                $imagePath = 'web_contents/' . $imageName;
+            if($banner->image) {
+                $imageName = basename($banner->image);
+                $imagePath = 'banners/' . $imageName;
                 
                 if(Storage::disk('public')->exists($imagePath)) {
                     Storage::disk('public')->delete($imagePath);
                 }
             }
 
-            $webContent->image = $request->file('image')->store('web_contents', 'public');
+            $banner->image = $request->file('image')->store('banners', 'public');
         }
 
-        $webContent->title = $request->title;
-        $webContent->content = $request->content;
-        $webContent->save();
+        $banner->title = $request->title;
+        $banner->save();
 
-        return to_route('web-contents.index')->with('success', 'Content updated');
+        return to_route('banners.index')->with('success', 'Banner updated');
     }
 
     /**

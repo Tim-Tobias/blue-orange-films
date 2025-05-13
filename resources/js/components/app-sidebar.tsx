@@ -8,13 +8,43 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
+        title: 'Banner',
+        href: '/dashboard/banners',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'About',
+        href: '/dashboard/abouts',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'About - Services',
+        href: '/dashboard/services',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'About - How We Work',
+        href: '/dashboard/hww',
+        icon: LayoutGrid,
+    },
+    {
         title: 'Workflows',
         href: '/dashboard/workflows',
         icon: LayoutGrid,
     },
     {
-        title: 'Web Content',
-        href: '/dashboard/web-contents',
+        title: 'About - Client',
+        href: '/dashboard/clients',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Contact',
+        href: '/dashboard/contacts',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Socials',
+        href: '/dashboard/socials',
         icon: LayoutGrid,
     },
     {

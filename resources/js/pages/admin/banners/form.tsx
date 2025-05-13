@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { CategorySection, WebContent, type BreadcrumbItem } from '@/types';
+import { CategorySection, Banner, type BreadcrumbItem } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head, router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
@@ -19,46 +19,41 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/dashboard',
     },
     {
-        title: 'Web Content',
-        href: '/dashboard/web-contents',
+        title: 'Banner',
+        href: '/dashboard/banners',
     },
 ];
 
-type FormWebContentProps = {
+type FormBannerProps = {
     isEdit?: boolean;
-    data?: WebContent;
+    data?: Banner;
     categories: CategorySection[];
 };
 
-export const webContentScheme = z.object({
+export const bannerScheme = z.object({
     title: z.string().optional(),
     section: z.string().min(1, 'Section is required'),
 });
 
-const SECTION_CATEGORIES = ['home', 'service', 'contact'];
+const SECTION_CATEGORIES = ['about', 'works', 'contact'];
 
-export type WebContentFormData = z.infer<typeof webContentScheme>;
+export type BannerFormData = z.infer<typeof bannerScheme>;
 
-export default function FormWebContent({ isEdit = false, data, categories }: FormWebContentProps) {
+export default function FormBanner({ isEdit = false, data, categories }: FormBannerProps) {
     const { errors: errorsBackend } = usePage().props;
 
-    const [content, setContent] = useState(data?.content || '');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [existingCategories, setExistingCategories] = useState<CategorySection[]>([]);
     const [image, setImage] = useState<File | null>();
     const [previewUrl, setPreviewUrl] = useState<string | null>(data?.image_url || null);
-
-    function onChange(e: ContentEditableEvent) {
-        setContent(e.target.value);
-    }
 
     const {
         register,
         setValue,
         handleSubmit,
         formState: { errors },
-    } = useForm<WebContentFormData>({
-        resolver: zodResolver(webContentScheme),
+    } = useForm<BannerFormData>({
+        resolver: zodResolver(bannerScheme),
         defaultValues: {
             title: data?.title || '',
             section: data?.section || '',
@@ -73,13 +68,12 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
         }
     };
 
-    const onSubmit = (form: WebContentFormData) => {
+    const onSubmit = (form: BannerFormData) => {
         setIsSubmitting(true);
 
         const formData = new FormData();
         formData.append('title', form.title || '');
         formData.append('section', form.section);
-        formData.append('content', content || '');
 
         if (image instanceof File) {
             formData.append('image', image);
@@ -88,14 +82,14 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
         if (isEdit && data?.id) {
             formData.append('_method', 'PUT');
 
-            router.post(`/dashboard/web-contents/${data.id}`, formData, {
+            router.post(`/dashboard/banners/${data.id}`, formData, {
                 forceFormData: true,
                 onFinish: () => {
                     setIsSubmitting(false);
                 },
             });
         } else {
-            router.post('/dashboard/web-contents', formData, {
+            router.post('/dashboard/banners', formData, {
                 forceFormData: true,
                 onFinish: () => {
                     setIsSubmitting(false);
@@ -104,11 +98,6 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
         }
     };
 
-    useEffect(() => {
-        if (data?.content) {
-            setContent(data.content);
-        }
-    }, [data]);
 
     useEffect(() => {
         if (categories) {
@@ -121,10 +110,10 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Admin Dashboard - ${isEdit ? 'Edit' : 'Create'} Web Content`} />
+            <Head title={`Admin Dashboard - ${isEdit ? 'Edit' : 'Create'} Banner`} />
 
             <AppWrapper>
-                <h1 className="text-2xl font-semibold">{isEdit ? 'Edit' : 'Create'} Web Content</h1>
+                <h1 className="text-2xl font-semibold">{isEdit ? 'Edit' : 'Create'} Banner</h1>
 
                 <Card>
                     <CardContent>
@@ -133,11 +122,6 @@ export default function FormWebContent({ isEdit = false, data, categories }: For
                                 <label>Title</label>
                                 <Input type="text" {...register('title')} className="form-control mt-2" />
                                 {(errors.title || errorsBackend) && <p className="text-red-500">{errors.title?.message ?? errorsBackend.title}</p>}
-                            </div>
-
-                            <div>
-                                <label>Content</label>
-                                <Editor value={content} onChange={onChange}></Editor>
                             </div>
 
                             {!data?.section && (
