@@ -1,8 +1,9 @@
+import Player from '@/components/player';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ProjectCategory } from '@/types';
+import { Project, ProjectCategory } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
@@ -11,13 +12,13 @@ import { ProjectFormData } from '../form';
 
 interface ProjectFormProps {
     categories: ProjectCategory[];
+    isEdit: boolean;
+    project?: Project;
     form: UseFormReturn<ProjectFormData>;
 }
 
-export default function ProjectForm({ categories, form }: ProjectFormProps) {
+export default function ProjectForm({ categories, form, isEdit, project }: ProjectFormProps) {
     const { errors: inertiaErrors } = usePage().props;
-
-    console.log('inertiaErrors', inertiaErrors, 'formProject');
 
     const {
         register,
@@ -26,12 +27,11 @@ export default function ProjectForm({ categories, form }: ProjectFormProps) {
         formState: { errors: hookErrors },
     } = form;
 
-    const [highlightType, setHighlightType] = useState<'image' | 'video'>('image');
+    const [highlightType, setHighlightType] = useState<'image' | 'video'>(watch('highlight_type') || 'image');
 
     const handleChangeType = (type: 'image' | 'video') => {
         setHighlightType(type);
         setValue('highlight', '');
-        console.log('highlightType', type);
         setValue('highlight_type', type);
     };
 
@@ -52,6 +52,11 @@ export default function ProjectForm({ categories, form }: ProjectFormProps) {
                 </div>
 
                 <div>
+                    <Input placeholder="Client" {...register('client')} />
+                    {errorText('client') && <p className="text-sm text-red-500">{errorText('client')}</p>}
+                </div>
+
+                <div>
                     <Input placeholder="Duration" {...register('duration')} />
                     {errorText('duration') && <p className="text-sm text-red-500">{errorText('duration')}</p>}
                 </div>
@@ -62,7 +67,7 @@ export default function ProjectForm({ categories, form }: ProjectFormProps) {
                 </div>
 
                 <div>
-                    <Select onValueChange={(val) => setValue('category', val)} defaultValue={watch('category')}>
+                    <Select onValueChange={(val) => setValue('category', val)} value={String(watch('category'))}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select Category" />
                         </SelectTrigger>
@@ -101,7 +106,7 @@ export default function ProjectForm({ categories, form }: ProjectFormProps) {
                 <div>
                     {highlightType === 'image' ? (
                         <>
-                            <label className="mb-1 block">Upload Image</label>
+                            <label className="mb-1 block">{isEdit ? 'Edit' : 'Upload'} Image</label>
                             <Input type="file" accept="image/*" onChange={(e) => setValue('highlight', e.target.files?.[0] ?? '')} />
                         </>
                     ) : (
@@ -109,6 +114,27 @@ export default function ProjectForm({ categories, form }: ProjectFormProps) {
                     )}
                     {errorText('highlight') && <p className="text-sm text-red-500">{errorText('highlight')}</p>}
                 </div>
+
+                {isEdit && (
+                    <div>
+                        {highlightType === 'image' ? (
+                            <img
+                                src={
+                                    typeof watch('highlight') === 'object'
+                                        ? URL.createObjectURL(watch('highlight') as File)
+                                        : String(project?.highlight_url)
+                                }
+                                alt=""
+                                className="h-[200px] w-[200px]"
+                            />
+                        ) : (
+                            <div className="h-[200px] w-[200px]">
+                                <Player url={String(watch('highlight')) || String(project?.highlight_link)} />{' '}
+                            </div>
+                        )}
+                        {errorText('highlight') && <p className="text-sm text-red-500">{errorText('highlight')}</p>}
+                    </div>
+                )}
             </CardContent>
         </Card>
     );
