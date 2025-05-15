@@ -20,8 +20,9 @@ class ProjectRequest extends FormRequest
             'aspect_ratio' => 'nullable|string|max:20',
             'category' => 'required|integer|exists:project_categories,id',
             'description' => 'nullable|string',
-            'highlight' => 'required',
+            'highlight' => $this->isMethod('post') ? 'required' : 'nullable',
             'highlight_type' => 'required|in:image,video',
+            'client' => 'required|string|max:255',
 
             'teams' => 'required|array',
             'teams.*.id_name' => 'required|integer',
@@ -33,7 +34,7 @@ class ProjectRequest extends FormRequest
             'files.*.title' => 'required|string|max:255',
             'files.*.category' => 'required|in:image,video',
             'files.*.description' => 'nullable|string',
-            'files.*.project_link' => 'required',
+            'files.*.project_link' => $this->isMethod('post') ? 'required' : 'nullable',
         ];
     }
 }

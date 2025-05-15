@@ -9,6 +9,7 @@ import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { ProjectFormData } from '../form';
 
 interface FilesFormProps {
+    isEdit: boolean;
     form: UseFormReturn<ProjectFormData>;
 }
 

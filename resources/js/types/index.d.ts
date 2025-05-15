@@ -64,9 +64,40 @@ export interface WebContent {
     updated_at: string;
 }
 
+export interface Project {
+    id: number;
+    title: string;
+    year: string;
+    duration: string;
+    aspect_ratio: string;
+    highlight_link: string;
+    highlight_url?: string;
+    highlight_type: 'image' | 'video';
+    description?: string;
+    id_project_category: string;
+    client: string;
+    agency: string;
+    category?: ProjectCategory;
+    teams?: ProjectTeam[];
+    files?: ProjectFile[];
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface ProjectTeam {
+    id: number;
+    project_id: number;
+    id_name_crew: number;
+    id_crew_roles: number;
+    name_crew?: TeamName;
+    role?: CrewRole;
+    created_at?: string;
+    updated_at?: string;
+}
+
 export interface ProjectCategory {
     id: number;
-    name?: string;
+    name: string;
     created_at: string;
     updated_at: string;
 }
@@ -74,6 +105,8 @@ export interface ProjectCategory {
 interface CrewRole {
     id: string;
     name: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface ProjectFiles {
@@ -96,7 +129,7 @@ export interface ProjectTeams {
     updated_at: string;
 }
 
-export interface TeamNames {
+export interface TeamName {
     id: number;
     name: string;
     created_at: string;
