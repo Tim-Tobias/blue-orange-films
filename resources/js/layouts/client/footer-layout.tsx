@@ -1,14 +1,13 @@
-import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import CompanyLogoFooter from '@/components/company-logo-footer';
 import FooterMenu from '@/components/footer-menu';
+import SocialMediaFooter from '@/components/social-media-footer';
 
 const FooterLayout = () => {
     return (
-        <footer className="bg-[#252D37]">
-            <AppFrontWrapper className="flex justify-between">
-                <CompanyLogoFooter />
-                <FooterMenu />
-            </AppFrontWrapper>
+        <footer className="flex flex-col items-center gap-10 bg-[#1E4E79] md:flex-row md:justify-between p-4">
+            <CompanyLogoFooter />
+            <FooterMenu />
+            <SocialMediaFooter color="white" />
         </footer>
     );
 };

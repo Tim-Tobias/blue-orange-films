@@ -1,17 +1,17 @@
 import CompanyLogo from '@/components/company-logo';
-import { CiMenuFries } from 'react-icons/ci';
+import Navigation from '@/components/nav/Navigation';
 
 const HeaderLayout = () => {
     return (
-        <header className="fixed top-0 z-10 mb-6 w-full p-5">
-            <nav className="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
-                <CompanyLogo />
+        <>
+            <header className="fixed top-0 z-10 mb-6 w-full p-5">
+                <nav className="relative mx-auto flex items-center justify-between gap-4">
+                    <CompanyLogo />
+                </nav>
+            </header>
 
-                <div className="cursor-pointer">
-                    <CiMenuFries className="text-white" />
-                </div>
-            </nav>
-        </header>
+            <Navigation />
+        </>
     );
 };
 

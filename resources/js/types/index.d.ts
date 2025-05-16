@@ -15,11 +15,19 @@ export interface NavGroup {
     items: NavItem[];
 }
 
-export interface NavItem {
+export interface NavSubItem {
     title: string;
     href: string;
     icon?: LucideIcon | null;
     isActive?: boolean;
+}
+
+export interface NavItem {
+    title: string;
+    href?: string;
+    icon?: LucideIcon | null;
+    isActive?: boolean;
+    items?: NavSubItem[];
 }
 
 export interface SharedData {
@@ -46,85 +54,58 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
-export interface WebContent {
+export interface Banner {
     id: number;
     title?: string;
-    content?: string;
     image_url?: string | null;
     section: string;
     created_at: string;
     updated_at: string;
 }
 
-
-
-export interface ProjectCategory {
+export interface Project {
     id: number;
-    name?: string;
-    created_at: string;
-    updated_at: string;
-}
-
-export interface Projects {
-    id: number;
-    highlight_link: string;
     title: string;
-    year: number | string; 
+    year: string;
     duration: string;
     aspect_ratio: string;
-    description: string;
+    highlight_link: string;
+    highlight_url?: string;
+    highlight_type: 'image' | 'video';
+    description?: string;
+    id_project_category: string;
     client: string;
     agency: string;
-    id_project_category: number | string; 
-    created_at: string;
-    updated_at: string;
-    teamMembers?: {
-        id: string;
-        teamName: string;
-        crewRoles: string;
-    }[];
+    category?: ProjectCategory;
+    teams?: ProjectTeam[];
+    files?: ProjectFile[];
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface ProjectTeam {
     id: number;
-    id_project: number;
-    nameTeam: string;
-    nameRoles: string;
-    created_at: string | null;
-    updated_at: string | null;
+    project_id: number;
+    id_name_crew: number;
+    id_crew_roles: number;
+    name_crew?: TeamName;
+    role?: CrewRole;
+    created_at?: string;
+    updated_at?: string;
 }
 
-export interface ProjectFile {
+export interface ProjectCategory {
     id: number;
-    project_id: number;
-    title: string;
-    project_link: string;
-    category: 'image' | 'video';
-    description: string;
-    created_at: string | null;
-    updated_at: string | null;
-}
-export interface ProjectDetail {
-    id: number;
-    highlight_link: string;
-    title: string;
-    year: number;
-    duration: string;
-    aspect_ratio: string;
-    description: string;
-    client: string;
-    agency: string;
-    id_project_category: number;
+    name: string;
     created_at: string;
     updated_at: string;
-    projectTeams: ProjectTeam[];
-    projectFiles: ProjectFile[];
 }
 
-interface TeamMember {
+interface CrewRole {
     id: string;
-    teamName: string;
-    crewRoles: string;
+    name: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface ProjectFiles {
@@ -147,7 +128,7 @@ export interface ProjectTeams {
     updated_at: string;
 }
 
-export interface TeamNames {
+export interface TeamName {
     id: number;
     name: string;
     created_at: string;
@@ -163,4 +144,69 @@ export interface Workflow {
     title?: string;
     desc?: string;
     order: number;
+}
+
+export interface About {
+    id: number;
+    image_url?: string;
+    content?: string;
+}
+
+export interface Service {
+    id: number;
+    image_url?: string;
+    title?: string;
+    description: string;
+}
+
+export interface Hww {
+    id: number;
+    title?: string;
+    content?: string;
+}
+
+export interface Step {
+    id: number;
+    number?: string;
+    title?: string;
+    description: string;
+}
+
+export interface Client {
+    id: number;
+    name?: string;
+    image_url?: string;
+}
+
+export interface Contact {
+    id: number;
+    phone?: string;
+    email?: string;
+    address: string;
+}
+
+export interface Social {
+    id: number;
+    name?: string;
+    link?: string;
+}
+
+export interface PaginatedResponse<T> {
+    data: T[];
+    current_page: number;
+    from: number | null;
+    to: number | null;
+    per_page: number;
+    total: number;
+    last_page: number;
+    next_page_url: string | null;
+    prev_page_url: string | null;
+    path: string;
+    first_page_url: string;
+    last_page_url: string;
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
 }
