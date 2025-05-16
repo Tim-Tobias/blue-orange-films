@@ -164,7 +164,7 @@ class ProjectsController extends Controller
                 'title' => $request->title,
                 'year' => $request->year,
                 'duration' => $request->duration,
-                'aspect_ratio' => $request->aspect_ratio,
+                'aspect_ratio' => $request->aspect_ratio, 
                 'category_id' => $request->category,
                 'description' => $request->description,
                 'client' => $request->client,
@@ -264,6 +264,44 @@ class ProjectsController extends Controller
 
     public function destroy(string $id)
     {
-        //
+         DB::beginTransaction();
+
+    try {
+        $project = Project::with(['teams', 'files'])->findOrFail($id);
+
+        // Hapus highlight jika image
+        if (
+            $project->highlight_type === 'image' &&
+            $project->highlight_link &&
+            Storage::exists('public/' . $project->highlight_link)
+        ) {
+            Storage::delete('public/' . $project->highlight_link);
+        }
+
+        // Hapus file image (jika dari storage)
+        foreach ($project->files as $file) {
+            if ($file->category === 'image' && $file->project_link) {
+                if (Storage::exists('public/' . $file->project_link)) {
+                    Storage::delete('public/' . $file->project_link);
+                }
+            }
+        }
+
+        // Hapus relasi
+        $project->teams()->delete();
+        $project->files()->delete();
+
+        // Hapus project
+        $project->delete();
+
+        DB::commit();
+
+        return redirect()->route('projects.index')->with('success', 'Project deleted successfully.');
+    } catch (\Throwable $e) {
+        DB::rollBack();
+        report($e);
+
+        return back()->withErrors(['message' => 'Failed to delete project.'])->withInput();
+    }
     }
 }
