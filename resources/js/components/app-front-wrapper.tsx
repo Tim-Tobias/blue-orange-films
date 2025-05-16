@@ -1,10 +1,9 @@
-import HeaderLayout from '@/layouts/client/header-layout';
+import { cn } from '@/lib/utils';
 import * as React from 'react';
 
-export function AppFrontWrapper({ children, ...props }: React.ComponentProps<'div'>) {
+export function AppFrontWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
     return (
-        <div className="mx-auto max-w-[1280px] p-4" {...props}>
-            <HeaderLayout />
+        <div className={cn('mx-auto max-w-[1280px] overflow-hidden p-4', className)} {...props}>
             {children}
         </div>
     );

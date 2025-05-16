@@ -157,3 +157,11 @@
         @apply bg-background text-foreground;
     }
 }
+
+video {
+    object-fit: cover;
+}
+
+.open-sans {
+    font-family: 'Open Sans', sans-serif;
+}

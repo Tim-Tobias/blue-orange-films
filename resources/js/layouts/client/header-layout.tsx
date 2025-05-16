@@ -1,11 +1,17 @@
+import CompanyLogo from '@/components/company-logo';
+import Navigation from '@/components/nav/Navigation';
+
 const HeaderLayout = () => {
     return (
-        <header className="mb-6 w-full">
-            <nav className="flex items-center justify-between gap-4">
-                <p>Logo</p>
-                <div>dawdwadaw</div>
-            </nav>
-        </header>
+        <>
+            <header className="fixed top-0 z-10 mb-6 w-full p-5">
+                <nav className="relative mx-auto flex items-center justify-between gap-4">
+                    <CompanyLogo />
+                </nav>
+            </header>
+
+            <Navigation />
+        </>
     );
 };
 

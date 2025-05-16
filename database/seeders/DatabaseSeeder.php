@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-         ProjectCategory::factory(10)->create();
+        //  ProjectCategory::factory(10)->create();
     }
 }

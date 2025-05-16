@@ -7,6 +7,7 @@ use App\Http\Requests\Dashboard\ProjectCategoryRequest;
 use App\Http\Requests\Dashboard\WebContentRequest;
 use App\Models\ProjectCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 
 class ProjectCategoryController extends Controller
@@ -14,12 +15,39 @@ class ProjectCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projectCategory = ProjectCategory::get();
+        $query = ProjectCategory::query();
 
-        return Inertia::render('admin/project-category/index', [
-            'projectCategory' => $projectCategory
+        $perPage = $request->query('perPage', 10);
+
+        $search = $request->query('search');
+
+        $searchableColumns = explode(',', $request->query('searchable', ''));
+
+        if ($search && !empty($searchableColumns)) {
+            $query->where(function ($q) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
+                    if (Schema::hasColumn('project_categories', $column)) {
+                        $q->orWhere($column, 'like', "%{$search}%");
+                    }
+                }
+            });
+        }
+
+        if ($sort = $request->query('sort')) {
+            $column = $sort;
+            $order = $request->query('order', 'asc');
+    
+            if (Schema::hasColumn('project_categories', $column)) {
+                $query->orderBy($column, $order);
+            }
+        }
+
+        $projectCategories = $query->paginate($perPage)->withQueryString();;
+
+        return Inertia::render('admin/project-categories/index', [
+            'projectCategories' => $projectCategories
         ]);
     }
 
@@ -29,7 +57,7 @@ class ProjectCategoryController extends Controller
     public function create()
     {
         
-        return Inertia::render('admin/project-category/form', [
+        return Inertia::render('admin/project-categories/form', [
             'isEdit' => false,
             'data' => null,
         ]);
@@ -45,7 +73,7 @@ class ProjectCategoryController extends Controller
         $projectCategory->name = $request->name;
         $projectCategory->save();
 
-        return redirect()->route('project-category.index')->with('success', 'Content created');
+        return redirect()->route('project-categories.index')->with('success', 'Category created');
     }
 
     /**
@@ -65,7 +93,7 @@ class ProjectCategoryController extends Controller
 
         $projectCategory = ProjectCategory::findOrFail($id);
 
-        return Inertia::render('admin/project-category/form', [
+        return Inertia::render('admin/project-categories/form', [
             'isEdit' => true,
             'projectCategory' => $projectCategory
         ]);
@@ -81,7 +109,7 @@ class ProjectCategoryController extends Controller
         $projectCategory->name = $request->name;
         $projectCategory->save();
 
-        return redirect()->route('project-category.index')->with('success', 'Content updated successfully');
+        return redirect()->route('project-categories.index')->with('success', 'Content updated successfully');
     }
 
     /**

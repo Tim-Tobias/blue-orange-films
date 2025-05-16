@@ -1,10 +1,10 @@
+import DataTable from '@/components/DataTable';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import ImageNotFound from '@/images/Image-not-found.png';
 import AppLayout from '@/layouts/app-layout';
-import { WebContent, Workflow, type BreadcrumbItem } from '@/types';
+import { PaginatedResponse, WebContent, Workflow, type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
 import { SyncLoader } from 'react-spinners';
@@ -21,7 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface TableWorkflowsProps {
-    workflows: Workflow[];
+    workflows: PaginatedResponse<Workflow>;
     webContent: WebContent;
 }
 
@@ -31,10 +31,6 @@ export default function TableWebContents({ workflows, webContent }: TableWorkflo
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [previewUrl, setPreviewUrl] = useState<string | null>(webContent.image_url ?? ImageNotFound);
     const [background, setBackground] = useState<File | null>(null);
-
-    const handleDelete = (id: number) => {
-        router.delete(`/dashboard/workflows/${id}`);
-    };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -104,34 +100,36 @@ export default function TableWebContents({ workflows, webContent }: TableWorkflo
 
                 <Card>
                     <CardContent>
-                        <Table>
-                            <TableCaption>A list of your web contents.</TableCaption>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Title</TableHead>
-                                    <TableHead>Desc</TableHead>
-                                    <TableHead>Order</TableHead>
-                                    <TableHead className="text-right">Action</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {workflows.map((val, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell className="font-medium">{val.title}</TableCell>
-                                        <TableCell>{val.desc}</TableCell>
-                                        <TableCell>{val.order}</TableCell>
-                                        <TableCell className="text-right">
-                                            <Link href={`/dashboard/workflows/${val.id}/edit`}>
-                                                <Button>Edit</Button>
-                                            </Link>
-                                            <Button className="ml-3 bg-red-500 text-white hover:bg-red-600" onClick={() => handleDelete(val.id)}>
-                                                Delete
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                        <DataTable
+                            columns={[
+                                { header: 'Title', accessor: 'title', searchable: true },
+                                { header: 'Desc', accessor: 'desc', searchable: true },
+                                { header: 'Order', accessor: 'order', sortable: true },
+                                {
+                                    header: 'Action',
+                                    accessor: (row) => {
+                                        return (
+                                            <div className="flex gap-2">
+                                                <Link href={`/dashboard/workflows/${row.id}/edit`}>
+                                                    <Button className="cursor-pointer" variant="outline">
+                                                        Edit
+                                                    </Button>
+                                                </Link>
+                                                <Link href={`/dashboard/workflows/${row.id}/delete`}>
+                                                    <Button className="cursor-pointer" variant="destructive">
+                                                        Delete
+                                                    </Button>
+                                                </Link>
+                                            </div>
+                                        );
+                                    },
+                                },
+                            ]}
+                            data={workflows.data}
+                            currentPage={workflows.current_page}
+                            totalPages={workflows.last_page}
+                            caption="List of Workflows"
+                        />
                     </CardContent>
                 </Card>
             </div>

@@ -4,7 +4,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { JSX, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { AppFrontWrapper } from './components/app-front-wrapper';
+import AppParent from './components/app-parent';
 
 createInertiaApp({
     title: (title) => title,
@@ -15,7 +15,7 @@ createInertiaApp({
             };
         };
 
-        page.default.layout = name.startsWith('admin') ? undefined : (page: ReactNode) => <AppFrontWrapper>{page}</AppFrontWrapper>;
+        page.default.layout = name.startsWith('admin') || name.startsWith('auth') ? undefined : (page: ReactNode) => <AppParent>{page}</AppParent>;
 
         return page;
     },
