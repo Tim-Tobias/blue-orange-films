@@ -1,0 +1,1 @@
+import{j as r}from"./app-j1ScH27T.js";import{A as o}from"./app-front-container-BokmqTUP.js";import{P as t}from"./player-C2JKOnip.js";/* empty css            */const p=()=>r.jsx(o,{children:r.jsx(t,{controls:!0,url:"https://www.dropbox.com/scl/fi/eg0c3th4vyjnnz09cwxam/22512-328261507_tiny.mp4?rlkey=sk0uvs93a3uby17qbzdx1c3cx&raw=1"})});export{p as default};

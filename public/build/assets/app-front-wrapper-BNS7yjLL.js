@@ -1,0 +1,1 @@
+import{j as a,c as s}from"./app-j1ScH27T.js";function e({children:r,className:o,...p}){return a.jsx("div",{className:s("mx-auto max-w-[1280px] overflow-hidden p-4",o),...p,children:r})}export{e as A};
