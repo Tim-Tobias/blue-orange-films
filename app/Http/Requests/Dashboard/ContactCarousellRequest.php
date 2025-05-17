@@ -4,7 +4,7 @@ namespace App\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BannersRequest extends FormRequest
+class ContactCarousellRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,7 @@ class BannersRequest extends FormRequest
     {
         return [
             'title' => ['nullable', 'string', 'max:255'],
-            'section' => $this->isMethod('post') ? ['required', 'string', 'max:255'] : ['nullable', 'string', 'max:255'],
-            'banner' => $this->isMethod('post') ? 'required' : 'nullable',
-            'category' => 'required|in:image,video',
+            'image' => ['nullable', 'image', 'max:5048'],
         ];
     }
 }

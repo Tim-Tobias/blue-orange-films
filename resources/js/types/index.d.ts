@@ -57,8 +57,10 @@ export interface User {
 export interface Banner {
     id: number;
     title?: string;
-    image_url?: string | null;
+    banner?: string | null;
+    image_url?: string;
     section: string;
+    category: 'video' | 'image'; // enum type
     created_at: string;
     updated_at: string;
 }
@@ -123,7 +125,7 @@ export interface Service {
     id: number;
     image_url?: string;
     title?: string;
-    description: string;
+    description?: string;
 }
 
 export interface Hww {
@@ -136,7 +138,7 @@ export interface Step {
     id: number;
     number?: string;
     title?: string;
-    description: string;
+    description?: string;
 }
 
 export interface Client {
@@ -149,7 +151,12 @@ export interface Contact {
     id: number;
     phone?: string;
     email?: string;
-    address: string;
+    address?: string;
+}
+export interface ContactCarousell {
+    id: number;
+    title?: string;
+    image?: string;
 }
 
 export interface Social {
