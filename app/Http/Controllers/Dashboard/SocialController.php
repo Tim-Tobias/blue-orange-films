@@ -37,7 +37,7 @@ class SocialController extends Controller
         if ($sort = $request->query('sort')) {
             $column = $sort;
             $order = $request->query('order', 'asc');
-    
+
             if (Schema::hasColumn('socials', $column)) {
                 $query->orderBy($column, $order);
             }
@@ -56,9 +56,12 @@ class SocialController extends Controller
      */
     public function create()
     {
+        $existingNames = Social::pluck('name');
+
         return Inertia::render('admin/socials/form', [
             'isEdit' => false,
             'data' => null,
+            'existingNames' => $existingNames,
         ]);
     }
 
@@ -89,11 +92,11 @@ class SocialController extends Controller
      */
     public function edit(string $id)
     {
-        $social = Social::findOrFail($id);
+        $social = Social::where('id', $id)->first();
 
         return Inertia::render('admin/socials/form', [
             'isEdit' => true,
-            'social' => $social,
+            'sosmed' => $social,
         ]);
     }
 
@@ -103,7 +106,7 @@ class SocialController extends Controller
     public function update(SocialRequest $request, string $id)
     {
         $social = Social::findOrFail($id);
-        
+
         $social->name = $request->name;
         $social->link = $request->link;
         $social->save();

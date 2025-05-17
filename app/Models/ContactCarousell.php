@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class ContactCarousell extends Model
 {
     use HasFactory;
 
-    protected $table = 'services';
+    protected $table = 'contact_carousells';
     protected $primaryKey = 'id';
 
     protected $fillable = [
         'title',
-        'image_url',
-        'description',
+        'image'
     ];
 
     protected $appends = ['image_url'];
