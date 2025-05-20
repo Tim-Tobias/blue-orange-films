@@ -73,7 +73,8 @@ export interface Project {
     aspect_ratio: string;
     highlight_link: string;
     highlight_url?: string;
-    highlight_type: 'image' | 'video';
+    highlight_image_url?: string;
+    highlight_image: string | File;
     description?: string;
     id_project_category: string;
     client: string;
@@ -110,11 +111,12 @@ interface CrewRole {
     updated_at?: string;
 }
 
-export interface ProjectFiles {
+export interface ProjectFile {
     id: number;
     project_id: number;
     title: string;
     project_link: string;
+    project_url: string;
     category: 'video' | 'image'; // enum type
     description: string;
     created_at: string;
@@ -143,8 +145,8 @@ export interface CategorySection {
 
 export interface Workflow {
     id: number;
-    title?: string;
-    desc?: string;
+    title: string;
+    desc: string;
     order: number;
 }
 
@@ -152,6 +154,11 @@ export interface About {
     id: number;
     image_url?: string;
     content?: string;
+}
+
+export interface Hww {
+    title: string;
+    content: string;
 }
 
 export interface Service {
@@ -190,6 +197,7 @@ export interface ContactCarousell {
     id: number;
     title?: string;
     image?: string;
+    image_url: string;
 }
 
 export interface Social {

@@ -1,22 +1,31 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
-import BlueOrangeLogo from '@/images/BLUE ORANGE LOGO - STANDARD.png';
+import Player from '@/components/player';
 import IntroduceLayout from '@/layouts/client/IntroduceLayout';
+import { About, Banner } from '@/types';
 
-const AboutSection = () => {
+interface AboutSectionProps {
+    about: About;
+    banner: Banner;
+}
+
+const AboutSection = ({ about, banner }: AboutSectionProps) => {
     return (
         <>
-            <IntroduceLayout imgUrl="https://picsum.photos/id/352/200/300" title="About" />
+            {banner.category === 'image' ? (
+                <IntroduceLayout imgUrl={banner.image_url!} title="About" />
+            ) : (
+                <div className="h-full w-full">
+                    <Player muted playing controls={false} loop url={banner.image_url!} />
+                </div>
+            )}
 
             <AppFrontWrapper>
-                <div className="grid grid-cols-1 items-center gap-10 pb-10 md:grid-cols-2">
-                    <img data-aos="fade-up" data-aos-delay="100" src={BlueOrangeLogo} alt="Company Logo" className="mx-auto block w-64 md:hidden" />
-                    <img data-aos="fade-left" data-aos-delay="50" src={BlueOrangeLogo} alt="Company Logo" className="hidden md:block" />
+                <div className="grid grid-cols-1 items-center justify-items-center gap-10 pb-10 md:grid-cols-2">
+                    <img data-aos="fade-up" data-aos-delay="100" src={about.image_url} alt="Company Logo" className="mx-auto block w-64 md:hidden" />
+                    <img data-aos="fade-left" data-aos-delay="50" src={about.image_url} alt="Company Logo" className="hidden w-72 md:block" />
 
                     <p data-aos="fade-right" className="text-center md:text-left">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat atque eos omnis nihil consectetur officia asperiores ipsam,
-                        iusto magnam aperiam impedit dicta error voluptate quae culpa esse nobis fuga exercitationem dolorum et sunt velit! Hic
-                        dolores minus laboriosam vero deleniti cupiditate doloribus reprehenderit. Accusantium ipsum fugiat amet eligendi temporibus
-                        magni!
+                        {about.content}
                     </p>
                 </div>
             </AppFrontWrapper>

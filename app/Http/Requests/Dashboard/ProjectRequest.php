@@ -21,7 +21,7 @@ class ProjectRequest extends FormRequest
             'category' => 'required|integer|exists:project_categories,id',
             'description' => 'nullable|string',
             'highlight' => $this->isMethod('post') ? 'required' : 'nullable',
-            'highlight_type' => 'required|in:image,video',
+            'highlight_image' => $this->isMethod('post') ? 'required' : 'nullable',
             'client' => 'required|string|max:255',
 
             'teams' => 'required|array',

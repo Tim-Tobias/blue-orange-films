@@ -39,7 +39,7 @@ const Navigation = () => {
                 initial={false}
                 animate={isOpen ? 'open' : 'closed'}
                 onClick={() => setIsOpen(true)}
-                className="fixed top-0 right-0 z-10 h-full w-full cursor-pointer bg-gradient-to-b from-orange-400 to-orange-100"
+                className="fixed top-0 right-0 z-10 h-full w-full cursor-pointer bg-orange-300" 
                 variants={buttonMenu}
             />
 

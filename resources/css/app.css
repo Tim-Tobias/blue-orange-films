@@ -160,8 +160,9 @@
 
 video {
     object-fit: cover;
+    aspect-ratio: 16 / 9;
 }
 
-.open-sans {
+html {
     font-family: 'Open Sans', sans-serif;
 }

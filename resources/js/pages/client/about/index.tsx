@@ -1,3 +1,4 @@
+import { About, Banner, Client, Hww, Service, Workflow } from '@/types';
 import { Head } from '@inertiajs/react';
 import { lazy } from 'react';
 import AboutSection from './sections/aboutSection';
@@ -7,9 +8,16 @@ const StepSection = lazy(() => import('./sections/StepSection'));
 const ServiceSection = lazy(() => import('./sections/serviceSection'));
 const HowWorks = lazy(() => import('./sections/HowWeWorks'));
 
-const AboutPage = () => {
+interface AboutPageProps {
+    about: About;
+    services: Service[];
+    hww: Hww;
+    steps: Workflow[];
+    client: Client;
+    banner: Banner;
+}
 
-    
+const AboutPage = ({ about, services, hww, steps, client, banner }: AboutPageProps) => {
     return (
         <>
             <Head title="About Section">
@@ -17,11 +25,11 @@ const AboutPage = () => {
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
 
-            <AboutSection />
-            <ServiceSection />
-            <HowWorks />
-            <StepSection />
-            <ClientSection />
+            <AboutSection banner={banner} about={about} />
+            <ServiceSection services={services} />
+            <HowWorks hww={hww} />
+            <StepSection steps={steps} />
+            <ClientSection client={client} />
         </>
     );
 };
