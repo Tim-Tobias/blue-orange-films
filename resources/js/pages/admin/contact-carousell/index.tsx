@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { limitText } from '@/helpers/limit_text';
 import AppLayout from '@/layouts/app-layout';
-import { PaginatedResponse, Banner, type BreadcrumbItem } from '@/types';
+import { PaginatedResponse, ContactCarousell, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import parse from 'html-react-parser';
 
@@ -13,24 +13,24 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/dashboard',
     },
     {
-        title: 'Banners',
-        href: '/dashboard/banners',
+        title: 'Contact Carousell',
+        href: '/dashboard/contact-carousell',
     },
 ];
 
-interface BannersProps {
-    banners: PaginatedResponse<Banner>;
+interface ContactCarousellProps {
+    carousell: PaginatedResponse<ContactCarousell>;
 }
 
-export default function Banners({ banners }: BannersProps) {
+export default function carousell({ carousell }: ContactCarousellProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Banner" />
+            <Head title="Service" />
 
             <div className="a a a flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                {banners.data.length < 3 && (
+                {carousell.data.length < 3 && (
                     <div className="flex w-full items-center justify-end">
-                        <Link href="/dashboard/banners/create">
+                        <Link href="/dashboard/contact-carousell/create">
                             <Button>Create</Button>
                         </Link>
                     </div>
@@ -40,45 +40,26 @@ export default function Banners({ banners }: BannersProps) {
                     <CardContent>
                         <DataTable
                             columns={[
-                                { header: 'Title', accessor: 'title', searchable: true },
                                 {
                                     header: 'Image',
                                     accessor: (row) => {
-                                        if (row.category === 'image' && row.image_url) {
                                         return (
-                                            <img
-                                            src={row.image_url}
-                                            alt={row.title}
-                                            className="h-16 w-16 rounded-lg object-cover"
-                                            />
+                                            row.image_url && <img src={row.image_url} alt={row.title} className="h-16 w-16 rounded-lg object-cover" />
                                         );
-                                        } else if (row.category === 'video' && row.banner) {
-                                        return (
-                                            <a
-                                            href={row.banner}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-blue-600 underline"
-                                            >
-                                            Video Link
-                                            </a>
-                                        );
-                                        }
-                                        return null;
                                     },
                                 },
-                                { header: 'Section', accessor: 'section' },
+                                { header: 'Title', accessor: 'title', searchable: true },
                                 {
                                     header: 'Action',
                                     accessor: (row) => {
                                         return (
                                             <div className="flex gap-2">
-                                                <Link href={`/dashboard/banners/${row.id}/edit`}>
+                                                <Link href={`/dashboard/contact-carousell/${row.id}/edit`}>
                                                     <Button className="cursor-pointer" variant="outline">
                                                         Edit
                                                     </Button>
                                                 </Link>
-                                                <Link href={`/dashboard/banners/${row.id}/delete`}>
+                                                <Link href={`/dashboard/contact-carousell/${row.id}/delete`}>
                                                     <Button className="cursor-pointer" variant="destructive">
                                                         Delete
                                                     </Button>
@@ -88,10 +69,10 @@ export default function Banners({ banners }: BannersProps) {
                                     },
                                 },
                             ]}
-                            data={banners.data}
-                            currentPage={banners.current_page}
-                            totalPages={banners.last_page}
-                            caption="List of Banners"
+                            data={carousell.data}
+                            currentPage={carousell.current_page}
+                            totalPages={carousell.last_page}
+                            caption="List of Carousell"
                         />
                     </CardContent>
                 </Card>

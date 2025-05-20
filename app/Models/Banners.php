@@ -15,17 +15,20 @@ class Banners extends Model
 
     protected $fillable = [
         'title',
-        'image',
+        'banner',
         'section',
+        'category',
     ];
-
-    protected $hidden = ['image'];
 
     protected $appends = ['image_url'];
 
-    public function getImageUrlAttribute(): ?string
+    public function getImageUrlAttribute()
     {
-        return $this->image ? asset('storage/' . $this->image) : null;
+        if ($this->category === 'image') {
+            return asset('storage/' . $this->banner);
+        }
+
+        return $this->banner;
     }
 
     public function scopeSection($query, $section)
