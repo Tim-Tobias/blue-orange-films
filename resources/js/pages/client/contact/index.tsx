@@ -10,8 +10,8 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 interface ContactPageProps {
-    contact: Contact;
-    carousell: ContactCarousell[];
+    contact?: Contact;
+    carousell?: ContactCarousell[];
 }
 
 const ContactPage = ({ contact, carousell }: ContactPageProps) => {
@@ -40,7 +40,7 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
                             loop
                             pagination={true}
                         >
-                            {carousell.map((src, i) => (
+                            {carousell?.map((src, i) => (
                                 <SwiperSlide onClick={() => handleImageClick(i)} key={i}>
                                     <img src={src.image_url} alt={src.title} className="h-full w-full object-cover" />
                                 </SwiperSlide>
@@ -52,13 +52,13 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Talk to Us!</h2>
                             <p>So we can create creative projects together.</p>
-                            <p className="mt-2">Phone: {contact.phone}</p>
-                            <p>Email: {contact.email}</p>
+                            <p className="mt-2">Phone: {contact?.phone}</p>
+                            <p>Email: {contact?.email}</p>
                         </div>
 
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Address</h2>
-                            <p>{contact.address}</p>
+                            <p>{contact?.address}</p>
 
                             <div className="mt-4 flex gap-3">
                                 <SocialMediaFooter color="black" />
@@ -87,7 +87,7 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
                                 className="mx-auto w-[90%]"
                             >
                                 <Swiper initialSlide={startIndex} navigation pagination={{ clickable: true }}>
-                                    {carousell.map((img, idx) => (
+                                    {carousell?.map((img, idx) => (
                                         <SwiperSlide key={idx}>
                                             <img src={img.image_url} alt={img.title} className="h-full w-full object-cover" />
                                         </SwiperSlide>

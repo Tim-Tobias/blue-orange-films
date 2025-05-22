@@ -6,10 +6,10 @@ import JumbotronSection from './sections/JumbotronSection';
 import ProjectSection from './sections/ProjectSection';
 
 interface WelcomeProps {
-    about: About;
-    projects: Project[];
-    client: Client;
-    banner: Banner;
+    about?: About;
+    projects?: Project[];
+    client?: Client;
+    banner?: Banner;
 }
 
 export default function Welcome({ about, projects, client, banner }: WelcomeProps) {

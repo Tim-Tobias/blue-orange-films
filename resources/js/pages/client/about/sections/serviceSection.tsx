@@ -3,47 +3,8 @@ import CardService from '@/components/card-service';
 import { Service } from '@/types';
 import { Link } from '@inertiajs/react';
 
-const ServiceList = [
-    {
-        imageUrl: 'https://picsum.photos/id/250/200/300',
-        title: 'Lorem Ipsum',
-        categories: [
-            {
-                name: 'Lorem',
-            },
-            {
-                name: 'Ipsum',
-            },
-        ],
-    },
-    {
-        imageUrl: 'https://picsum.photos/id/251/200/300',
-        title: 'Lorem Ipsum',
-        categories: [
-            {
-                name: 'Lorem',
-            },
-            {
-                name: 'Ipsum',
-            },
-        ],
-    },
-    {
-        imageUrl: 'https://picsum.photos/id/252/200/300',
-        title: 'Lorem Ipsum',
-        categories: [
-            {
-                name: 'Lorem',
-            },
-            {
-                name: 'Ipsum',
-            },
-        ],
-    },
-];
-
 interface ServiceSectionProps {
-    services: Service[];
+    services?: Service[];
 }
 
 const ServiceSection = ({ services }: ServiceSectionProps) => {
@@ -53,7 +14,7 @@ const ServiceSection = ({ services }: ServiceSectionProps) => {
                 Our Services
             </h4>
             <div className="grid grid-cols-1 place-content-center gap-10 md:grid-cols-3">
-                {services.map((item, index) => (
+                {services?.map((item, index) => (
                     <Link href="#" key={index} data-aos="fade-left" data-aos-delay={index * 100}>
                         <CardService imageUrl={item.image_url!} title={item.title!} />
                     </Link>

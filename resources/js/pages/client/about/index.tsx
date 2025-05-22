@@ -9,12 +9,12 @@ const ServiceSection = lazy(() => import('./sections/serviceSection'));
 const HowWorks = lazy(() => import('./sections/HowWeWorks'));
 
 interface AboutPageProps {
-    about: About;
-    services: Service[];
-    hww: Hww;
-    steps: Workflow[];
-    client: Client;
-    banner: Banner;
+    about?: About;
+    services?: Service[];
+    hww?: Hww;
+    steps?: Workflow[];
+    client?: Client;
+    banner?: Banner;
 }
 
 const AboutPage = ({ about, services, hww, steps, client, banner }: AboutPageProps) => {

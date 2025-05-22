@@ -2,7 +2,7 @@ import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import { Client } from '@/types';
 
 interface ClientSectionProps {
-    client: Client;
+    client?: Client;
 }
 
 const ClientSection = ({ client }: ClientSectionProps) => {

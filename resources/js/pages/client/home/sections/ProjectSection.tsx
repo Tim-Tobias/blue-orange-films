@@ -11,7 +11,7 @@ const item = {
 };
 
 interface ProjectSectionProps {
-    projects: Project[];
+    projects?: Project[];
 }
 
 const ProjectSection = ({ projects }: ProjectSectionProps) => {
@@ -30,7 +30,7 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
 
                 <AnimatePresence mode="wait">
                     <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-4">
-                        {projects.map((service, index) => (
+                        {projects?.map((service, index) => (
                             <motion.div
                                 variants={item}
                                 initial="hidden"

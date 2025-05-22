@@ -2,7 +2,7 @@ import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import { Hww } from '@/types';
 
 interface HowWorksProps {
-    hww: Hww;
+    hww?: Hww;
 }
 
 const HowWorks = ({ hww }: HowWorksProps) => {
@@ -12,7 +12,7 @@ const HowWorks = ({ hww }: HowWorksProps) => {
                 How We Works
             </h5>
             <p data-aos="fade-left" data-aos-delay="500" className="text-center md:w-[50%] md:text-left">
-                {hww.content}
+                {hww?.content}
             </p>
         </AppFrontWrapper>
     );

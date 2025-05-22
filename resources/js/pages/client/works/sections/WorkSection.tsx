@@ -13,8 +13,8 @@ const item = {
 };
 
 interface WorkSectionProps {
-    categories: ProjectCategory[];
-    projects: Project[];
+    categories?: ProjectCategory[];
+    projects?: Project[];
 }
 
 const WorkSection = ({ categories, projects }: WorkSectionProps) => {

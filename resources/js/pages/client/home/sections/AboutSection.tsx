@@ -4,7 +4,7 @@ import { About } from '@/types';
 import { Link } from '@inertiajs/react';
 
 interface AboutSectionProps {
-    about: About;
+    about?: About;
 }
 
 const AboutSection = (props: AboutSectionProps) => {
@@ -15,7 +15,7 @@ const AboutSection = (props: AboutSectionProps) => {
                     <h6 data-aos="fade-left" className="text-center text-2xl font-bold md:text-left">
                         About BOF
                     </h6>
-                    {props.about.content && (
+                    {props.about?.content && (
                         <p data-aos="fade-left" data-aos-delay="100" className="text-center md:text-left">
                             {limitText(props.about.content, 300)}
                             <Link href="/about" className="text-blue-500 hover:underline">

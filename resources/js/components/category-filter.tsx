@@ -4,7 +4,7 @@ import { router } from '@inertiajs/react';
 import { Button } from './ui/button';
 
 interface CategoryFilterProps {
-    categories: ProjectCategory[];
+    categories?: ProjectCategory[];
     selected: string;
     onSelect: (category: string) => void;
 }
@@ -29,7 +29,7 @@ const CategoryFilter = ({ categories, selected, onSelect }: CategoryFilterProps)
                 All
             </Button>
 
-            {categories.map((category, index) => (
+            {categories?.map((category, index) => (
                 <Button
                     key={index}
                     className={cn(
