@@ -22,8 +22,9 @@ class HwwRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string', 'max:255'],
-            'content' => ['nullable', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string', 'max:255'],
+            'is_active' => ['required'],
         ];
     }
 }

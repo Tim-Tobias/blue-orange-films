@@ -132,25 +132,22 @@ class BannersController extends Controller
      */
     public function update(BannersRequest $request, string $id)
     {
-        // dd($request->all());
         $banner = Banners::findOrFail($id);
 
-        if ($request->hasFile('banner')) {
-            if ($banner->banner) {
-                $imageName = basename($banner->banner);
-                $imagePath = 'banners/' . $imageName;
+        $banner->title = $request->title;
+        $banner->category = $request->category;
 
-                if (Storage::disk('public')->exists($imagePath)) {
-                    Storage::disk('public')->delete($imagePath);
+        if ($request->category === 'image') {
+            if ($request->hasFile('banner')) {  
+                if ($banner->banner) {
+                    Storage::disk('public')->delete('banners/' . basename($banner->banner));
                 }
+                $banner->banner = $request->file('banner')->store('banners', 'public');
             }
-
-            $banner->banner = $request->file('banner')->store('banners', 'public');
-        }else {
+        } elseif ($request->category === 'video') {
             $banner->banner = $request->banner;
         }
-
-        $banner->title = $request->title;
+        
         $banner->save();
 
         return to_route('banners.index')->with('success', 'Banner updated');
@@ -161,6 +158,18 @@ class BannersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $banner = Banners::findOrFail($id);
+
+        if ($banner->category === 'image' && $banner->banner) {
+            $imagePath = 'banners/' . basename($banner->banner);
+
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        }
+
+        $banner->delete();
+
+        return to_route('banners.index')->with('success', 'Banner deleted successfully');
     }
 }

@@ -6,6 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, Client, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import parse from 'html-react-parser';
+import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -49,6 +50,7 @@ export default function Clients({ clients }: ClientProps) {
                                         );
                                     },
                                 },
+                                { header: 'Status', accessor: 'status_text', searchable: true },
                                 {
                                     header: 'Action',
                                     accessor: (row) => {
@@ -59,11 +61,16 @@ export default function Clients({ clients }: ClientProps) {
                                                         Edit
                                                     </Button>
                                                 </Link>
-                                                <Link href={`/dashboard/clients/${row.id}/delete`}>
-                                                    <Button className="cursor-pointer" variant="destructive">
-                                                        Delete
-                                                    </Button>
-                                                </Link>
+                                                <Button
+													variant="destructive"
+													onClick={() => {
+													if (confirm('Are you sure to delete this Data?')) {
+														router.delete(`/dashboard/clients/${row.id}`);
+													}
+													}}
+												>
+													Delete
+												</Button>
                                             </div>
                                         );
                                     },

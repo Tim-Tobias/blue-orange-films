@@ -45,7 +45,10 @@ class ServiceController extends Controller
         }
 
         $services = $query->paginate($perPage)->withQueryString();
-
+        $services->getCollection()->transform(function ($services) {
+            $services->status_text = $services->is_active ? 'Aktif' : 'Tidak Aktif';
+            return $services;
+        });
 
         return Inertia::render('admin/services/index', [
             'services' => $services
@@ -76,6 +79,8 @@ class ServiceController extends Controller
 
         $services->title = $request->title;
         $services->description = $request->description;
+        $services->is_active = $request->is_active;
+
         $services->save();
 
         return to_route('services.index')->with('success', 'Service created');
@@ -124,6 +129,8 @@ class ServiceController extends Controller
 
         $service->title = $request->title;
         $service->description = $request->description;
+        $service->is_active = $request->is_active;
+
         $service->save();
 
         return to_route('services.index')->with('success', 'Service updated');
@@ -132,8 +139,21 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Service $service)
+    public function destroy(string $id)
     {
-        //
+        $service = Service::findOrFail($id);
+
+        if ($service->image) {
+            $imagePath = $service->image; 
+
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        }
+
+        $service->delete();
+
+        return to_route('services.index')->with('success', 'services deleted successfully');
     }
+
 }

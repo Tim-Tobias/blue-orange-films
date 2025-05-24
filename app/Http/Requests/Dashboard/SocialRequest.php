@@ -23,7 +23,7 @@ class SocialRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'link' => ['required', 'string', 'max:255'],
+            'link' => ['required', 'string', 'max:255']
         ];
     }
 }

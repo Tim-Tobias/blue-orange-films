@@ -6,6 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, ProjectCategory, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Search } from 'lucide-react';
+import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -53,11 +54,16 @@ export default function TableProjectCategory({ projectCategories }: TableProject
                                                         Edit
                                                     </Button>
                                                 </Link>
-                                                <Link href={`/dashboard/project-categories/${row.id}/delete`}>
-                                                    <Button className="cursor-pointer" variant="destructive">
-                                                        Delete
-                                                    </Button>
-                                                </Link>
+                                                <Button
+                                                    variant="destructive"
+                                                    onClick={() => {
+                                                    if (confirm('Are you sure to delete this Data?')) {
+                                                        router.delete(`/dashboard/project-categories/${row.id}`);
+                                                    }
+                                                    }}
+                                                >
+                                                    Delete
+                                                </Button>
                                             </div>
                                         );
                                     },

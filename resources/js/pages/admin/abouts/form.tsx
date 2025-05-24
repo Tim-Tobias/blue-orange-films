@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { SyncLoader } from 'react-spinners';
 import { z } from 'zod';
+import Editor from 'react-simple-wysiwyg';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,7 +29,8 @@ type FormAboutProps = {
 };
 
 export const aboutScheme = z.object({
-    content: z.string().optional(),
+    content: z.string().min(1, 'Content is required'),
+    is_active: z.enum(['true', 'false']),
 });
 
 export type AboutFormData = z.infer<typeof aboutScheme>;
@@ -44,11 +46,13 @@ export default function FormAbout({ isEdit = false, data }: FormAboutProps) {
         register,
         setValue,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<AboutFormData>({
         resolver: zodResolver(aboutScheme),
         defaultValues: {
             content: data?.content || '',
+            is_active: data?.is_active ? 'true' : 'false'
         },
     });
 
@@ -65,6 +69,8 @@ export default function FormAbout({ isEdit = false, data }: FormAboutProps) {
 
         const formData = new FormData();
         formData.append('content', form.content || '');
+        formData.append('is_active', form.is_active === 'true' ? '1' : '0');
+
 
         if (image instanceof File) {
             formData.append('image', image);
@@ -100,18 +106,15 @@ export default function FormAbout({ isEdit = false, data }: FormAboutProps) {
                     <CardContent>
                         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className="space-y-4">
                             <div>
-								<label className="mb-1 block">
-									Content <span className="text-red-500">*</span>
-								</label>
-								<textarea
-									rows={4}
-									{...register('content')}
-									className={`form-control mt-2 w-full rounded border px-3 py-2 ${
-										errors.content ? 'border-red-500' : 'border-gray-300'
-									}`}
-								/>
-								{errors.content && <p className="mt-1 text-sm text-red-500">{errors.content.message}</p>}
-							</div>
+                                <label className="mb-1 block font-medium">Content</label>
+                                <Editor
+                                    value={watch('content') || ''}
+                                    onChange={(e) => setValue('content', e.target.value)}
+                                />
+                                {errors.content && (
+                                    <p className="text-sm text-red-500">{errors.content.message}</p>
+                                )}
+                            </div>
 
                             {previewUrl && (
                                 <div className="space-y-2">
@@ -121,9 +124,41 @@ export default function FormAbout({ isEdit = false, data }: FormAboutProps) {
                             )}
 
                             <div>
-                                <label>Image</label>
-                                <Input type="file" onChange={handleImageChange} className="form-control mt-2" accept="image/*" />
-                                {errorsBackend && <p className="text-red-500">{errorsBackend.image}</p>}
+                            <label>Image</label>
+                            <Input
+                                type="file"
+                                onChange={handleImageChange}
+                                className="form-control mt-2"
+                                accept="image/*"
+                            />
+                            {typeof errorsBackend?.image === 'string' && (
+                                <p className="text-sm text-red-500">{errorsBackend.image}</p>
+                            )}
+                            </div>
+
+                            <div>
+                                <label className="block font-medium mb-1">Status Aktif</label>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="true"
+                                            {...register("is_active")}
+                                        />
+                                        Aktif
+                                    </label>
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="false"
+                                            {...register("is_active")}
+                                        />
+                                        Tidak Aktif
+                                    </label>
+                                </div>
+                                {(errors.is_active || errorsBackend?.is_active) && (
+                                    <p className="text-sm text-red-500">{errors.is_active?.message ?? errorsBackend?.is_active}</p>
+                                )}
                             </div>
 
                             <Button disabled={isSubmitting} type="submit">

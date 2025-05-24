@@ -15,6 +15,7 @@ class Client extends Model
     protected $fillable = [
         'name',
         'image',
+        'is_active'
     ];
 
     protected $hidden = ['image'];

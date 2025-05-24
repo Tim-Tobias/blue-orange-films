@@ -14,7 +14,8 @@ class ContactCarousell extends Model
 
     protected $fillable = [
         'title',
-        'image'
+        'image',
+        'is_active'
     ];
 
     protected $appends = ['image_url'];

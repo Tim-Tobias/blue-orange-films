@@ -16,5 +16,6 @@ class Contact extends Model
         'phone',
         'email',
         'address',
+        'is_active'
     ];
 }

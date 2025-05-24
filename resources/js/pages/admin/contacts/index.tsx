@@ -4,6 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, Contact, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -41,6 +43,7 @@ export default function Contacts({ contacts }: ContactsProps) {
 								{ header: 'Phone', accessor: 'phone', searchable: true },
 								{ header: 'Email', accessor: 'email', searchable: true },
 								{ header: 'Address', accessor: 'address', searchable: true },
+								{ header: 'Status', accessor: 'status_text', searchable: true },
 								{
 									header: 'Action',
 									accessor: (row) => {
@@ -51,11 +54,16 @@ export default function Contacts({ contacts }: ContactsProps) {
 														Edit
 													</Button>
 												</Link>
-												<Link href={`/dashboard/contacts/${row.id}/delete`}>
-													<Button className="cursor-pointer" variant="destructive">
-														Delete
-													</Button>
-												</Link>
+												<Button
+													variant="destructive"
+													onClick={() => {
+													if (confirm('Are you sure to delete this Data?')) {
+														router.delete(`/dashboard/contacts/${row.id}`);
+													}
+													}}
+												>
+													Delete
+												</Button>
 											</div>
 										);
 									},

@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { SyncLoader } from 'react-spinners';
 import { z } from 'zod';
+import Editor from 'react-simple-wysiwyg';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,8 +29,9 @@ type FormServiceProps = {
 };
 
 export const serviceScheme = z.object({
-    title: z.string().optional(),
-    description: z.string().optional(),
+    title: z.string().min(1, 'Title is required'),
+    description: z.string().min(1, 'Desription is required'),
+    is_active: z.enum(['true', 'false']),
 });
 
 export type ServiceFormData = z.infer<typeof serviceScheme>;
@@ -45,12 +47,14 @@ export default function FormService({ isEdit = false, data }: FormServiceProps) 
         register,
         setValue,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<ServiceFormData>({
         resolver: zodResolver(serviceScheme),
         defaultValues: {
             title: data?.title || '',
             description: data?.description || '',
+            is_active: data?.is_active ? 'true' : 'false'
         },
     });
 
@@ -68,6 +72,7 @@ export default function FormService({ isEdit = false, data }: FormServiceProps) 
         const formData = new FormData();
         formData.append('title', form.title || '');
         formData.append('description', form.description || '');
+        formData.append('is_active', form.is_active === 'true' ? '1' : '0');
 
         if (image instanceof File) {
             formData.append('image', image);
@@ -108,18 +113,15 @@ export default function FormService({ isEdit = false, data }: FormServiceProps) 
                                 {(errors.title || errorsBackend) && <p className="text-red-500">{errors.title?.message ?? errorsBackend.title}</p>}
                             </div>
                             <div>
-								<label className="mb-1 block">
-									Description <span className="text-red-500">*</span>
-								</label>
-								<textarea
-									rows={4}
-									{...register('description')}
-									className={`form-control mt-2 w-full rounded border px-3 py-2 ${
-										errors.description ? 'border-red-500' : 'border-gray-300'
-									}`}
-								/>
-								{errors.description && <p className="mt-1 text-sm text-red-500">{errors.description.message}</p>}
-							</div>
+                                <label className="mb-1 block font-medium">Content</label>
+                                <Editor
+                                    value={watch('description') || ''}
+                                    onChange={(e) => setValue('description', e.target.value)}
+                                />
+                                {errors.description && (
+                                    <p className="text-sm text-red-500">{errors.description.message}</p>
+                                )}
+                            </div>
 
                             {previewUrl && (
                                 <div className="space-y-2">
@@ -132,6 +134,31 @@ export default function FormService({ isEdit = false, data }: FormServiceProps) 
                                 <label>Image</label>
                                 <Input type="file" onChange={handleImageChange} className="form-control mt-2" accept="image/*" />
                                 {errorsBackend && <p className="text-red-500">{errorsBackend.image}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block font-medium mb-1">Status Aktif</label>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="true"
+                                            {...register("is_active")}
+                                        />
+                                        Aktif
+                                    </label>
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="false"
+                                            {...register("is_active")}
+                                        />
+                                        Tidak Aktif
+                                    </label>
+                                </div>
+                                {(errors.is_active || errorsBackend?.is_active) && (
+                                    <p className="text-sm text-red-500">{errors.is_active?.message ?? errorsBackend?.is_active}</p>
+                                )}
                             </div>
 
                             <Button disabled={isSubmitting} type="submit">

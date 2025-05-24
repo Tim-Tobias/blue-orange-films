@@ -45,7 +45,10 @@ class ContactController extends Controller
         }
 
         $contacts = $query->paginate($perPage)->withQueryString();
-
+        $contacts->getCollection()->transform(function ($contacts) {
+            $contacts->status_text = $contacts->is_active ? 'Aktif' : 'Tidak Aktif';
+            return $contacts;
+        });
 
         return Inertia::render('admin/contacts/index', [
             'contacts' => $contacts
@@ -73,6 +76,13 @@ class ContactController extends Controller
         $contact->phone = $request->phone;
         $contact->email = $request->email;
         $contact->address = $request->address;
+
+        $contact->is_active = $request->is_active;
+
+        if ($request->is_active == 1) {
+            Contact::where('is_active', 1)->update(['is_active' => 0]);
+        }
+
         $contact->save();
 
         return redirect()->route('contacts.index')->with('success', 'Contact created');
@@ -109,6 +119,15 @@ class ContactController extends Controller
         $contact->phone = $request->phone;
         $contact->email = $request->email;
         $contact->address = $request->address;
+
+        $contact->is_active = $request->is_active;
+
+        if ($request->is_active == 1) {
+            Contact::where('is_active', 1)
+                ->where('id', '!=', $contact->id)
+                ->update(['is_active' => 0]);
+        }
+        
         $contact->save();
 
         return to_route('contacts.index')->with('success', 'Contact updated');
@@ -117,8 +136,11 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contact $contact)
+    public function destroy(String $id)
     {
-        //
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+
+        return to_route('contacts.index')->with('success', 'contacts deleted successfully');
     }
 }

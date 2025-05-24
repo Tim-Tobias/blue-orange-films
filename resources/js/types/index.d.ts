@@ -119,6 +119,7 @@ export interface About {
     id: number;
     image_url?: string;
     content?: string;
+    is_active?: boolean;
 }
 
 export interface Service {
@@ -126,12 +127,14 @@ export interface Service {
     image_url?: string;
     title?: string;
     description?: string;
+    is_active?: boolean;
 }
 
 export interface Hww {
     id: number;
     title?: string;
     content?: string;
+    is_active?: boolean;
 }
 
 export interface Step {
@@ -145,6 +148,7 @@ export interface Client {
     id: number;
     name?: string;
     image_url?: string;
+    is_active?: boolean;
 }
 
 export interface Contact {
@@ -152,17 +156,20 @@ export interface Contact {
     phone?: string;
     email?: string;
     address?: string;
+    is_active?: boolean;
 }
 export interface ContactCarousell {
     id: number;
     title?: string;
     image?: string;
+    is_active?: boolean;
 }
 
 export interface Social {
     id: number;
     name?: string;
     link?: string;
+    is_active?: boolean;
 }
 
 export interface PaginatedResponse<T> {
