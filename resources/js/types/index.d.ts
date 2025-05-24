@@ -65,9 +65,41 @@ export interface Banner {
     updated_at: string;
 }
 
+export interface Project {
+    id: number;
+    title: string;
+    year: string;
+    duration: string;
+    aspect_ratio: string;
+    highlight_link: string;
+    highlight_url?: string;
+    highlight_image_url?: string;
+    highlight_image: string | File;
+    description?: string;
+    id_project_category: string;
+    client: string;
+    agency: string;
+    category?: ProjectCategory;
+    teams?: ProjectTeam[];
+    files?: ProjectFile[];
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface ProjectTeam {
+    id: number;
+    project_id: number;
+    id_name_crew: number;
+    id_crew_roles: number;
+    name_crew?: TeamName;
+    role?: CrewRole;
+    created_at?: string;
+    updated_at?: string;
+}
+
 export interface ProjectCategory {
     id: number;
-    name?: string;
+    name: string;
     created_at: string;
     updated_at: string;
 }
@@ -75,13 +107,16 @@ export interface ProjectCategory {
 interface CrewRole {
     id: string;
     name: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
-export interface ProjectFiles {
+export interface ProjectFile {
     id: number;
     project_id: number;
     title: string;
     project_link: string;
+    project_url: string;
     category: 'video' | 'image'; // enum type
     description: string;
     created_at: string;
@@ -97,7 +132,7 @@ export interface ProjectTeams {
     updated_at: string;
 }
 
-export interface TeamNames {
+export interface TeamName {
     id: number;
     name: string;
     created_at: string;
@@ -110,8 +145,8 @@ export interface CategorySection {
 
 export interface Workflow {
     id: number;
-    title?: string;
-    desc?: string;
+    title: string;
+    desc: string;
     order: number;
 }
 
@@ -120,6 +155,11 @@ export interface About {
     image_url?: string;
     content?: string;
     is_active?: boolean;
+}
+
+export interface Hww {
+    title: string;
+    content: string;
 }
 
 export interface Service {
@@ -163,6 +203,7 @@ export interface ContactCarousell {
     title?: string;
     image?: string;
     is_active?: boolean;
+    image_url: string;
 }
 
 export interface Social {

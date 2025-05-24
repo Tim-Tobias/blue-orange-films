@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\WorkflowRequest;
-use App\Http\Requests\SvgRequest;
-use App\Models\WebContent;
 use App\Models\Workflow;
-use enshrined\svgSanitize\Sanitizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class WorkflowController extends Controller
@@ -49,11 +45,8 @@ class WorkflowController extends Controller
 
         $workflows = $query->paginate($perPage)->withQueryString();
 
-        $background = WebContent::section('workflows')->first();
-
         return Inertia::render('admin/workflows/index', [
             'workflows' => $workflows,
-            'webContent' => $background,
         ]);
     }
 
@@ -66,39 +59,6 @@ class WorkflowController extends Controller
             'isEdit' => false,
             'data' => null,
         ]);
-    }
-
-    public function setBackground(SvgRequest $request) 
-    {
-        $workflow = WebContent::section('workflows')->first();
-
-        if ($request->hasFile('background')) {
-            $sanitizer = new Sanitizer();
-            $content = file_get_contents($request->file('background')->getRealPath());
-            $cleanSvg = $sanitizer->sanitize($content);
-
-            if (!$cleanSvg) {
-                return back()->with('error', 'Invalid SVG file.');
-            }
-
-            if($workflow) {
-                if ($workflow->image && Storage::disk('public')->exists($workflow->image)) {
-                    Storage::disk('public')->delete($workflow->image);
-                }
-    
-                $path = $request->file('background')->store('workflow', 'public');
-                $workflow->image = $path;
-                $workflow->save();
-            }else {
-                $newWebContent = new WebContent;
-                $path = $request->file('background')->store('workflow', 'public');
-                $newWebContent->image = $path;
-                $newWebContent->section = 'workflows';
-                $newWebContent->save();
-            }
-        }
-
-        return to_route('workflows.index')->with('success', 'Set background successfully!');
     }
 
     /**

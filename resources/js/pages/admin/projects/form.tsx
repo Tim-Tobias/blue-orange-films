@@ -10,7 +10,8 @@ import FilesForm from './layouts/form_files';
 import ProjectForm from './layouts/form_project';
 import TeamForm from './layouts/form_team';
 
-import { BreadcrumbItem, ProjectCategory } from '@/types';
+import { capitalizeWords } from '@/helpers/capital_letter';
+import { BreadcrumbItem, Project, ProjectCategory } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: '/dashboard' },
@@ -24,8 +25,9 @@ const projectSchema = z.object({
     aspect_ratio: z.string(),
     category: z.string(),
     description: z.string(),
-    highlight: z.union([z.string(), z.instanceof(File)]),
-    highlight_type: z.enum(['image', 'video']),
+    highlight: z.string(),
+    highlight_image: z.instanceof(File).optional(),
+    client: z.string(),
 
     teams: z.array(
         z.object({
@@ -50,22 +52,38 @@ export type ProjectFormData = z.infer<typeof projectSchema>;
 interface FormProjectsProps {
     isEdit?: boolean;
     categories: ProjectCategory[];
+    project?: Project;
 }
 
-export default function FormProjects({ isEdit = false, categories }: FormProjectsProps) {
+export default function FormProjects({ isEdit = false, categories, project }: FormProjectsProps) {
     const form = useForm<ProjectFormData>({
         resolver: zodResolver(projectSchema),
         defaultValues: {
-            title: '',
-            year: '',
-            duration: '',
-            aspect_ratio: '',
-            category: '',
-            description: '',
-            highlight: '',
-            highlight_type: 'image',
-            teams: [{ id_name: 0, name: '', id_role: 0, role: '' }],
-            files: [{ title: '', category: 'image', project_link: '', description: '' }],
+            title: isEdit ? project?.title : '',
+            year: isEdit ? String(project?.year) : '',
+            duration: isEdit ? project?.duration : '',
+            aspect_ratio: isEdit ? project?.aspect_ratio : '',
+            category: isEdit ? String(project?.id_project_category) : '',
+            description: isEdit ? project?.description : '',
+            highlight: isEdit ? String(project?.highlight_link) : '',
+            client: isEdit ? project?.client : '',
+            highlight_image: undefined,
+            teams: isEdit
+                ? (project?.teams ?? []).map((team) => ({
+                      id_name: team.id_name_crew,
+                      name: capitalizeWords(team.name_crew?.name || ''),
+                      id_role: team.id_crew_roles,
+                      role: capitalizeWords(team.role?.name || ''),
+                  })) || []
+                : [],
+            files: isEdit
+                ? (project?.files ?? []).map((file) => ({
+                      title: file.title,
+                      category: file.category,
+                      project_link: isEdit ? String(file.project_link) : '',
+                      description: file.description,
+                  })) || []
+                : [],
         },
     });
 
@@ -80,12 +98,11 @@ export default function FormProjects({ isEdit = false, categories }: FormProject
         formData.append('aspect_ratio', data.aspect_ratio);
         formData.append('category', data.category);
         formData.append('description', data.description);
-        formData.append('highlight_type', data.highlight_type);
+        formData.append('client', data.client);
+        formData.append('highlight', data.highlight);
 
-        if (data.highlight instanceof File) {
-            formData.append('highlight', data.highlight);
-        } else if (typeof data.highlight === 'string') {
-            formData.append('highlight', data.highlight);
+        if (data.highlight_image) {
+            formData.append('highlight_image', data.highlight_image);
         }
 
         data.teams.forEach((team, i) => {
@@ -102,9 +119,20 @@ export default function FormProjects({ isEdit = false, categories }: FormProject
             formData.append(`files[${i}][project_link]`, file.project_link);
         });
 
-        router.post('/dashboard/projects', formData, {
-            forceFormData: true,
-        });
+        if (isEdit) {
+            formData.append('_method', 'PUT');
+            formData.append('id', String(project?.id));
+
+            router.post(`/dashboard/projects/${project?.id}`, formData, {
+                forceFormData: true,
+            });
+        } else {
+            console.log(...formData);
+
+            router.post('/dashboard/projects', formData, {
+                forceFormData: true,
+            });
+        }
     };
 
     return (
@@ -114,9 +142,9 @@ export default function FormProjects({ isEdit = false, categories }: FormProject
                 <h1 className="text-2xl font-semibold">{isEdit ? 'Edit' : 'Create'} Web Content</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-                    <ProjectForm categories={categories} form={form} />
+                    <ProjectForm isEdit={isEdit} project={project} categories={categories} form={form} />
                     <TeamForm form={form} />
-                    <FilesForm form={form} />
+                    <FilesForm isEdit={isEdit} form={form} />
 
                     <Button type="submit">Submit</Button>
                 </form>

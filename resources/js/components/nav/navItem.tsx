@@ -31,7 +31,7 @@ const NavItem = ({ className, title, ...props }: NavItemProps) => {
             <Link
                 className={cn(
                     'text-7xl leading-none font-light text-slate-900 transition-all hover:font-semibold lg:text-[122px]',
-                    url === props.href ? 'font-semibold' : '',
+                    url === props.href ? 'font-semibold text-white' : '',
                     className,
                 )}
                 {...props}

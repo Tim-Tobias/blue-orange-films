@@ -1,3 +1,4 @@
+import { capitalizeWords } from '@/helpers/capital_letter';
 import api from '@/services/axiosClient';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Input } from './ui/input';
@@ -71,7 +72,7 @@ const SearchableSelect = ({ value, onChange, placeholder = 'Select...', endpoint
                 placeholder={placeholder}
                 onFocus={() => setShowDropdown(true)}
                 onChange={(e) => {
-                    setSearch(e.target.value);
+                    setSearch(capitalizeWords(e.target.value));
                     setShowDropdown(true);
                 }}
                 onKeyDown={(e) => handleKeyDown(e)}
@@ -89,7 +90,7 @@ const SearchableSelect = ({ value, onChange, placeholder = 'Select...', endpoint
                                 className="cursor-pointer px-3 py-2 hover:bg-gray-100"
                                 onMouseDown={() => {
                                     onChange(opt);
-                                    setSearch(opt.name);
+                                    setSearch(capitalizeWords(opt.name));
                                     setShowDropdown(false);
                                 }}
                             >

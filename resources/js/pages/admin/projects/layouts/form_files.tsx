@@ -9,6 +9,7 @@ import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { ProjectFormData } from '../form';
 
 interface FilesFormProps {
+    isEdit: boolean;
     form: UseFormReturn<ProjectFormData>;
 }
 
@@ -106,7 +107,7 @@ export default function FilesForm({ form }: FilesFormProps) {
                             )}
 
                             {/* Remove button */}
-                            {fields.length > 1 && <X onClick={() => remove(index)} className="cursor-pointer self-end text-red-600" />}
+                            <X onClick={() => remove(index)} className="cursor-pointer self-end text-red-600" />
                         </div>
                     ))}
                 </div>

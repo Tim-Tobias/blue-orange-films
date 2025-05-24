@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Project extends Model
 {
@@ -16,7 +17,24 @@ class Project extends Model
         'client',
         'agency',
         'id_project_category',
+        'highlight_image',
     ];
+
+    protected $appends = ['highlight_url', 'highlight_image_url'];
+
+    public function getHighlightUrlAttribute()
+    {
+        if ($this->highlight_type === 'image') {
+            return $this->highlight_link ? Storage::url($this->highlight_link) : null;
+        }
+
+        return $this->highlight_link;
+    }
+
+    public function getHighlightImageUrlAttribute()
+    {
+        return Storage::url($this->highlight_image);
+    }
 
     public function teams()
     {
