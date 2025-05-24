@@ -27,7 +27,7 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
         <>
             <Head title="Contact" />
 
-            <AppFrontWrapper className="my-34">
+            <AppFrontWrapper className="grid h-screen grid-cols-1 place-items-center">
                 <div className="grid grid-cols-1 gap-8 p-8 lg:grid-cols-3">
                     <div className="col-span-2 flex flex-col">
                         <Swiper

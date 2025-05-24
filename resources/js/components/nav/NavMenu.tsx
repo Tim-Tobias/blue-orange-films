@@ -1,4 +1,4 @@
-import BlueOrangeLogo from '@/images/BLUE ORANGE LOGO - STANDARD.png';
+import BlueOrangeLogo from '@/images/BLUE ORANGE LOGO - MONOCHROME.png';
 import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import SocialMediaFooter from '../social-media-footer';

@@ -6,6 +6,7 @@ import NavMenu from './NavMenu';
 const buttonMenu = {
     open: (height = 1000) => ({
         clipPath: `circle(${height * 2 + 200}px at 260px 40px)`,
+        backgroundColor: '#1E4E79',
         transition: {
             type: 'spring',
             stiffness: 20,
@@ -14,6 +15,7 @@ const buttonMenu = {
     }),
     closed: {
         clipPath: 'circle(30px at calc(100% - 60px) 45px)',
+        backgroundColor: '#ffb86a',
         transition: {
             type: 'spring',
             stiffness: 400,
@@ -39,7 +41,7 @@ const Navigation = () => {
                 initial={false}
                 animate={isOpen ? 'open' : 'closed'}
                 onClick={() => setIsOpen(true)}
-                className="fixed top-0 right-0 z-10 h-full w-full cursor-pointer bg-orange-300" 
+                className="fixed top-0 right-0 z-10 h-full w-full cursor-pointer"
                 variants={buttonMenu}
             />
 

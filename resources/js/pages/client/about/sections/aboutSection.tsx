@@ -21,8 +21,14 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
 
             <AppFrontWrapper>
                 <div className="grid grid-cols-1 items-center justify-items-center gap-10 pb-10 md:grid-cols-2">
-                    <img data-aos="fade-up" data-aos-delay="100" src={about?.image_url} alt="Company Logo" className="mx-auto block w-64 md:hidden" />
-                    <img data-aos="fade-left" data-aos-delay="50" src={about?.image_url} alt="Company Logo" className="hidden w-72 md:block" />
+                    <img
+                        data-aos="fade-up"
+                        data-aos-delay="100"
+                        src={about?.image_url}
+                        alt={about?.content}
+                        className="mx-auto block w-64 md:hidden"
+                    />
+                    <img data-aos="fade-left" data-aos-delay="50" src={about?.image_url} alt={about?.content} className="hidden w-72 md:block" />
 
                     <p data-aos="fade-right" className="text-center md:text-left">
                         {about?.content}
