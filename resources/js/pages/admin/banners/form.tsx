@@ -32,16 +32,16 @@ type FormBannerProps = {
 
 export const bannerScheme = z
     .object({
-        title: z.string().optional(),
+        title: z.string().min(1, 'Title is required'),
         section: z.string().min(1, 'Section is required'),
-        banner: z.any(), // sementara optional dulu
+        banner: z.any(),    
         category: z.enum(['image', 'video'], {
             required_error: 'Category is required',
         }),
     })
     .superRefine((data, ctx) => {
         if (data.category === 'video') {
-            if (!data.banner || data.banner.trim() === '') {
+            if (!data.banner || (typeof data.banner === 'string' && data.banner.trim() === '')) {
                 ctx.addIssue({
                     path: ['banner'],
                     code: z.ZodIssueCode.custom,
@@ -49,7 +49,23 @@ export const bannerScheme = z
                 });
             }
         }
+
+        if (data.category === 'image') {
+            const isFile = data.banner instanceof File;
+            const isString = typeof data.banner === 'string' && data.banner.length > 0;
+
+            if (!isFile && !isString) {
+                ctx.addIssue({
+                    path: ['banner'],
+                    code: z.ZodIssueCode.custom,
+                    message: 'Image is required for image category',
+                });
+            }
+        }
+
     });
+
+
 
 const SECTION_SECTIONS = ['home', 'about', 'works'];
 
@@ -202,14 +218,14 @@ export default function FormBanner({ isEdit = false, data, sections }: FormBanne
                                             }}
                                         />
 
-                                        {errorsBackend.banner && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
+                                        {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
                                     </div>
                                 </div>
                             ) : (
                                 <div>
                                     <label className="mb-1 block">YouTube Link</label>
                                     <Input type="text" placeholder="https://..." {...register('banner')} value={watch('banner')} />
-                                    {errorsBackend.banner && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
+                                    {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
                                 </div>
                             )}
 

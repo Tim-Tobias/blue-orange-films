@@ -6,6 +6,8 @@ import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, Banner, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import parse from 'html-react-parser';
+import { router } from '@inertiajs/react';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -78,11 +80,16 @@ export default function Banners({ banners }: BannersProps) {
                                                         Edit
                                                     </Button>
                                                 </Link>
-                                                <Link href={`/dashboard/banners/${row.id}/delete`}>
-                                                    <Button className="cursor-pointer" variant="destructive">
-                                                        Delete
-                                                    </Button>
-                                                </Link>
+                                                <Button
+                                                    variant="destructive"
+                                                    onClick={() => {
+                                                    if (confirm('Are you sure to delete this banner?')) {
+                                                        router.delete(`/dashboard/banners/${row.id}`);
+                                                    }
+                                                    }}
+                                                >
+                                                    Delete
+                                                </Button>
                                             </div>
                                         );
                                     },

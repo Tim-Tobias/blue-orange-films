@@ -46,7 +46,10 @@ class ContactCarousellController extends Controller
         }
 
         $carousell = $query->paginate($perPage)->withQueryString();
-
+        $carousell->getCollection()->transform(function ($carousell) {
+            $carousell->status_text = $carousell->is_active ? 'Aktif' : 'Tidak Aktif';
+            return $carousell;
+        });
 
         return Inertia::render('admin/contact-carousell/index', [
             'carousell' => $carousell
@@ -76,6 +79,7 @@ class ContactCarousellController extends Controller
         }
 
         $carousell->title = $request->title;
+        $carousell->is_active = $request->is_active;
         $carousell->save();
 
         return to_route('contact-carousell.index')->with('success', 'Contact Carousell created');
@@ -123,6 +127,7 @@ class ContactCarousellController extends Controller
         }
 
         $carousell->title = $request->title;
+        $carousell->is_active = $request->is_active;
         $carousell->save();
 
         return to_route('contact-carousell.index')->with('success', 'Contact Carousell updated');
@@ -131,8 +136,20 @@ class ContactCarousellController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ContactCarousell $contactCarousell)
+    public function destroy(string $id)
     {
-        //
+        $conCar = ContactCarousell::findOrFail($id);
+
+        if ($conCar->image) {
+            $imagePath = $conCar->image; 
+
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        }
+
+        $conCar->delete();
+
+        return to_route('contact-carousell.index')->with('success', 'contact carousell deleted successfully');
     }
 }

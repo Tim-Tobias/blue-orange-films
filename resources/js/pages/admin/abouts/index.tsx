@@ -6,6 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, About, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import parse from 'html-react-parser';
+import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -49,6 +50,7 @@ export default function Abouts({ abouts }: AboutProps) {
                                     },
                                 },
                                 { header: 'Content', accessor: 'content', searchable: true },
+                                { header: 'Status', accessor: 'status_text', searchable: true },
                                 {
                                     header: 'Action',
                                     accessor: (row) => {
@@ -59,11 +61,16 @@ export default function Abouts({ abouts }: AboutProps) {
                                                         Edit
                                                     </Button>
                                                 </Link>
-                                                <Link href={`/dashboard/abouts/${row.id}/delete`}>
-                                                    <Button className="cursor-pointer" variant="destructive">
-                                                        Delete
-                                                    </Button>
-                                                </Link>
+                                                <Button
+                                                    variant="destructive"
+                                                    onClick={() => {
+                                                    if (confirm('Are you sure to delete this abouts?')) {
+                                                        router.delete(`/dashboard/abouts/${row.id}`);
+                                                    }
+                                                    }}
+                                                >
+                                                    Delete
+                                                </Button>
                                             </div>
                                         );
                                     },

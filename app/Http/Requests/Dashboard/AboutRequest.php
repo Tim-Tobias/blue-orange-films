@@ -21,9 +21,17 @@ class AboutRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'content' => ['nullable', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:5048'],
+        $rules = [
+            'content' => ['required', 'string'],
+            'is_active' => ['required'],
         ];
+
+        if ($this->isMethod('POST')) {
+            $rules['image'] = ['required', 'image', 'max:2048'];
+        } else {
+            $rules['image'] = ['nullable', 'image', 'max:2048'];
+        }
+
+        return $rules;
     }
 }

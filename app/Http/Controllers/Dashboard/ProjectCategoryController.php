@@ -117,7 +117,11 @@ class ProjectCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $projectCategory = ProjectCategory::findOrFail($id);
+        $projectCategory->delete();
+
+        return redirect()->route('project-categories.index')->with('success', 'Category deleted successfully');
     }
+
 
 }

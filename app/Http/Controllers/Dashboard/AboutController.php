@@ -45,7 +45,10 @@ class AboutController extends Controller
         }
 
         $abouts = $query->paginate($perPage)->withQueryString();
-
+        $abouts->getCollection()->transform(function ($abouts) {
+            $abouts->status_text = $abouts->is_active ? 'Aktif' : 'Tidak Aktif';
+            return $abouts;
+        });
 
         return Inertia::render('admin/abouts/index', [
             'abouts' => $abouts
@@ -75,6 +78,12 @@ class AboutController extends Controller
         }
 
         $abouts->content = $request->content;
+        $abouts->is_active = $request->is_active;
+
+        if ($request->is_active == 1) {
+            About::where('is_active', 1)->update(['is_active' => 0]);
+        }
+
         $abouts->save();
 
         return to_route('abouts.index')->with('success', 'About created');
@@ -109,19 +118,21 @@ class AboutController extends Controller
         $about = About::findOrFail($id);
         
         if ($request->hasFile('image')) {
-            if($about->image) {
-                $imageName = basename($about->image);
-                $imagePath = 'abouts/' . $imageName;
-                
-                if(Storage::disk('public')->exists($imagePath)) {
-                    Storage::disk('public')->delete($imagePath);
+            if ($about->image) {
+                    Storage::disk('public')->delete('abouts/' . basename($about->image));
                 }
-            }
-
             $about->image = $request->file('image')->store('abouts', 'public');
         }
 
         $about->content = $request->content;
+        $about->is_active = $request->is_active;
+
+        if ($request->is_active == 1) {
+            About::where('is_active', 1)
+                ->where('id', '!=', $about->id)
+                ->update(['is_active' => 0]);
+        }
+        
         $about->save();
 
         return to_route('abouts.index')->with('success', 'About updated');
@@ -130,8 +141,21 @@ class AboutController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(About $about)
+    public function destroy(string $id)
     {
-        //
+        $about = About::findOrFail($id);
+
+        if ($about->image) {
+            $imagePath = $about->image;
+
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        }
+
+        $about->delete();
+
+        return to_route('abouts.index')->with('success', 'About deleted successfully');
     }
+
 }

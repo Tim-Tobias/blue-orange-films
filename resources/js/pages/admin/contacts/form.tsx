@@ -29,6 +29,7 @@ export const contactScheme = z.object({
 	phone: z.string().min(1, { message: 'Contacts phone is required' }),
 	email: z.string().min(1, { message: 'Contacts email is required' }),
 	address: z.string().min(1, { message: 'address is required' }),
+	is_active: z.enum(['true', 'false']),
 });
 
 export type contactFormData = z.infer<typeof contactScheme>;
@@ -44,6 +45,7 @@ export default function FormWebContent({ isEdit = false, contact }: FormWebConte
 			phone: contact?.phone || '',
 			email: contact?.email || '',
 			address: contact?.address || '',
+			is_active: contact?.is_active ? 'true' : 'false'
 		},
 	});
 
@@ -52,6 +54,7 @@ export default function FormWebContent({ isEdit = false, contact }: FormWebConte
 		formData.append('phone', form.phone);
 		formData.append('email', form.email);
 		formData.append('address', form.address);
+		formData.append('is_active', form.is_active === 'true' ? '1' : '0');
 
 		if (isEdit && contact?.id) {
 			formData.append('_method', 'PUT');
@@ -101,6 +104,32 @@ export default function FormWebContent({ isEdit = false, contact }: FormWebConte
 								/>
 								{errors.address && <p className="mt-1 text-sm text-red-500">{errors.address.message}</p>}
 							</div>
+
+							<div>
+                                <label className="block font-medium mb-1">Status Aktif</label>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="true"
+                                            {...register("is_active")}
+                                        />
+                                        Aktif
+                                    </label>
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="false"
+                                            {...register("is_active")}
+                                        />
+                                        Tidak Aktif
+                                    </label>
+                                </div>
+                                {errors.is_active  && (
+                                    <p className="text-sm text-red-500">{errors.is_active?.message}</p>
+                                )}
+                            </div>
+
 							<Button type="submit">Submit</Button>
 						</form>
 					</CardContent>

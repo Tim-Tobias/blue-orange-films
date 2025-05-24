@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, Social, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -48,11 +49,6 @@ export default function Socials({ socials }: SocialsProps) {
 												<Link href={`/dashboard/socials/${row.id}/edit`}>
 													<Button className="cursor-pointer" variant="outline">
 														Edit
-													</Button>
-												</Link>
-												<Link href={`/dashboard/socials/${row.id}/delete`}>
-													<Button className="cursor-pointer" variant="destructive">
-														Delete
 													</Button>
 												</Link>
 											</div>

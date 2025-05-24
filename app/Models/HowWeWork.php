@@ -15,5 +15,6 @@ class HowWeWork extends Model
     protected $fillable = [
         'title',
         'content',
+        'is_active'
     ];
 }

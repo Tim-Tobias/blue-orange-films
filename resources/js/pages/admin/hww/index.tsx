@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, Social, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -40,6 +41,7 @@ export default function Hww({ hww }: HwwProps) {
 							columns={[
 								{ header: 'Title', accessor: 'title', searchable: true },
 								{ header: 'Content', accessor: 'content', searchable: true },
+								{ header: 'Status', accessor: 'status_text', searchable: true },
 								{
 									header: 'Action',
 									accessor: (row) => {
@@ -50,11 +52,16 @@ export default function Hww({ hww }: HwwProps) {
 														Edit
 													</Button>
 												</Link>
-												<Link href={`/dashboard/hww/${row.id}/delete`}>
-													<Button className="cursor-pointer" variant="destructive">
-														Delete
-													</Button>
-												</Link>
+												<Button
+													variant="destructive"
+													onClick={() => {
+													if (confirm('Are you sure to delete this Data?')) {
+														router.delete(`/dashboard/hww/${row.id}`);
+													}
+													}}
+												>
+													Delete
+												</Button>
 											</div>
 										);
 									},
