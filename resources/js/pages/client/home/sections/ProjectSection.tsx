@@ -39,7 +39,7 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
                                 className="w-full cursor-pointer"
                             >
                                 <Link href={`/works/${service.id}`}>
-                                    <CardWork imageUrl={`https://picsum.photos/id/25${index}/200/300`} title={service.title} />
+                                    <CardWork imageUrl={service.highlight_image_url!} title={service.title} />
                                 </Link>
                             </motion.div>
                         ))}
