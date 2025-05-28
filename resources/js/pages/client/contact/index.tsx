@@ -27,11 +27,11 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
         <>
             <Head title="Contact" />
 
-            <AppFrontWrapper className="grid h-screen grid-cols-1 place-items-center">
+            <AppFrontWrapper className="grid h-screen max-w-[1400px] grid-cols-1 place-items-center">
                 <div className="grid grid-cols-1 gap-8 p-8 lg:grid-cols-3">
                     <div className="col-span-2 flex flex-col">
                         <Swiper
-                            className="h-[300px] w-full"
+                            className="h-[400px] w-full"
                             autoplay={{
                                 delay: 1000,
                                 disableOnInteraction: false,
@@ -48,7 +48,7 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
                         </Swiper>
                     </div>
 
-                    <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-8 self-end">
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Talk to Us!</h2>
                             <p>So we can create creative projects together.</p>
@@ -70,12 +70,7 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
 
             <AnimatePresence>
                 {showSwiper && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center"
-                    >
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex h-screen">
                         <div className="w-[100%] overflow-hidden rounded-lg">
                             <div onClick={() => setShowSwiper(false)} className="absolute top-0 left-0 h-full w-full bg-black opacity-80"></div>
 
@@ -84,9 +79,9 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
                                 animate={{ scale: 1, y: 0, opacity: 1 }}
                                 exit={{ scale: 0.9, y: 50, opacity: 0 }}
                                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                                className="mx-auto w-[90%]"
+                                className="mx-auto h-full w-[90%]"
                             >
-                                <Swiper initialSlide={startIndex} navigation pagination={{ clickable: true }}>
+                                <Swiper initialSlide={startIndex} className="h-full w-full" navigation pagination={{ clickable: true }}>
                                     {carousell?.map((img, idx) => (
                                         <SwiperSlide key={idx}>
                                             <img src={img.image_url} alt={img.title} className="h-full w-full object-cover" />
