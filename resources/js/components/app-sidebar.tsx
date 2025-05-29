@@ -11,60 +11,72 @@ const mainNavItems: NavItem[] = [
         title: 'Users',
         href: '/dashboard/users',
         icon: LayoutGrid,
+        role: ['admin'],
     },
     {
         title: 'Banner',
         href: '/dashboard/banners',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'About',
         href: '/dashboard/abouts',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'About - Services',
         href: '/dashboard/services',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'About - How We Work',
         href: '/dashboard/hww',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'Workflows',
         href: '/dashboard/workflows',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'About - Client',
         href: '/dashboard/clients',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'Contact',
         href: '/dashboard/contacts',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'Contact Carousell',
         href: '/dashboard/contact-carousell',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'Contact Content',
         href: '/dashboard/contact-content',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'Socials',
         href: '/dashboard/socials',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
         title: 'Projects Sections',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
         items: [
             {
                 title: 'Categories',
