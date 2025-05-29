@@ -25,7 +25,7 @@ const projectSchema = z.object({
     aspect_ratio: z.string(),
     category: z.string(),
     description: z.string(),
-    highlight: z.string(),
+    highlight: z.string().min(1),
     highlight_image: z.instanceof(File).optional(),
     client: z.string(),
 
