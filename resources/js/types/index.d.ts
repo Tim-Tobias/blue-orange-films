@@ -177,6 +177,13 @@ export interface Hww {
     is_active?: boolean;
 }
 
+export interface ContactContent {
+    id: number;
+    title?: string;
+    content?: string;
+    is_active?: boolean;
+}
+
 export interface Step {
     id: number;
     number?: string;
