@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
@@ -44,7 +45,7 @@ class UserController extends Controller
             }
         }
 
-        $users = $query->paginate($perPage)->withQueryString();
+        $users = $query->where('id', '<>', Auth::id())->paginate($perPage)->withQueryString();
 
         return Inertia::render('admin/users/index', [
             'users' => $users

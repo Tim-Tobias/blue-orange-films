@@ -28,6 +28,7 @@ export interface NavItem {
     icon?: LucideIcon | null;
     isActive?: boolean;
     items?: NavSubItem[];
+    role?: string[]; // Optional role for access control
 }
 
 export interface SharedData {
@@ -51,6 +52,7 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    role: string;
     [key: string]: unknown; // This allows for additional properties...
 }
 
@@ -221,7 +223,6 @@ export interface User {
     email: string;
     role: enum;
 }
-
 
 export interface PaginatedResponse<T> {
     data: T[];
