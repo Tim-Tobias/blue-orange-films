@@ -16,11 +16,11 @@ class AboutController extends Controller
 {
     public function index()
     {
-        $about = About::first();
-        $services = Service::all();
-        $hww = HowWeWork::first();
+        $about = About::where('is_active', true)->first();
+        $services = Service::where('is_active', true)->get();
+        $hww = HowWeWork::where('is_active', true)->first();
         $steps = Workflow::orderBy('order', 'asc')->get();
-        $client = Client::first();
+        $client = Client::where('is_active', true)->first();
         $banner = Banners::where('section', 'about')->first();
 
         return Inertia::render('client/about/index', [
