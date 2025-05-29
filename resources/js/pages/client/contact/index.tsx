@@ -27,11 +27,11 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
         <>
             <Head title="Contact" />
 
-            <AppFrontWrapper className="grid h-screen max-w-[1400px] grid-cols-1 place-items-center">
+            <AppFrontWrapper className="grid h-screen max-w-[1500px] grid-cols-1 place-items-center">
                 <div className="grid grid-cols-1 gap-8 p-8 lg:grid-cols-3">
                     <div className="col-span-2 flex flex-col">
                         <Swiper
-                            className="h-[400px] w-full"
+                            className="h-[500px] w-full"
                             autoplay={{
                                 delay: 1000,
                                 disableOnInteraction: false,
@@ -39,7 +39,7 @@ const ContactPage = ({ contact, carousell }: ContactPageProps) => {
                             modules={[Pagination, Autoplay]}
                             loop
                             pagination={true}
-                        >
+                        > 
                             {carousell?.map((src, i) => (
                                 <SwiperSlide onClick={() => handleImageClick(i)} key={i}>
                                     <img src={src.image_url} alt={src.title} className="h-full w-full object-cover" />
