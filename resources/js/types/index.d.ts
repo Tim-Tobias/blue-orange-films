@@ -157,11 +157,6 @@ export interface About {
     is_active?: boolean;
 }
 
-export interface Hww {
-    title: string;
-    content: string;
-}
-
 export interface Service {
     id: number;
     image_url?: string;
@@ -219,6 +214,14 @@ export interface Social {
     link?: string;
     is_active?: boolean;
 }
+
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+    role: enum;
+}
+
 
 export interface PaginatedResponse<T> {
     data: T[];
