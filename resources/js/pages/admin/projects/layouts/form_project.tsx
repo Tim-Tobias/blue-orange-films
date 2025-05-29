@@ -1,11 +1,9 @@
 import Player from '@/components/player';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Project, ProjectCategory } from '@/types';
 import { usePage } from '@inertiajs/react';
-import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import Editor from 'react-simple-wysiwyg';
 import { ProjectFormData } from '../form';
@@ -27,15 +25,17 @@ export default function ProjectForm({ categories, form, isEdit, project }: Proje
         formState: { errors: hookErrors },
     } = form;
 
-    const [highlightType, setHighlightType] = useState<'image' | 'video'>(watch('highlight_type') || 'image');
-
-    const handleChangeType = (type: 'image' | 'video') => {
-        setHighlightType(type);
-        setValue('highlight', '');
-        setValue('highlight_type', type);
+    const errorText = (key: string) => {
+        const hookError = hookErrors[key as keyof typeof hookErrors];
+        if (hookError && typeof hookError.message === 'string') {
+            return hookError.message;
+        }
+        const inertiaError = inertiaErrors[key];
+        if (typeof inertiaError === 'string') {
+            return inertiaError;
+        }
+        return undefined;
     };
-
-    const errorText = (key: string) => hookErrors[key as keyof typeof hookErrors]?.message || inertiaErrors[key];
 
     return (
         <Card>
@@ -89,49 +89,37 @@ export default function ProjectForm({ categories, form, isEdit, project }: Proje
                 </div>
 
                 <div>
-                    <label className="mb-1 block font-medium">Highlight Type</label>
-                    <RadioGroup value={highlightType} onValueChange={(val) => handleChangeType(val as 'image' | 'video')} className="flex gap-4">
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="image" id="highlight-photo" />
-                            <label htmlFor="highlight-photo">Upload Photo</label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="video" id="highlight-video" />
-                            <label htmlFor="highlight-video">YouTube Link</label>
-                        </div>
-                    </RadioGroup>
-                    {errorText('highlight_type') && <p className="text-sm text-red-500">{errorText('highlight')}</p>}
+                    <label className="mb-1 block">{isEdit ? 'Edit' : 'Upload'} Image</label>
+                    <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) setValue('highlight_image', file);
+                        }}
+                    />
                 </div>
 
                 <div>
-                    {highlightType === 'image' ? (
-                        <>
-                            <label className="mb-1 block">{isEdit ? 'Edit' : 'Upload'} Image</label>
-                            <Input type="file" accept="image/*" onChange={(e) => setValue('highlight', e.target.files?.[0] ?? '')} />
-                        </>
-                    ) : (
-                        <Input type="text" placeholder="YouTube Link" {...register('highlight')} />
-                    )}
-                    {errorText('highlight') && <p className="text-sm text-red-500">{errorText('highlight')}</p>}
+                    <label className="mb-1 block">{isEdit ? 'Edit' : 'Upload'} Youtube Link</label>
+                    <Input type="text" placeholder="YouTube Link" {...register('highlight')} />
                 </div>
 
                 {isEdit && (
-                    <div>
-                        {highlightType === 'image' ? (
-                            <img
-                                src={
-                                    typeof watch('highlight') === 'object'
-                                        ? URL.createObjectURL(watch('highlight') as File)
-                                        : String(project?.highlight_url)
-                                }
-                                alt=""
-                                className="h-[200px] w-[200px]"
-                            />
-                        ) : (
-                            <div className="h-[200px] w-[200px]">
-                                <Player url={String(watch('highlight')) || String(project?.highlight_link)} />{' '}
-                            </div>
-                        )}
+                    <div className="flex gap-3">
+                        <img
+                            src={
+                                watch('highlight_image') instanceof File
+                                    ? URL.createObjectURL(watch('highlight_image')!)
+                                    : String(project?.highlight_image_url)
+                            }
+                            alt=""
+                            className="h-[200px] w-[200px]"
+                        />
+
+                        <div className="h-[200px] w-[200px]">
+                            <Player url={String(watch('highlight')) || String(project?.highlight_link)} />{' '}
+                        </div>
                         {errorText('highlight') && <p className="text-sm text-red-500">{errorText('highlight')}</p>}
                     </div>
                 )}

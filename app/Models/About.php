@@ -14,7 +14,8 @@ class About extends Model
 
     protected $fillable = [
         'image',
-        'content'
+        'content',
+        'is_active'
     ];
 
     protected $hidden = ['image'];

@@ -57,8 +57,10 @@ export interface User {
 export interface Banner {
     id: number;
     title?: string;
-    image_url?: string | null;
+    banner?: string | null;
+    image_url?: string;
     section: string;
+    category: 'video' | 'image'; // enum type
     created_at: string;
     updated_at: string;
 }
@@ -71,7 +73,8 @@ export interface Project {
     aspect_ratio: string;
     highlight_link: string;
     highlight_url?: string;
-    highlight_type: 'image' | 'video';
+    highlight_image_url?: string;
+    highlight_image: string | File;
     description?: string;
     id_project_category: string;
     client: string;
@@ -108,11 +111,12 @@ interface CrewRole {
     updated_at?: string;
 }
 
-export interface ProjectFiles {
+export interface ProjectFile {
     id: number;
     project_id: number;
     title: string;
     project_link: string;
+    project_url: string;
     category: 'video' | 'image'; // enum type
     description: string;
     created_at: string;
@@ -141,8 +145,8 @@ export interface CategorySection {
 
 export interface Workflow {
     id: number;
-    title?: string;
-    desc?: string;
+    title: string;
+    desc: string;
     order: number;
 }
 
@@ -150,45 +154,70 @@ export interface About {
     id: number;
     image_url?: string;
     content?: string;
+    is_active?: boolean;
+}
+
+export interface Hww {
+    title: string;
+    content: string;
 }
 
 export interface Service {
     id: number;
     image_url?: string;
     title?: string;
-    description: string;
+    description?: string;
+    is_active?: boolean;
 }
 
 export interface Hww {
     id: number;
     title?: string;
     content?: string;
+    is_active?: boolean;
+}
+
+export interface ContactContent {
+    id: number;
+    title?: string;
+    content?: string;
+    is_active?: boolean;
 }
 
 export interface Step {
     id: number;
     number?: string;
     title?: string;
-    description: string;
+    description?: string;
 }
 
 export interface Client {
     id: number;
     name?: string;
     image_url?: string;
+    is_active?: boolean;
 }
 
 export interface Contact {
     id: number;
     phone?: string;
     email?: string;
-    address: string;
+    address?: string;
+    is_active?: boolean;
+}
+export interface ContactCarousell {
+    id: number;
+    title?: string;
+    image?: string;
+    is_active?: boolean;
+    image_url: string;
 }
 
 export interface Social {
     id: number;
     name?: string;
     link?: string;
+    is_active?: boolean;
 }
 
 export interface PaginatedResponse<T> {

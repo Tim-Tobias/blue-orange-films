@@ -6,6 +6,8 @@ import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, Banner, type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import parse from 'html-react-parser';
+import { router } from '@inertiajs/react';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -44,9 +46,27 @@ export default function Banners({ banners }: BannersProps) {
                                 {
                                     header: 'Image',
                                     accessor: (row) => {
+                                        if (row.category === 'image' && row.image_url) {
                                         return (
-                                            row.image_url && <img src={row.image_url} alt={row.title} className="h-16 w-16 rounded-lg object-cover" />
+                                            <img
+                                            src={row.image_url}
+                                            alt={row.title}
+                                            className="h-16 w-16 rounded-lg object-cover"
+                                            />
                                         );
+                                        } else if (row.category === 'video' && row.banner) {
+                                        return (
+                                            <a
+                                            href={row.banner}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-600 underline"
+                                            >
+                                            Video Link
+                                            </a>
+                                        );
+                                        }
+                                        return null;
                                     },
                                 },
                                 { header: 'Section', accessor: 'section' },
@@ -60,11 +80,16 @@ export default function Banners({ banners }: BannersProps) {
                                                         Edit
                                                     </Button>
                                                 </Link>
-                                                <Link href={`/dashboard/banners/${row.id}/delete`}>
-                                                    <Button className="cursor-pointer" variant="destructive">
-                                                        Delete
-                                                    </Button>
-                                                </Link>
+                                                <Button
+                                                    variant="destructive"
+                                                    onClick={() => {
+                                                    if (confirm('Are you sure to delete this banner?')) {
+                                                        router.delete(`/dashboard/banners/${row.id}`);
+                                                    }
+                                                    }}
+                                                >
+                                                    Delete
+                                                </Button>
                                             </div>
                                         );
                                     },

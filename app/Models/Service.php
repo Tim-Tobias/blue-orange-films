@@ -16,9 +16,8 @@ class Service extends Model
         'title',
         'image_url',
         'description',
+        'is_active'
     ];
-
-    protected $hidden = ['image'];
 
     protected $appends = ['image_url'];
 

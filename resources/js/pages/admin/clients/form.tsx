@@ -28,7 +28,8 @@ type FormClientProps = {
 };
 
 export const clientScheme = z.object({
-    name: z.string().optional(),
+    name: z.string().min(1, 'Name is required'),
+    is_active: z.enum(['true', 'false']),
 });
 
 export type ClientFormData = z.infer<typeof clientScheme>;
@@ -49,6 +50,7 @@ export default function FormClient({ isEdit = false, data }: FormClientProps) {
         resolver: zodResolver(clientScheme),
         defaultValues: {
             name: data?.name || '',
+            is_active: data?.is_active ? 'true' : 'false'
         },
     });
 
@@ -65,6 +67,8 @@ export default function FormClient({ isEdit = false, data }: FormClientProps) {
 
         const formData = new FormData();
         formData.append('name', form.name || '');
+        formData.append('is_active', form.is_active === 'true' ? '1' : '0');
+
 
         if (image instanceof File) {
             formData.append('image', image);
@@ -116,6 +120,31 @@ export default function FormClient({ isEdit = false, data }: FormClientProps) {
                                 <label>Image</label>
                                 <Input type="file" onChange={handleImageChange} className="form-control mt-2" accept="image/*" />
                                 {errorsBackend && <p className="text-red-500">{errorsBackend.image}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block font-medium mb-1">Status Aktif</label>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="true"
+                                            {...register("is_active")}
+                                        />
+                                        Aktif
+                                    </label>
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="false"
+                                            {...register("is_active")}
+                                        />
+                                        Tidak Aktif
+                                    </label>
+                                </div>
+                                {(errors.is_active || errorsBackend?.is_active) && (
+                                    <p className="text-sm text-red-500">{errors.is_active?.message ?? errorsBackend?.is_active}</p>
+                                )}
                             </div>
 
                             <Button disabled={isSubmitting} type="submit">

@@ -43,6 +43,16 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
+        title: 'Contact Carousell',
+        href: '/dashboard/contact-carousell',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Contact Content',
+        href: '/dashboard/contact-content',
+        icon: LayoutGrid,
+    },
+    {
         title: 'Socials',
         href: '/dashboard/socials',
         icon: LayoutGrid,

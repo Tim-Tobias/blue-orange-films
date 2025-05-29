@@ -1,37 +1,48 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import SocialMediaFooter from '@/components/social-media-footer';
-import IntroduceLayout from '@/layouts/client/IntroduceLayout';
+import { Contact, ContactCarousell } from '@/types';
 import { Head } from '@inertiajs/react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-const contactList = [
-    {
-        imageUrl: 'https://picsum.photos/id/250/300/500',
-    },
-    {
-        imageUrl: 'https://picsum.photos/id/251/200/300',
-    },
-    {
-        imageUrl: 'https://picsum.photos/id/252/200/300',
-    },
-];
+interface ContactPageProps {
+    contact?: Contact;
+    carousell?: ContactCarousell[];
+}
 
-const ContactPage = () => {
+const ContactPage = ({ contact, carousell }: ContactPageProps) => {
+    const [showSwiper, setShowSwiper] = useState(false);
+    const [startIndex, setStartIndex] = useState(0);
+
+    const handleImageClick = (index: number) => {
+        setStartIndex(index);
+        setShowSwiper(true);
+    };
+
     return (
         <>
             <Head title="Contact" />
 
-            <IntroduceLayout imgUrl="https://picsum.photos/id/352/200/300" title="Contact" />
-            <AppFrontWrapper className="mb-20">
+            <AppFrontWrapper className="my-34">
                 <div className="grid grid-cols-1 gap-8 p-8 lg:grid-cols-3">
                     <div className="col-span-2 flex flex-col">
-                        <Swiper className="h-[300px] w-full" autoplay={true} modules={[Pagination]} loop pagination={true}>
-                            {contactList.map((src, i) => (
-                                <SwiperSlide key={i}>
-                                    <img src={src.imageUrl} alt={`Slide ${i}`} className="h-full w-full object-cover" />
+                        <Swiper
+                            className="h-[300px] w-full"
+                            autoplay={{
+                                delay: 1000,
+                                disableOnInteraction: false,
+                            }}
+                            modules={[Pagination, Autoplay]}
+                            loop
+                            pagination={true}
+                        >
+                            {carousell?.map((src, i) => (
+                                <SwiperSlide onClick={() => handleImageClick(i)} key={i}>
+                                    <img src={src.image_url} alt={src.title} className="h-full w-full object-cover" />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -41,19 +52,13 @@ const ContactPage = () => {
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Talk to Us!</h2>
                             <p>So we can create creative projects together.</p>
-                            <p className="mt-2">Phone: +62 851 6309 9469</p>
-                            <p>Email: kabardariselatanfilms@gmail.com</p>
+                            <p className="mt-2">Phone: {contact?.phone}</p>
+                            <p>Email: {contact?.email}</p>
                         </div>
 
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Address</h2>
-                            <p>
-                                PT. KABAR KREASI ASIA
-                                <br />
-                                Jl. Teratai Raya Blok F No.4 RT.03/RW02
-                                <br />
-                                Kel. Tanjung Barat, Kec. Jagakarsa, Jakarta Selatan, DKI Jakarta 12530
-                            </p>
+                            <p>{contact?.address}</p>
 
                             <div className="mt-4 flex gap-3">
                                 <SocialMediaFooter color="black" />
@@ -62,6 +67,37 @@ const ContactPage = () => {
                     </div>
                 </div>
             </AppFrontWrapper>
+
+            <AnimatePresence>
+                {showSwiper && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center"
+                    >
+                        <div className="w-[100%] overflow-hidden rounded-lg">
+                            <div onClick={() => setShowSwiper(false)} className="absolute top-0 left-0 h-full w-full bg-black opacity-80"></div>
+
+                            <motion.div
+                                initial={{ scale: 0.9, y: 50, opacity: 0 }}
+                                animate={{ scale: 1, y: 0, opacity: 1 }}
+                                exit={{ scale: 0.9, y: 50, opacity: 0 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                                className="mx-auto w-[90%]"
+                            >
+                                <Swiper initialSlide={startIndex} navigation pagination={{ clickable: true }}>
+                                    {carousell?.map((img, idx) => (
+                                        <SwiperSlide key={idx}>
+                                            <img src={img.image_url} alt={img.title} className="h-full w-full object-cover" />
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 };

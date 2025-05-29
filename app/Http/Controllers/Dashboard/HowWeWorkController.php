@@ -44,7 +44,10 @@ class HowWeWorkController extends Controller
         }
 
         $hww = $query->paginate($perPage)->withQueryString();
-
+        $hww->getCollection()->transform(function ($hww) {
+            $hww->status_text = $hww->is_active ? 'Aktif' : 'Tidak Aktif';
+            return $hww;
+        });
 
         return Inertia::render('admin/hww/index', [
             'hww' => $hww
@@ -71,6 +74,8 @@ class HowWeWorkController extends Controller
 
         $howWeWork->title = $request->title;
         $howWeWork->content = $request->content;
+        $howWeWork->is_active = $request->is_active;
+
         $howWeWork->save();
 
         return redirect()->route('hww.index')->with('success', 'Data created');
@@ -106,6 +111,8 @@ class HowWeWorkController extends Controller
         
         $hww->title = $request->title;
         $hww->content = $request->content;
+        $hww->is_active = $request->is_active;
+
         $hww->save();
 
         return to_route('hww.index')->with('success', 'Data updated');
@@ -114,8 +121,12 @@ class HowWeWorkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HowWeWork $howWeWork)
+    public function destroy(string $id)
     {
-        //
+        $howWeWork = HowWeWork::findOrFail($id);
+        $howWeWork->delete();
+
+        return redirect()->route('hww.index')->with('success', 'Data deleted successfully');
     }
+
 }

@@ -42,13 +42,23 @@ class BannersController extends Controller
         if ($sort = $request->query('sort')) {
             $column = $sort;
             $order = $request->query('order', 'asc');
-    
+
             if (Schema::hasColumn('banners', $column)) {
                 $query->orderBy($column, $order);
             }
         }
 
         $banners = $query->paginate($perPage)->withQueryString();
+        $banners->getCollection()->transform(function ($banner) {
+            return [
+                'id' => $banner->id,
+                'title' => $banner->title,
+                'category' => $banner->category,
+                'section' => $banner->section,
+                'banner' => $banner->banner,
+                'image_url' => $banner->image_url,
+            ];
+        });
 
 
         return Inertia::render('admin/banners/index', [
@@ -61,12 +71,12 @@ class BannersController extends Controller
      */
     public function create()
     {
-        $categories = Banners::select('section')->get();
+        $sections = Banners::select('section')->get();
 
         return Inertia::render('admin/banners/form', [
             'isEdit' => false,
             'data' => null,
-            'categories' => $categories
+            'sections' => $sections
         ]);
     }
 
@@ -74,15 +84,21 @@ class BannersController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(BannersRequest $request)
-    {   
+    {
         $banners = new Banners();
 
-        if ($request->hasFile('image')) {
-            $banners->image = $request->file('image')->store('banners', 'public');
+        $data = $request->validated();
+        $bannersPath = null;
+        if ($data['category'] === 'image' && $request->hasFile('banner')) {
+            $bannersPath = $request->file('banner')->store('banners', 'public');
+        } elseif ($data['category'] === 'video') {
+            $bannersPath = $data['banner'];
         }
 
         $banners->title = $request->title;
         $banners->section = $request->section;
+        $banners->category = $request->category;
+        $banners->banner = $bannersPath;
         $banners->save();
 
         return to_route('banners.index')->with('success', 'Content created');
@@ -117,21 +133,21 @@ class BannersController extends Controller
     public function update(BannersRequest $request, string $id)
     {
         $banner = Banners::findOrFail($id);
-        
-        if ($request->hasFile('image')) {
-            if($banner->image) {
-                $imageName = basename($banner->image);
-                $imagePath = 'banners/' . $imageName;
-                
-                if(Storage::disk('public')->exists($imagePath)) {
-                    Storage::disk('public')->delete($imagePath);
-                }
-            }
-
-            $banner->image = $request->file('image')->store('banners', 'public');
-        }
 
         $banner->title = $request->title;
+        $banner->category = $request->category;
+
+        if ($request->category === 'image') {
+            if ($request->hasFile('banner')) {  
+                if ($banner->banner) {
+                    Storage::disk('public')->delete('banners/' . basename($banner->banner));
+                }
+                $banner->banner = $request->file('banner')->store('banners', 'public');
+            }
+        } elseif ($request->category === 'video') {
+            $banner->banner = $request->banner;
+        }
+        
         $banner->save();
 
         return to_route('banners.index')->with('success', 'Banner updated');
@@ -142,6 +158,18 @@ class BannersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $banner = Banners::findOrFail($id);
+
+        if ($banner->category === 'image' && $banner->banner) {
+            $imagePath = 'banners/' . basename($banner->banner);
+
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        }
+
+        $banner->delete();
+
+        return to_route('banners.index')->with('success', 'Banner deleted successfully');
     }
 }

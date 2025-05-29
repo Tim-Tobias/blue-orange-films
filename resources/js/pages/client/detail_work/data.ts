@@ -4,9 +4,6 @@ export const projectCredits = {
     description:
         'Dominasi game dan tampil jadi juara dengan Infinix HOT 12 yang dilengkapi prosesor gaming Helio G85 untuk performa main makin ganas!',
     credits: [
-        { role: 'Year', names: ['2022'] },
-        { role: 'Client', names: ['INFINIX INDONESIA'] },
-        { role: 'Agency', names: ['HATMA Creative'] },
         { role: 'Executive Producer', names: ['Fersya Adam'] },
         { role: 'Producer', names: ['Aditya Alfiqry'] },
         { role: 'Director', names: ['Wahyu Gunawan'] },

@@ -25,10 +25,9 @@ const projectSchema = z.object({
     aspect_ratio: z.string(),
     category: z.string(),
     description: z.string(),
-    highlight: z.union([z.string(), z.instanceof(File)]),
-    highlight_type: z.enum(['image', 'video']),
+    highlight: z.string(),
+    highlight_image: z.instanceof(File).optional(),
     client: z.string(),
-    agency: z.string(),
 
     teams: z.array(
         z.object({
@@ -67,9 +66,8 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
             category: isEdit ? String(project?.id_project_category) : '',
             description: isEdit ? project?.description : '',
             highlight: isEdit ? String(project?.highlight_link) : '',
-            highlight_type: isEdit ? project?.highlight_type : 'image',
             client: isEdit ? project?.client : '',
-            agency: isEdit ? project?.agency : '',
+            highlight_image: undefined,
             teams: isEdit
                 ? (project?.teams ?? []).map((team) => ({
                       id_name: team.id_name_crew,
@@ -100,13 +98,11 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
         formData.append('aspect_ratio', data.aspect_ratio);
         formData.append('category', data.category);
         formData.append('description', data.description);
-        formData.append('highlight_type', data.highlight_type);
         formData.append('client', data.client);
+        formData.append('highlight', data.highlight);
 
-        if (data.highlight instanceof File) {
-            formData.append('highlight', data.highlight);
-        } else if (typeof data.highlight === 'string') {
-            formData.append('highlight', data.highlight);
+        if (data.highlight_image) {
+            formData.append('highlight_image', data.highlight_image);
         }
 
         data.teams.forEach((team, i) => {
@@ -131,6 +127,8 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
                 forceFormData: true,
             });
         } else {
+            console.log(...formData);
+
             router.post('/dashboard/projects', formData, {
                 forceFormData: true,
             });

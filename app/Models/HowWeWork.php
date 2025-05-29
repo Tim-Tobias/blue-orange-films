@@ -9,11 +9,12 @@ class HowWeWork extends Model
 {
     use HasFactory;
 
-    protected $table = 'How_We_Works';
+    protected $table = 'how_we_works';
     protected $primaryKey = 'id';
 
     protected $fillable = [
         'title',
         'content',
+        'is_active'
     ];
 }

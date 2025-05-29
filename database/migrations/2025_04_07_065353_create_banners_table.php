@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->string('image')->nullable();
+            $table->string('banner')->nullable();
             $table->string('section')->nullable();
+            $table->enum('category', ['video', 'image'])->nullable();
             $table->timestamps();
         });
     }

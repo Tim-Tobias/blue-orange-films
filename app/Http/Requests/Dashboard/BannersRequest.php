@@ -24,7 +24,8 @@ class BannersRequest extends FormRequest
         return [
             'title' => ['nullable', 'string', 'max:255'],
             'section' => $this->isMethod('post') ? ['required', 'string', 'max:255'] : ['nullable', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:5048'],
+            'banner' => $this->isMethod('post') ? 'required' : 'nullable',
+            'category' => 'required|in:image,video',
         ];
     }
 }

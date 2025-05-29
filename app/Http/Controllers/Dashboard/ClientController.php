@@ -45,7 +45,11 @@ class ClientController extends Controller
         }
 
         $clients = $query->paginate($perPage)->withQueryString();
-
+        
+        $clients->getCollection()->transform(function ($client) {
+            $client->status_text = $client->is_active ? 'Aktif' : 'Tidak Aktif';
+            return $client;
+        });
 
         return Inertia::render('admin/clients/index', [
             'clients' => $clients
@@ -75,6 +79,7 @@ class ClientController extends Controller
         }
 
         $clients->name = $request->name;
+        $clients->is_active = $request->is_active;
         $clients->save();
 
         return to_route('clients.index')->with('success', 'Client created');
@@ -122,6 +127,8 @@ class ClientController extends Controller
         }
 
         $client->name = $request->name;
+        $client->is_active = $request->is_active;
+
         $client->save();
 
         return to_route('clients.index')->with('success', 'Client updated');
@@ -130,8 +137,20 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $client)
+    public function destroy(string $id)
     {
-        //
+        $client = Client::findOrFail($id);
+
+        if ($client->image) {
+            $imagePath = $client->image; 
+
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        }
+
+        $client->delete();
+
+        return to_route('clients.index')->with('success', 'clients deleted successfully');
     }
 }

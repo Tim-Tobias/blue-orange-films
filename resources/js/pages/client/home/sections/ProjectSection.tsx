@@ -1,38 +1,20 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import CardWork from '@/components/card-work';
+import { Project } from '@/types';
 import { Link } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-
-const ServiceList = [
-    {
-        imageUrl: 'https://picsum.photos/id/250/200/300',
-        title: 'Lorem Ipsum',
-        categories: [{ name: 'Commercial' }, { name: 'Documentary' }],
-    },
-    {
-        imageUrl: 'https://picsum.photos/id/251/200/300',
-        title: 'Lorem Ipsum',
-        categories: [{ name: 'Music Video' }],
-    },
-    {
-        imageUrl: 'https://picsum.photos/id/252/200/300',
-        title: 'Lorem Ipsum',
-        categories: [{ name: 'Commercial' }],
-    },
-    {
-        imageUrl: 'https://picsum.photos/id/253/200/300',
-        title: 'Lorem Ipsum',
-        categories: [{ name: 'Commercial' }, { name: 'Music Video' }],
-    },
-];
 
 const item = {
     hidden: { opacity: 0, x: -50, y: -50 },
     show: { opacity: 1, x: 0, y: 0 },
 };
 
-const ProjectSection = () => {
+interface ProjectSectionProps {
+    projects?: Project[];
+}
+
+const ProjectSection = ({ projects }: ProjectSectionProps) => {
     const { ref, inView } = useInView({
         threshold: 0,
         triggerOnce: false,
@@ -48,7 +30,7 @@ const ProjectSection = () => {
 
                 <AnimatePresence mode="wait">
                     <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-4">
-                        {ServiceList.map((service, index) => (
+                        {projects?.map((service, index) => (
                             <motion.div
                                 variants={item}
                                 initial="hidden"
@@ -56,8 +38,8 @@ const ProjectSection = () => {
                                 transition={{ delay: index * 0.1 }}
                                 className="w-full cursor-pointer"
                             >
-                                <Link href="/works/1">
-                                    <CardWork imageUrl={service.imageUrl} tags={service.categories} />
+                                <Link href={`/works/${service.id}`}>
+                                    <CardWork imageUrl={`https://picsum.photos/id/25${index}/200/300`} title={service.title} />
                                 </Link>
                             </motion.div>
                         ))}

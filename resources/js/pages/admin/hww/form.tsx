@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Head, router } from '@inertiajs/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import Editor from 'react-simple-wysiwyg';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -28,6 +29,8 @@ type FormWebContentProps = {
 export const hwwScheme = z.object({
 	title: z.string().min(1, { message: 'Title is required' }),
 	content: z.string().min(1, { message: 'Content is required' }),
+	is_active: z.enum(['true', 'false']),
+
 });
 
 export type hwwFormData = z.infer<typeof hwwScheme>;
@@ -36,12 +39,15 @@ export default function FormWebContent({ isEdit = false, hww }: FormWebContentPr
 	const {
 		register,
 		handleSubmit,
+		watch,
+		setValue,
 		formState: { errors },
 	} = useForm<hwwFormData>({
 		resolver: zodResolver(hwwScheme),
 		defaultValues: {
 			title: hww?.title || '',
 			content: hww?.content || '',
+			is_active: hww?.is_active ? 'true' : 'false'
 		},
 	});
 
@@ -49,6 +55,8 @@ export default function FormWebContent({ isEdit = false, hww }: FormWebContentPr
 		const formData = new FormData();
 		formData.append('title', form.title);
 		formData.append('content', form.content);
+		formData.append('is_active', form.is_active === 'true' ? '1' : '0');
+
 
 		if (isEdit && hww?.id) {
 			formData.append('_method', 'PUT');
@@ -79,18 +87,41 @@ export default function FormWebContent({ isEdit = false, hww }: FormWebContentPr
 								{errors.title && <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>}
 							</div>
 							<div>
-								<label className="mb-1 block">
-									Content <span className="text-red-500">*</span>
-								</label>
-								<textarea
-									rows={4}
-									{...register('content')}
-									className={`form-control mt-2 w-full rounded border px-3 py-2 ${
-										errors.content ? 'border-red-500' : 'border-gray-300'
-									}`}
+								<label className="mb-1 block font-medium">Content</label>
+								<Editor
+									value={watch('content') || ''}
+									onChange={(e) => setValue('content', e.target.value)}
 								/>
-								{errors.content && <p className="mt-1 text-sm text-red-500">{errors.content.message}</p>}
+								{errors.content && (
+									<p className="text-sm text-red-500">{errors.content.message}</p>
+								)}
 							</div>
+
+							<div>
+                                <label className="block font-medium mb-1">Status Aktif</label>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="true"
+                                            {...register("is_active")}
+                                        />
+                                        Aktif
+                                    </label>
+                                    <label className="flex items-center gap-1">
+                                        <input
+                                            type="radio"
+                                            value="false"
+                                            {...register("is_active")}
+                                        />
+                                        Tidak Aktif
+                                    </label>
+                                </div>
+								{errors.is_active && (
+									<p className="text-sm text-red-500">{errors.is_active.message}</p>
+								)}
+                            </div>
+
 							<Button type="submit">Submit</Button>
 						</form>
 					</CardContent>

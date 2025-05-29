@@ -2,14 +2,14 @@ import { AppWrapper } from '@/components/app-wrapper';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { CategorySection, Banner, type BreadcrumbItem } from '@/types';
+import { Banner, CategorySection, type BreadcrumbItem } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head, router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Editor, { ContentEditableEvent } from 'react-simple-wysiwyg';
 import { SyncLoader } from 'react-spinners';
 import { z } from 'zod';
 
@@ -27,23 +27,55 @@ const breadcrumbs: BreadcrumbItem[] = [
 type FormBannerProps = {
     isEdit?: boolean;
     data?: Banner;
-    categories: CategorySection[];
+    sections: CategorySection[];
 };
 
-export const bannerScheme = z.object({
-    title: z.string().optional(),
-    section: z.string().min(1, 'Section is required'),
-});
+export const bannerScheme = z
+    .object({
+        title: z.string().min(1, 'Title is required'),
+        section: z.string().min(1, 'Section is required'),
+        banner: z.any(),    
+        category: z.enum(['image', 'video'], {
+            required_error: 'Category is required',
+        }),
+    })
+    .superRefine((data, ctx) => {
+        if (data.category === 'video') {
+            if (!data.banner || (typeof data.banner === 'string' && data.banner.trim() === '')) {
+                ctx.addIssue({
+                    path: ['banner'],
+                    code: z.ZodIssueCode.custom,
+                    message: 'YouTube link is required for video category',
+                });
+            }
+        }
 
-const SECTION_CATEGORIES = ['about', 'works', 'contact'];
+        if (data.category === 'image') {
+            const isFile = data.banner instanceof File;
+            const isString = typeof data.banner === 'string' && data.banner.length > 0;
+
+            if (!isFile && !isString) {
+                ctx.addIssue({
+                    path: ['banner'],
+                    code: z.ZodIssueCode.custom,
+                    message: 'Image is required for image category',
+                });
+            }
+        }
+
+    });
+
+
+
+const SECTION_SECTIONS = ['home', 'about', 'works'];
 
 export type BannerFormData = z.infer<typeof bannerScheme>;
 
-export default function FormBanner({ isEdit = false, data, categories }: FormBannerProps) {
+export default function FormBanner({ isEdit = false, data, sections }: FormBannerProps) {
     const { errors: errorsBackend } = usePage().props;
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [existingCategories, setExistingCategories] = useState<CategorySection[]>([]);
+    const [existingSections, setExistingSections] = useState<CategorySection[]>([]);
     const [image, setImage] = useState<File | null>();
     const [previewUrl, setPreviewUrl] = useState<string | null>(data?.image_url || null);
 
@@ -51,21 +83,21 @@ export default function FormBanner({ isEdit = false, data, categories }: FormBan
         register,
         setValue,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<BannerFormData>({
         resolver: zodResolver(bannerScheme),
         defaultValues: {
             title: data?.title || '',
             section: data?.section || '',
+            banner: data?.banner || '',
+            category: data?.category || 'image',
         },
     });
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setImage(file);
-            setPreviewUrl(URL.createObjectURL(file));
-        }
+    const onChange = (type: 'image' | 'video') => {
+        setValue('category', type);
+        setValue('banner', '');
     };
 
     const onSubmit = (form: BannerFormData) => {
@@ -74,9 +106,12 @@ export default function FormBanner({ isEdit = false, data, categories }: FormBan
         const formData = new FormData();
         formData.append('title', form.title || '');
         formData.append('section', form.section);
+        formData.append('category', form.category);
 
         if (image instanceof File) {
-            formData.append('image', image);
+            formData.append('banner', image);
+        } else if (form.category === 'video') {
+            formData.append('banner', form.banner);
         }
 
         if (isEdit && data?.id) {
@@ -98,15 +133,14 @@ export default function FormBanner({ isEdit = false, data, categories }: FormBan
         }
     };
 
-
     useEffect(() => {
-        if (categories) {
-            setExistingCategories(categories);
+        if (sections) {
+            setExistingSections(sections);
         }
-    }, [categories]);
+    }, [sections]);
 
-    const usedSections = existingCategories.map((item) => item.section);
-    const availableSections = SECTION_CATEGORIES.filter((section) => !usedSections.includes(section));
+    const usedSections = existingSections.map((item) => item.section);
+    const availableSections = SECTION_SECTIONS.filter((section) => !usedSections.includes(section));
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -143,18 +177,57 @@ export default function FormBanner({ isEdit = false, data, categories }: FormBan
                                 </div>
                             )}
 
-                            {previewUrl && (
+                            {/* Category */}
+                            <RadioGroup
+                                value={watch('category')}
+                                onValueChange={(val: 'image' | 'video') => onChange(val)}
+                                className="mb-4 flex gap-4"
+                            >
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="image" id="image" />
+                                    <label htmlFor="image">Image</label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="video" id="video" />
+                                    <label htmlFor="video">Video</label>
+                                </div>
+                            </RadioGroup>
+
+                            {/* Field Banner */}
+                            {watch('category') === 'image' ? (
                                 <div className="space-y-2">
-                                    <h6>Preview:</h6>
-                                    <img src={previewUrl} alt="Preview" className="h-32 w-32 object-cover" />
+                                    {watch('category') === 'image' && previewUrl && (
+                                        <div>
+                                            <h6>Preview:</h6>
+                                            <img src={previewUrl} alt="Preview" className="h-32 w-32 rounded border object-cover" />
+                                        </div>
+                                    )}
+
+                                    <div>
+                                        <label className="mb-1 block">Banner</label>
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => {
+                                                const file = e.target.files?.[0];
+                                                if (file) {
+                                                    setImage(file);
+                                                    setValue('banner', file);
+                                                    setPreviewUrl(URL.createObjectURL(file));
+                                                }
+                                            }}
+                                        />
+
+                                        {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <label className="mb-1 block">YouTube Link</label>
+                                    <Input type="text" placeholder="https://..." {...register('banner')} value={watch('banner')} />
+                                    {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
                                 </div>
                             )}
-
-                            <div>
-                                <label>File</label>
-                                <Input type="file" onChange={handleImageChange} className="form-control mt-2" accept="image/*" />
-                                {errorsBackend && <p className="text-red-500">{errorsBackend.image}</p>}
-                            </div>
 
                             <Button disabled={isSubmitting} type="submit">
                                 {isSubmitting ? <SyncLoader size={10} color="#59b4c7" /> : 'submit'}

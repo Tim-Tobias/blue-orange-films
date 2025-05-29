@@ -3,6 +3,8 @@
 
 use App\Http\Controllers\Dashboard\AboutController;
 use App\Http\Controllers\Dashboard\ContactController;
+use App\Http\Controllers\Dashboard\ContactContentController;
+use App\Http\Controllers\Dashboard\ContactCarousellController;
 use App\Http\Controllers\Dashboard\ProjectCategoryController;
 use App\Http\Controllers\Dashboard\ProjectsController;
 use App\Http\Controllers\Dashboard\BannersController;
@@ -32,6 +34,8 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function ($r
   
   //contacts
   $route->resource('contacts', ContactController::class)->except(['show']);
+  $route->resource('contact-carousell', ContactCarousellController::class)->except(['show']);
+  $route->resource('contact-content', ContactContentController::class)->except(['show']);
   $route->resource('socials', SocialController::class)->except(['show']);
 
   // Projects
