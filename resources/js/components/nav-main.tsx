@@ -34,15 +34,13 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                         <Collapsible key={item.title} className="group/collapsible">
                             <SidebarMenuItem>
                                 <CollapsibleTrigger asChild>
-                                    <SidebarMenuButton
-                                        className="flex items-center justify-between"
-                                        isActive={item.href === page.url}
-                                        tooltip={{ children: item.title }}
-                                    >
-                                        <div className="flex items-center gap-1">
-                                            {item.icon && <item.icon size={16} />} {item.title}
-                                        </div>
-                                        <ChevronDown className="transition-transform group-data-[state=open]/collapsible:rotate-180" size={16} />
+                                    <SidebarMenuButton isActive={item.href === page.url} tooltip={{ children: item.title }}>
+                                        {item.icon && <item.icon size={16} />}
+                                        <span className="w-full">{item.title}</span>
+                                        <ChevronDown
+                                            className="justify-self-end transition-transform group-data-[state=open]/collapsible:rotate-180"
+                                            size={16}
+                                        />
                                     </SidebarMenuButton>
                                 </CollapsibleTrigger>
                                 <CollapsibleContent>
