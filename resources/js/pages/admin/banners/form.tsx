@@ -40,31 +40,36 @@ export const bannerScheme = z
         }),
     })
     .superRefine((data, ctx) => {
-        if (data.category === 'video') {
-            if (!data.banner || (typeof data.banner === 'string' && data.banner.trim() === '')) {
-                ctx.addIssue({
-                    path: ['banner'],
-                    code: z.ZodIssueCode.custom,
-                    message: 'YouTube link is required for video category',
-                });
-            }
+    const isEdit = typeof window !== 'undefined' && window.location.href.includes('/edit');
+
+    if (isEdit && !data.banner) {
+        console.log('Skipping validation because editing and no new banner uploaded.');
+        return;
+    }
+
+    if (data.category === 'video') {
+        if (!data.banner || (typeof data.banner === 'string' && data.banner.trim() === '')) {
+            ctx.addIssue({
+                path: ['banner'],
+                code: z.ZodIssueCode.custom,
+                message: 'Video file is required',
+            });
         }
+    }
 
-        if (data.category === 'image') {
-            const isFile = data.banner instanceof File;
-            const isString = typeof data.banner === 'string' && data.banner.length > 0;
+    if (data.category === 'image') {
+        const isFile = data.banner instanceof File;
+        const isString = typeof data.banner === 'string' && data.banner.length > 0;
 
-            if (!isFile && !isString) {
-                ctx.addIssue({
-                    path: ['banner'],
-                    code: z.ZodIssueCode.custom,
-                    message: 'Image is required for image category',
-                });
-            }
+        if (!isFile && !isString) {
+            ctx.addIssue({
+                path: ['banner'],
+                code: z.ZodIssueCode.custom,
+                message: 'Image is required',
+            });
         }
-
-    });
-
+    }
+});
 
 
 const SECTION_SECTIONS = ['home', 'about', 'works'];
@@ -77,7 +82,17 @@ export default function FormBanner({ isEdit = false, data, sections }: FormBanne
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [existingSections, setExistingSections] = useState<CategorySection[]>([]);
     const [image, setImage] = useState<File | null>();
-    const [previewUrl, setPreviewUrl] = useState<string | null>(data?.image_url || null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
+        if (!data) return null;
+        if (data.banner && typeof data.banner === 'string') {
+            return `/storage/${data.banner}`;
+        }
+        if (data.image_url && typeof data.image_url === 'string') {
+            return `/storage/${data.image_url}`;
+        }
+
+        return null;
+    });
 
     const {
         register,
@@ -98,6 +113,8 @@ export default function FormBanner({ isEdit = false, data, sections }: FormBanne
     const onChange = (type: 'image' | 'video') => {
         setValue('category', type);
         setValue('banner', '');
+        setImage(null);
+        setPreviewUrl(null);
     };
 
     const onSubmit = (form: BannerFormData) => {
@@ -194,40 +211,37 @@ export default function FormBanner({ isEdit = false, data, sections }: FormBanne
                             </RadioGroup>
 
                             {/* Field Banner */}
-                            {watch('category') === 'image' ? (
-                                <div className="space-y-2">
-                                    {watch('category') === 'image' && previewUrl && (
-                                        <div>
-                                            <h6>Preview:</h6>
-                                            <img src={previewUrl} alt="Preview" className="h-32 w-32 rounded border object-cover" />
-                                        </div>
-                                    )}
-
-                                    <div>
-                                        <label className="mb-1 block">Banner</label>
-                                        <Input
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => {
-                                                const file = e.target.files?.[0];
-                                                if (file) {
-                                                    setImage(file);
-                                                    setValue('banner', file);
-                                                    setPreviewUrl(URL.createObjectURL(file));
-                                                }
-                                            }}
-                                        />
-
-                                        {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div>
-                                    <label className="mb-1 block">YouTube Link</label>
-                                    <Input type="text" placeholder="https://..." {...register('banner')} value={watch('banner')} />
-                                    {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
-                                </div>
+                            {watch('category') === 'image' && previewUrl && (
+                            <div>
+                                <h6>Preview:</h6>
+                                <img src={previewUrl} alt="Preview" className="h-32 w-32 rounded border object-cover" />
+                            </div>
                             )}
+
+                            {watch('category') === 'video' && previewUrl && (
+                            <div>
+                                <h6>Preview:</h6>
+                                <video src={previewUrl} controls className="h-32 w-32 rounded border object-cover" />
+                            </div>
+                            )}
+
+                            <div>
+                            <label className="mb-1 block">Banner</label>
+                            <Input
+                                type="file"
+                                accept={watch('category') === 'image' ? 'image/*' : 'video/*'}
+                                onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                    setImage(file);
+                                    setValue('banner', file);
+                                    setPreviewUrl(URL.createObjectURL(file));
+                                    }
+                                }}
+                                />
+                            {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
+                            </div>
+
 
                             <Button disabled={isSubmitting} type="submit">
                                 {isSubmitting ? <SyncLoader size={10} color="#59b4c7" /> : 'submit'}
