@@ -91,8 +91,8 @@ class BannersController extends Controller
         $bannersPath = null;
         if ($data['category'] === 'image' && $request->hasFile('banner')) {
             $bannersPath = $request->file('banner')->store('banners', 'public');
-        } elseif ($data['category'] === 'video') {
-            $bannersPath = $data['banner'];
+        } elseif ($data['category'] === 'video' && $request->hasFile('banner')) {
+            $bannersPath = $request->file('banner')->store('banners', 'public');
         }
 
         $banners->title = $request->title;
@@ -145,8 +145,14 @@ class BannersController extends Controller
                 $banner->banner = $request->file('banner')->store('banners', 'public');
             }
         } elseif ($request->category === 'video') {
-            $banner->banner = $request->banner;
+            if ($request->hasFile('banner')) {
+                if ($banner->banner) {
+                    Storage::disk('public')->delete('banners/' . basename($banner->banner));
+                }
+                $banner->banner = $request->file('banner')->store('banners', 'public');
+            }
         }
+
         
         $banner->save();
 
