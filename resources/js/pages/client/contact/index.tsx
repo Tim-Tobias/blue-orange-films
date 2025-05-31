@@ -7,7 +7,8 @@ import parser from 'html-react-parser';
 import { useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
-import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css/navigation';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 interface ContactPageProps {
@@ -60,7 +61,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
 
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Address</h2>
-                            <p>{contact?.address}</p>
+                            {parser(contact?.address || '')}
 
                             <div className="mt-4 flex gap-3">
                                 <SocialMediaFooter color="black" />
@@ -83,7 +84,13 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                                 className="mx-auto h-full w-[90%]"
                             >
-                                <Swiper initialSlide={startIndex} className="h-full w-full" navigation pagination={{ clickable: true }}>
+                                <Swiper
+                                    modules={[Navigation]}
+                                    initialSlide={startIndex}
+                                    className="h-full w-full"
+                                    navigation
+                                    pagination={{ clickable: true }}
+                                >
                                     {carousell?.map((img, idx) => (
                                         <SwiperSlide key={idx}>
                                             <img src={img.image_url} alt={img.title} className="h-full w-full object-cover" />
