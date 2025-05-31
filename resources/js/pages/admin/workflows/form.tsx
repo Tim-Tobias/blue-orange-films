@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { Workflow, type BreadcrumbItem } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,6 +10,7 @@ import { Head, router, usePage } from '@inertiajs/react';
 import { Select } from '@radix-ui/react-select';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Editor from 'react-simple-wysiwyg';
 import { SyncLoader } from 'react-spinners';
 import { z } from 'zod';
 
@@ -29,7 +29,7 @@ interface FormWorkflowProps {
     isEdit?: boolean;
     data?: Workflow;
     orders?: number;
-};
+}
 
 export const WorkflowScheme = z.object({
     title: z.string().optional(),
@@ -48,6 +48,7 @@ export default function FormWorkflow({ isEdit = false, data, orders }: FormWorkf
         register,
         setValue,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<WorkflowFormData>({
         resolver: zodResolver(WorkflowScheme),
@@ -88,7 +89,7 @@ export default function FormWorkflow({ isEdit = false, data, orders }: FormWorkf
         if (orders) {
             Array.from({ length: Number(orders) }, (_, i) => setNumbers((prev) => [...prev, i + 1]));
         }
-    }, []);
+    }, [orders]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -132,9 +133,11 @@ export default function FormWorkflow({ isEdit = false, data, orders }: FormWorkf
                             )}
 
                             <div>
-                                <label>Description</label>
-                                <Textarea {...register('desc')}></Textarea>
-                                {(errors.desc || errorsBackend) && <p className="text-red-500">{errors.desc?.message ?? errorsBackend.desc}</p>}
+                                <div>
+                                    <label className="mb-1 block font-medium">Content</label>
+                                    <Editor value={watch('desc') || ''} onChange={(e) => setValue('desc', e.target.value)} />
+                                    {errors.desc && <p className="text-sm text-red-500">{errors.desc.message}</p>}
+                                </div>
                             </div>
 
                             <Button disabled={isSubmitting} type="submit">

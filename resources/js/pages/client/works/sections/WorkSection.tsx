@@ -36,7 +36,7 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
 
             <AnimatePresence>
                 {projects && (
-                    <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-4">
+                    <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-3">
                         {projects.map((service, index) => (
                             <motion.div
                                 key={index}

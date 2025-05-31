@@ -3,6 +3,7 @@ import SocialMediaFooter from '@/components/social-media-footer';
 import { Contact, ContactCarousell, ContactContent } from '@/types';
 import { Head } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
+import parser from 'html-react-parser';
 import { useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
@@ -52,7 +53,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                     <div className="flex flex-col gap-8 self-end">
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Talk to Us!</h2>
-                            <p>{contact_content.content}</p>
+                            <div>{parser(contact_content.content || '')}</div>
                             <p className="mt-2">Phone: {contact?.phone}</p>
                             <p>Email: {contact?.email}</p>
                         </div>

@@ -1,5 +1,6 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import { Hww } from '@/types';
+import parse from 'html-react-parser';
 
 interface HowWorksProps {
     hww?: Hww;
@@ -11,9 +12,9 @@ const HowWorks = ({ hww }: HowWorksProps) => {
             <h5 data-aos="fade-left" data-aos-delay="500" className="text-center text-2xl font-bold uppercase md:text-left">
                 How We Works
             </h5>
-            <p data-aos="fade-left" data-aos-delay="500" className="text-center md:w-[50%] md:text-left">
-                {hww?.content}
-            </p>
+            <div data-aos="fade-left" data-aos-delay="500" className="text-center md:w-[50%] md:text-left">
+                {parse(hww?.content || '')}
+            </div>
         </AppFrontWrapper>
     );
 };
