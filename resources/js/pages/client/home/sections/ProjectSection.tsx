@@ -29,14 +29,14 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
                 </h1>
 
                 <AnimatePresence mode="wait">
-                    <div ref={ref} className="flex flex-col flex-wrap items-center justify-center lg:flex-row">
+                    <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-3">
                         {projects?.map((service, index) => (
                             <motion.div
                                 variants={item}
                                 initial="hidden"
                                 animate={inView ? 'show' : 'hidden'}
                                 transition={{ delay: index * 0.1 }}
-                                className="h-[255px] w-[400px] cursor-pointer"
+                                className="h-[234px] w-full cursor-pointer"
                             >
                                 <Link href={`/works/${service.id}`}>
                                     <CardWork imageUrl={service.highlight_image_url!} title={service.title} />
