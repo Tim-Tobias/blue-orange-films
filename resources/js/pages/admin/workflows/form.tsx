@@ -133,11 +133,9 @@ export default function FormWorkflow({ isEdit = false, data, orders }: FormWorkf
                             )}
 
                             <div>
-                                <div>
-                                    <label className="mb-1 block font-medium">Content</label>
-                                    <Editor value={watch('desc') || ''} onChange={(e) => setValue('desc', e.target.value)} />
-                                    {errors.desc && <p className="text-sm text-red-500">{errors.desc.message}</p>}
-                                </div>
+                                <label className="mb-1 block font-medium">Content</label>
+                                <Editor value={watch('desc') || ''} onChange={(e) => setValue('desc', e.target.value)} />
+                                {errors.desc && <p className="text-sm text-red-500">{errors.desc.message}</p>}
                             </div>
 
                             <Button disabled={isSubmitting} type="submit">
