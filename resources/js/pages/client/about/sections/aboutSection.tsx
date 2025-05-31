@@ -2,6 +2,7 @@ import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import Player from '@/components/player';
 import IntroduceLayout from '@/layouts/client/IntroduceLayout';
 import { About, Banner } from '@/types';
+import parser from 'html-react-parser';
 
 interface AboutSectionProps {
     about?: About;
@@ -25,14 +26,14 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
                         data-aos="fade-up"
                         data-aos-delay="100"
                         src={about?.image_url}
-                        alt={about?.content}
+                        alt={about?.image_url}
                         className="mx-auto block w-64 md:hidden"
                     />
                     <img data-aos="fade-left" data-aos-delay="50" src={about?.image_url} alt={about?.content} className="hidden w-72 md:block" />
 
-                    <p data-aos="fade-right" className="text-center md:text-left">
-                        {about?.content}
-                    </p>
+                    <div data-aos="fade-right" className="text-center md:text-left">
+                        {parser(about?.content || '')}
+                    </div>
                 </div>
             </AppFrontWrapper>
         </>

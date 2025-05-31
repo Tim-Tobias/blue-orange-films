@@ -2,6 +2,7 @@ import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import { limitText } from '@/helpers/limit_text';
 import { About } from '@/types';
 import { Link } from '@inertiajs/react';
+import parser from 'html-react-parser';
 
 interface AboutSectionProps {
     about?: About;
@@ -16,12 +17,12 @@ const AboutSection = (props: AboutSectionProps) => {
                         About BOF
                     </h6>
                     {props.about?.content && (
-                        <p data-aos="fade-left" data-aos-delay="100" className="text-center md:text-left">
-                            {limitText(props.about.content, 300)}
+                        <div data-aos="fade-left" data-aos-delay="100" className="text-center md:text-left">
+                            {parser(limitText(props.about.content, 300))}
                             <Link href="/about" className="text-blue-500 hover:underline">
                                 Read more
                             </Link>
-                        </p>
+                        </div>
                     )}
                 </div>
             </div>
