@@ -29,7 +29,7 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
                 </h1>
 
                 <AnimatePresence mode="wait">
-                    <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-3">
+                    <div ref={ref} className="grid grid-cols-1 pb-10 lg:grid-cols-3">
                         {projects?.map((service, index) => (
                             <motion.div
                                 variants={item}
