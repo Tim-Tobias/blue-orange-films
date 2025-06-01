@@ -24,11 +24,7 @@ class Banners extends Model
 
     public function getImageUrlAttribute()
     {
-        if ($this->category === 'image') {
-            return asset('storage/' . $this->banner);
-        }
-
-        return $this->banner;
+        return asset('storage/' . $this->banner);
     }
 
     public function scopeSection($query, $section)

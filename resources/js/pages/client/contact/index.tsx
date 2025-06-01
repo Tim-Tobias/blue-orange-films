@@ -28,7 +28,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
 
     return (
         <>
-            <Head title="Contact" />
+            <Head title="Blue Orang Films - Contact" />
 
             <AppFrontWrapper className="grid h-screen max-w-[1500px] grid-cols-1 place-items-center">
                 <div className="grid grid-cols-1 gap-8 p-8 lg:grid-cols-3">
