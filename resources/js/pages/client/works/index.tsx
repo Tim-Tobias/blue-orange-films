@@ -12,7 +12,7 @@ interface WorkProps {
 const Work = ({ categories, projects, banner }: WorkProps) => {
     return (
         <>
-            <Head title="Works" />
+            <Head title="Blue Orange Films - Works" />
 
             <IntroduceSection imgUrl={banner?.image_url ? banner.image_url : ''} title="Works" />
             <WorkSection categories={categories} projects={projects} />

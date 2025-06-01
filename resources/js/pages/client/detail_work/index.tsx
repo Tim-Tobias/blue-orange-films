@@ -10,7 +10,7 @@ interface WorkDetailProps {
 const WorkDetail = ({ project }: WorkDetailProps) => {
     return (
         <>
-            <Head title="Work Detail" />
+            <Head title={`Blue Orange Films - ${project.title}`} />
 
             <JumbotronSection url={project.highlight_link} />
             <InfoSection project={project} />
