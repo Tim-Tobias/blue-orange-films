@@ -5,7 +5,7 @@ import { Link } from '@inertiajs/react';
 const FooterLayout = () => {
     return (
         <footer className="flex flex-col items-center gap-10 bg-[#1E4E79] p-4 md:flex-row md:justify-between">
-            <div className="flex items-center gap-5 text-white">
+            <div className="flex flex-col items-center gap-5 text-white md:flex-row">
                 <CompanyLogoFooter />
                 <div className="flex justify-center gap-1">
                     <Link href="/">Home |</Link>
@@ -15,8 +15,8 @@ const FooterLayout = () => {
                 </div>
             </div>
 
-            <div className="flex items-center gap-5 text-white">
-                <p>© 2025 Blue Orange Films All Right Reserved.</p>
+            <div className="flex flex-col items-center gap-5 text-white md:flex-row">
+                <p className='text-center'>© 2025 Blue Orange Films All Right Reserved.</p>
                 <SocialMediaFooter color="white" />
             </div>
         </footer>

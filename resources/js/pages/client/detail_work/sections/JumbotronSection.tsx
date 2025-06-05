@@ -3,10 +3,8 @@ import Player from '@/components/player';
 
 const JumbotronSection = ({ url }: { url: string }) => {
     return (
-        <AppFrontContainer className="pointer-events-none">
+        <AppFrontContainer>
             <Player
-                muted
-                playing
                 controls={false}
                 loop
                 url={url}
