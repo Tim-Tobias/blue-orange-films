@@ -7,7 +7,7 @@ interface ClientSectionProps {
 
 const ClientSection = ({ client }: ClientSectionProps) => {
     return (
-        <AppFrontWrapper>
+        <AppFrontWrapper className="max-w-[1440px]">
             <div className="space-y-10 py-12">
                 <h3 className="text-center text-2xl font-bold uppercase">Our Client</h3>
 
