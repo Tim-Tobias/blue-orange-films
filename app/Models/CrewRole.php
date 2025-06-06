@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CrewRole extends Model
 {
+  use HasFactory;
+
   protected $table = 'crew_roles';
 
   protected $fillable = ['name'];

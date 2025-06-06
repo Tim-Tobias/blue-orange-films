@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectFile extends Model
 {
+
+    use HasFactory;
+
     protected $table = 'project_files';
 
     protected $fillable = [
