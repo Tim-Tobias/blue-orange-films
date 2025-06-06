@@ -36,7 +36,7 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
 
             <AnimatePresence>
                 {projects && (
-                    <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-4">
+                    <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-3">
                         {projects.map((service, index) => (
                             <motion.div
                                 key={index}
@@ -44,7 +44,7 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
                                 initial="hidden"
                                 animate={inView ? 'show' : 'hidden'}
                                 transition={{ delay: index * 0.1 }}
-                                className="w-full cursor-pointer"
+                                className="min-h-[250px] 2xl:min-h-[400px] w-full cursor-pointer"
                             >
                                 <Link href={`/works/${service.id}`}>
                                     <CardWork imageUrl={service.highlight_image_url!} title={service.title} />

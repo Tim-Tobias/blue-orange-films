@@ -44,7 +44,7 @@ export default function Banners({ banners }: BannersProps) {
                             columns={[
                                 { header: 'Title', accessor: 'title', searchable: true },
                                 {
-                                    header: 'Image',
+                                    header: 'Image / Video',
                                     accessor: (row) => {
                                         if (row.category === 'image' && row.image_url) {
                                         return (
@@ -55,9 +55,10 @@ export default function Banners({ banners }: BannersProps) {
                                             />
                                         );
                                         } else if (row.category === 'video' && row.banner) {
+                                        const videoUrl = `/storage/banners/${row.banner.split('/').pop()}`; 
                                         return (
                                             <a
-                                            href={row.banner}
+                                            href={videoUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-blue-600 underline"
@@ -69,6 +70,7 @@ export default function Banners({ banners }: BannersProps) {
                                         return null;
                                     },
                                 },
+
                                 { header: 'Section', accessor: 'section' },
                                 {
                                     header: 'Action',

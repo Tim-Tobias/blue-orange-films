@@ -20,12 +20,14 @@ interface AboutPageProps {
 const AboutPage = ({ about, services, hww, steps, client, banner }: AboutPageProps) => {
     return (
         <>
-            <Head title="About Section">
+            <Head title="Blue Orange Films - About Us">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
 
-            <AboutSection banner={banner} about={about} />
+            <div className='my-30'>
+                <AboutSection banner={banner} about={about} />
+            </div>
             <ServiceSection services={services} />
             <HowWorks hww={hww} />
             <StepSection steps={steps} />

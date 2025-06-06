@@ -4,9 +4,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import { capitalizeWords } from '@/helpers/capital_letter';
 import { Project } from '@/types';
+import parser from 'html-react-parser';
 import { useEffect, useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 interface InfoSectionProps {
@@ -47,7 +51,7 @@ const InfoSection = ({ project }: InfoSectionProps) => {
                     <p className="text-sm">
                         {project.category?.name} | {project.duration} | {project.aspect_ratio}
                     </p>
-                    <p className="mt-2 text-sm">{project.description}</p>
+                    <div className="mt-2 text-sm">{parser(project.description || '')}</div>
 
                     <div className="mt-8 grid grid-cols-2 gap-6 text-sm md:grid-cols-3 lg:grid-cols-6">
                         <div>
@@ -117,7 +121,7 @@ const InfoSection = ({ project }: InfoSectionProps) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center"
+                        className="fixed inset-0 z-50 flex items-center justify-items-center"
                     >
                         <div className="w-[100%] overflow-hidden rounded-lg">
                             <div onClick={() => setShowSwiper(false)} className="absolute top-0 left-0 h-full w-full bg-black opacity-80"></div>
@@ -127,14 +131,14 @@ const InfoSection = ({ project }: InfoSectionProps) => {
                                 animate={{ scale: 1, y: 0, opacity: 1 }}
                                 exit={{ scale: 0.9, y: 50, opacity: 0 }}
                                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                                className="mx-auto w-[90%]"
+                                className="mx-auto h-screen w-[90%]"
                             >
-                                <Swiper initialSlide={startIndex} navigation pagination={{ clickable: true }}>
+                                <Swiper className="h-full w-full" modules={[Navigation]} initialSlide={startIndex} navigation>
                                     {project.files?.map(
                                         (img, idx) =>
                                             img.category === 'image' && (
-                                                <SwiperSlide key={idx}>
-                                                    <img src={img.project_url} alt={img.title} className="h-full w-full object-contain" />
+                                                <SwiperSlide className="h-full w-full" key={idx}>
+                                                    <img src={img.project_url} alt={img.title} className="h-full w-full object-cover" />
                                                 </SwiperSlide>
                                             ),
                                     )}

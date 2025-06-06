@@ -98,11 +98,13 @@ export default function ProjectForm({ categories, form, isEdit, project }: Proje
                             if (file) setValue('highlight_image', file);
                         }}
                     />
+                    {errorText('highlight_image') && <p className="text-sm text-red-500">{errorText('highlight_image')}</p>}
                 </div>
 
                 <div>
                     <label className="mb-1 block">{isEdit ? 'Edit' : 'Upload'} Youtube Link</label>
                     <Input type="text" placeholder="YouTube Link" {...register('highlight')} />
+                    {errorText('highlight') && <p className="text-sm text-red-500">{errorText('highlight')}</p>}
                 </div>
 
                 {isEdit && (

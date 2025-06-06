@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\ClientController;
 use App\Http\Controllers\Dashboard\HowWeWorkController;
 use App\Http\Controllers\Dashboard\ServiceController;
 use App\Http\Controllers\Dashboard\SocialController;
+use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\WorkflowController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,9 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function ($r
   $route->patch('workflows/background', [WorkflowController::class, 'setBackground']);
 
   $route->resource('banners', BannersController::class)->except(['show', 'delete']);
+  
+  //users
+  $route->resource('users', UserController::class)->except(['show']);
   
   //about
   $route->resource('abouts', AboutController::class)->except(['show']);

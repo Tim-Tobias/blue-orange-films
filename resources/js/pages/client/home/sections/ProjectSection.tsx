@@ -22,24 +22,24 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
     });
 
     return (
-        <AppFrontWrapper className="overflow-hidden">
+        <AppFrontWrapper className="max-w-[1440px] overflow-hidden">
             <div className="space-y-10 py-12 md:py-25">
                 <h1 data-aos="fade-right" data-aos-delay="50" className="text-center md:text-3xl">
                     Latest Work
                 </h1>
 
                 <AnimatePresence mode="wait">
-                    <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-4">
+                    <div ref={ref} className="grid grid-cols-1 pb-10 lg:grid-cols-3">
                         {projects?.map((service, index) => (
                             <motion.div
                                 variants={item}
                                 initial="hidden"
                                 animate={inView ? 'show' : 'hidden'}
                                 transition={{ delay: index * 0.1 }}
-                                className="w-full cursor-pointer"
+                                className="h-[234px] w-full cursor-pointer"
                             >
                                 <Link href={`/works/${service.id}`}>
-                                    <CardWork imageUrl={`https://picsum.photos/id/25${index}/200/300`} title={service.title} />
+                                    <CardWork imageUrl={service.highlight_image_url!} title={service.title} />
                                 </Link>
                             </motion.div>
                         ))}
