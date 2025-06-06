@@ -25,7 +25,9 @@ const AboutPage = ({ about, services, hww, steps, client, banner }: AboutPagePro
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
 
-            <AboutSection banner={banner} about={about} />
+            <div className='my-30'>
+                <AboutSection banner={banner} about={about} />
+            </div>
             <ServiceSection services={services} />
             <HowWorks hww={hww} />
             <StepSection steps={steps} />
