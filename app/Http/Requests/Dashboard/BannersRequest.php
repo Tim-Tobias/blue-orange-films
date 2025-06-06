@@ -21,8 +21,8 @@ class BannersRequest extends FormRequest
      */
     public function rules(): array
     {
-        $maxSizeImage = 2 * 1024;
-        $maxSizeVideo = 50 * 1024;
+        $maxSizeImage = 10 * 1024;
+        $maxSizeVideo = 100 * 1024;
 
         $category = $this->input('category');
         $bannerRule = $this->isMethod('post') ? ['required'] : ['nullable'];
@@ -49,8 +49,8 @@ class BannersRequest extends FormRequest
     {
         return [
             'banner.max' => $this->input('category') === 'video'
-                ? 'Video tidak boleh lebih dari 50MB.'
-                : 'Gambar tidak boleh lebih dari 2MB.',
+                ? 'Video tidak boleh lebih dari 100MB.'
+                : 'Gambar tidak boleh lebih dari 10MB.',
         ];
     }
 
