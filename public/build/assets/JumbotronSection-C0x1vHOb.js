@@ -1,0 +1,1 @@
+import{j as o}from"./app-CQZ61BoK.js";import{A as t}from"./app-front-container-VAy1fEx8.js";import{P as e}from"./player-BSuMWNCO.js";/* empty css            */const m=({url:r})=>o.jsx(t,{children:o.jsx(e,{controls:!1,loop:!0,url:r,config:{youtube:{playerVars:{modestbranding:1,showinfo:0,rel:0}}}})});export{m as default};
