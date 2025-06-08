@@ -1,70 +1,94 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'workflows',
-        href: '/workflows',
+        title: 'Users',
+        href: '/dashboard/users',
         icon: LayoutGrid,
+        role: ['admin'],
     },
     {
-        title: 'Web Content',
-        href: '/dashboard/web-contents',
+        title: 'Banner',
+        href: '/dashboard/banners',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
-        title: 'projects',
-        href: '/dashboard/projects',
+        title: 'About',
+        href: '/dashboard/abouts',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
-        title: 'project_files',
-        href: '/dashboard/project_files',
+        title: 'About - Services',
+        href: '/dashboard/services',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
-        title: 'settings',
-        href: '/dashboard/settings',
+        title: 'About - How We Work',
+        href: '/dashboard/hww',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
-        title: 'project_teams',
-        href: '/dashboard/project_teams',
+        title: 'Workflows',
+        href: '/dashboard/workflows',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
-        title: 'crew_roles',
-        href: '/dashboard/crew_roles',
+        title: 'About - Client',
+        href: '/dashboard/clients',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
-        title: 'team_names',
-        href: '/dashboard/team_names',
+        title: 'Contact',
+        href: '/dashboard/contacts',
         icon: LayoutGrid,
+        role: ['admin', 'user'],
     },
     {
-        title: 'project_category',
-        href: '/dashboard/project_category',
+        title: 'Contact Carousell',
+        href: '/dashboard/contact-carousell',
         icon: LayoutGrid,
-    },
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
+        role: ['admin', 'user'],
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
+        title: 'Contact Content',
+        href: '/dashboard/contact-content',
+        icon: LayoutGrid,
+        role: ['admin', 'user'],
+    },
+    {
+        title: 'Socials',
+        href: '/dashboard/socials',
+        icon: LayoutGrid,
+        role: ['admin', 'user'],
+    },
+    {
+        title: 'Projects Sections',
+        icon: LayoutGrid,
+        role: ['admin', 'user'],
+        items: [
+            {
+                title: 'Categories',
+                href: '/dashboard/project-categories',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Projects',
+                href: '/dashboard/projects',
+                icon: LayoutGrid,
+            },
+        ],
     },
 ];
 
@@ -88,7 +112,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

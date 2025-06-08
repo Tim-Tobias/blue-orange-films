@@ -157,3 +157,12 @@
         @apply bg-background text-foreground;
     }
 }
+
+video {
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+}
+
+html {
+    font-family: 'Open Sans', sans-serif;
+}
