@@ -14,7 +14,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 interface ContactPageProps {
     contact?: Contact;
     carousell?: ContactCarousell[];
-    contact_content: ContactContent;
+    contact_content?: ContactContent;
 }
 
 const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) => {
@@ -54,7 +54,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                     <div className="flex flex-col gap-8">
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Talk to Us!</h2>
-                            <div>{parser(contact_content.content || '')}</div>
+                            <div>{parser(contact_content?.content || '')}</div>
                             <p className="mt-2">Phone: {contact?.phone}</p>
                             <p>Email: {contact?.email}</p>
                         </div>
