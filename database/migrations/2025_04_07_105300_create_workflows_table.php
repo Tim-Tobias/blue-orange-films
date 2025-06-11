@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('workflows', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('desc');
+            $table->text('desc');
             $table->integer('order')->default(0);
             $table->timestamps();
         });
