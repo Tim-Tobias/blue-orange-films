@@ -99,9 +99,11 @@ class BannersController extends Controller
         $banners->section = $request->section;
         $banners->category = $request->category;
         $banners->banner = $bannersPath;
+        $banners->autoplay = $request->autoplay;
+        $banners->muted = $request->muted;
         $banners->save();
 
-        return to_route('banners.index')->with('success', 'Content created');
+        return to_route('banners.index')->with('success', 'Banner created');
     }
 
     /**
@@ -136,6 +138,8 @@ class BannersController extends Controller
 
         $banner->title = $request->title;
         $banner->category = $request->category;
+        $banner->autoplay = $request->autoplay;
+        $banner->muted = $request->muted;
 
         if ($request->category === 'image') {
             if ($request->hasFile('banner')) {  

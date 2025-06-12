@@ -8,6 +8,7 @@ import { useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -36,12 +37,12 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                         <Swiper
                             className="h-full w-full"
                             autoplay={{
-                                delay: 1000,
+                                delay: 3000,
                                 disableOnInteraction: false,
                             }}
                             modules={[Pagination, Autoplay]}
                             loop
-                            pagination={true}
+                            pagination={{clickable: true}}
                         >
                             {carousell?.map((src, i) => (
                                 <SwiperSlide className="h-full w-full" onClick={() => handleImageClick(i)} key={i}>

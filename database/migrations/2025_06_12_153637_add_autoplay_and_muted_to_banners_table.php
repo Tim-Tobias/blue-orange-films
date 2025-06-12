@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('services', function (Blueprint $table) {
-            $table->boolean('is_active')->default(true)->after('description');
+        Schema::table('banners', function (Blueprint $table) {
+            $table->boolean('autoplay')->default(false)->after('category');
+            $table->boolean('muted')->default(false)->after('autoplay');
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('services', function (Blueprint $table) {
-            $table->dropColumn('is_active');
+        Schema::table('banners', function (Blueprint $table) {
+            $table->dropColumn('autoplay');
+            $table->dropColumn('muted');
         });
     }
 };
