@@ -140,15 +140,16 @@ class BannersController extends Controller
         $banner->category = $request->category;
         $banner->autoplay = $request->autoplay;
         $banner->muted = $request->muted;
-
-        if ($request->category === 'image') {
+        
+        if ($request->category == 'image') {
             if ($request->hasFile('banner')) {  
                 if ($banner->banner) {
                     Storage::disk('public')->delete('banners/' . basename($banner->banner));
                 }
                 $banner->banner = $request->file('banner')->store('banners', 'public');
             }
-        } elseif ($request->category === 'video') {
+        } elseif ($request->category == 'video') {
+
             if ($request->hasFile('banner')) {
                 if ($banner->banner) {
                     Storage::disk('public')->delete('banners/' . basename($banner->banner));

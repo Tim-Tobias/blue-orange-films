@@ -1,8 +1,7 @@
 import { Banner, Project, ProjectCategory } from '@/types';
 import { Head } from '@inertiajs/react';
-import IntroduceSection from '../../../layouts/client/IntroduceLayout';
-import WorkSection from './sections/WorkSection';
 import JumbotronSection from './sections/JumbotronSection';
+import WorkSection from './sections/WorkSection';
 
 interface WorkProps {
     categories?: ProjectCategory[];

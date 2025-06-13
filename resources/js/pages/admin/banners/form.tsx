@@ -34,7 +34,7 @@ export const bannerScheme = z
     .object({
         title: z.string().min(1, 'Title is required'),
         section: z.string().min(1, 'Section is required'),
-        banner: z.any(),    
+        banner: z.any(),
         category: z.enum(['image', 'video'], {
             required_error: 'Category is required',
         }),
@@ -73,7 +73,6 @@ export const bannerScheme = z
         }
     });
 
-
 const SECTION_SECTIONS = ['home', 'about', 'works'];
 
 export type BannerFormData = z.infer<typeof bannerScheme>;
@@ -110,7 +109,7 @@ export default function FormBanner({ isEdit = false, data, sections }: FormBanne
             banner: data?.banner || '',
             category: data?.category || 'image',
             autoplay: data?.autoplay ? 'true' : 'false',
-            muted: data?.muted ? 'true' : 'false'
+            muted: data?.muted ? 'true' : 'false',
         },
     });
 
@@ -123,7 +122,7 @@ export default function FormBanner({ isEdit = false, data, sections }: FormBanne
 
     const onSubmit = (form: BannerFormData) => {
         setIsSubmitting(false);
-        
+
         const formData = new FormData();
         formData.append('title', form.title || '');
         formData.append('section', form.section);
@@ -132,9 +131,9 @@ export default function FormBanner({ isEdit = false, data, sections }: FormBanne
         formData.append('muted', form.muted === 'true' ? '1' : '0');
 
         if (image instanceof File) {
-            formData.append('banners', image);
+            formData.append('banner', image);
         } else if (form.category === 'video') {
-            formData.append('banners', form.banner);
+            formData.append('banner', form.banner);
         }
 
         if (isEdit && data?.id) {
@@ -218,87 +217,71 @@ export default function FormBanner({ isEdit = false, data, sections }: FormBanne
 
                             {/* Field Banner */}
                             {watch('category') === 'image' && previewUrl && (
-                            <div>
-                                <h6>Preview:</h6>
-                                <img src={previewUrl} alt="Preview" className="h-32 w-32 rounded border object-cover" />
-                            </div>
+                                <div>
+                                    <h6>Preview:</h6>
+                                    <img src={previewUrl} alt="Preview" className="h-32 w-32 rounded border object-cover" />
+                                </div>
                             )}
 
                             {watch('category') === 'video' && previewUrl && (
-                            <div>
-                                <h6>Preview:</h6>
-                                <video src={previewUrl} controls className="h-32 w-32 rounded border object-cover" />
-                            </div>
+                                <div>
+                                    <h6>Preview:</h6>
+                                    <video src={previewUrl} controls className="h-32 w-32 rounded border object-cover" />
+                                </div>
                             )}
 
                             <div>
-                            <label className="mb-1 block">Banner</label>
-                            <Input
-                                type="file"
-                                accept={watch('category') === 'image' ? 'image/*' : 'video/*'}
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                    setImage(file);
-                                    setValue('banner', file);
-                                    setPreviewUrl(URL.createObjectURL(file));
-                                    }
-                                }}
+                                <label className="mb-1 block">Banner</label>
+                                <Input
+                                    type="file"
+                                    accept={watch('category') === 'image' ? 'image/*' : 'video/*'}
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                            setImage(file);
+                                            setValue('banner', file);
+                                            setPreviewUrl(URL.createObjectURL(file));
+                                        }
+                                    }}
                                 />
-                            {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
+                                {(errors.banner || errorsBackend.banner) && <p className="text-sm text-red-500">{errorsBackend.banner}</p>}
                             </div>
 
                             {watch('category') === 'video' && (
                                 <div>
-                                <label className="block font-medium mb-1">Autoplay</label>
-                                <div className="flex gap-4">
-                                    <label className="flex items-center gap-1">
-                                        <input
-                                            type="radio"
-                                            value="true"
-                                            {...register("autoplay")}
-                                        />
-                                        Ya
-                                    </label>
-                                    <label className="flex items-center gap-1">
-                                        <input
-                                            type="radio"
-                                            value="false"
-                                            {...register("autoplay")}
-                                        />
-                                        Tidak
-                                    </label>
+                                    <label className="mb-1 block font-medium">Autoplay</label>
+                                    <div className="flex gap-4">
+                                        <label className="flex items-center gap-1">
+                                            <input type="radio" value="true" {...register('autoplay')} />
+                                            Ya
+                                        </label>
+                                        <label className="flex items-center gap-1">
+                                            <input type="radio" value="false" {...register('autoplay')} />
+                                            Tidak
+                                        </label>
+                                    </div>
+                                    {(errors.autoplay || errorsBackend?.autoplay) && (
+                                        <p className="text-sm text-red-500">{errors.autoplay?.message ?? errorsBackend?.autoplay}</p>
+                                    )}
                                 </div>
-                                {(errors.autoplay || errorsBackend?.autoplay) && (
-                                    <p className="text-sm text-red-500">{errors.autoplay?.message ?? errorsBackend?.autoplay}</p>
-                                )}
-                            </div>
                             )}
                             {watch('category') === 'video' && (
                                 <div>
-                                <label className="block font-medium mb-1">Muted</label>
-                                <div className="flex gap-4">
-                                    <label className="flex items-center gap-1">
-                                        <input
-                                            type="radio"
-                                            value="true"
-                                            {...register("muted")}
-                                        />
-                                        Ya
-                                    </label>
-                                    <label className="flex items-center gap-1">
-                                        <input
-                                            type="radio"
-                                            value="false"
-                                            {...register("muted")}
-                                        />
-                                        Tidak
-                                    </label>
+                                    <label className="mb-1 block font-medium">Muted</label>
+                                    <div className="flex gap-4">
+                                        <label className="flex items-center gap-1">
+                                            <input type="radio" value="true" {...register('muted')} />
+                                            Ya
+                                        </label>
+                                        <label className="flex items-center gap-1">
+                                            <input type="radio" value="false" {...register('muted')} />
+                                            Tidak
+                                        </label>
+                                    </div>
+                                    {(errors.muted || errorsBackend?.muted) && (
+                                        <p className="text-sm text-red-500">{errors.muted?.message ?? errorsBackend?.muted}</p>
+                                    )}
                                 </div>
-                                {(errors.muted || errorsBackend?.muted) && (
-                                    <p className="text-sm text-red-500">{errors.muted?.message ?? errorsBackend?.muted}</p>
-                                )}
-                            </div>
                             )}
 
                             <Button disabled={isSubmitting} type="submit">
