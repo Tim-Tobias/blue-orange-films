@@ -1,6 +1,6 @@
 import { Banner, Project, ProjectCategory } from '@/types';
 import { Head } from '@inertiajs/react';
-import IntroduceSection from '../../../layouts/client/IntroduceLayout';
+import JumbotronSection from './sections/JumbotronSection';
 import WorkSection from './sections/WorkSection';
 
 interface WorkProps {
@@ -14,7 +14,9 @@ const Work = ({ categories, projects, banner }: WorkProps) => {
         <>
             <Head title="Blue Orange Films - Works" />
 
-            <IntroduceSection imgUrl={banner?.image_url ? banner.image_url : ''} title="Works" />
+            {/* <IntroduceSection imgUrl={banner?.image_url ? banner.image_url : ''} title="Works" /> */}
+
+            <JumbotronSection banner={banner} />
             <WorkSection categories={categories} projects={projects} />
         </>
     );
