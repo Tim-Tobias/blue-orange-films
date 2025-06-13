@@ -63,6 +63,8 @@ export interface Banner {
     image_url?: string;
     section: string;
     category: 'video' | 'image'; // enum type
+    autoplay?: boolean;
+    muted?: boolean;
     created_at: string;
     updated_at: string;
 }

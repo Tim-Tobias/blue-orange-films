@@ -1,5 +1,6 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import CardWork from '@/components/card-work';
+import { Button } from '@/components/ui/button';
 import { Project } from '@/types';
 import { Link } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -45,6 +46,12 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
                         ))}
                     </div>
                 </AnimatePresence>
+
+                <div className="flex justify-center">
+                    <Link href="/works">
+                        <Button className="mx-auto cursor-pointer bg-[#1E4E79]">See All</Button>
+                    </Link>
+                </div>
             </div>
         </AppFrontWrapper>
     );
