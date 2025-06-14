@@ -4,9 +4,9 @@ import { Banner } from '@/types';
 
 const JumbotronSection = ({ banner }: { banner?: Banner }) => {
     return (
-        <AppFrontContainer>
+        <AppFrontContainer className="h-[80vh] w-full md:h-screen">
             {banner?.category === 'video' ? (
-                <div className="cursor-pointer">
+                <div className="h-[80vh] w-full cursor-pointer md:h-full">
                     <Player url={banner.image_url ?? ''} playing={banner.autoplay ?? false} muted={banner?.muted ?? false} loop controls={true} />
                 </div>
             ) : (
