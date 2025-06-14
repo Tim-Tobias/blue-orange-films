@@ -15,14 +15,16 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
             {banner?.category === 'image' ? (
                 <IntroduceLayout imgUrl={banner?.image_url ? banner.image_url : ''} title="About" />
             ) : (
-                <div className="h-full w-full">
-                    <Player
-                        muted={banner?.muted ? true : false}
-                        playing={banner?.autoplay ? true : false}
-                        controls={true}
-                        loop
-                        url={banner?.image_url ? banner.image_url : ''}
-                    />
+                <div className="h-[80vh] w-full md:h-full">
+                    {about?.image_url && (
+                        <Player
+                            muted={banner?.muted ? true : false}
+                            playing={banner?.autoplay ? true : false}
+                            controls={true}
+                            loop
+                            url={banner?.image_url ? banner.image_url : ''}
+                        />
+                    )}
                 </div>
             )}
 
