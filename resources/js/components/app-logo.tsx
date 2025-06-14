@@ -7,7 +7,7 @@ export default function AppLogo() {
                 <img src={AppLogoIcon} alt="" />
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">
-                <span className="mb-0.5 truncate leading-none font-semibold">Blue Orang Films</span>
+                <span className="mb-0.5 truncate leading-none font-semibold">Blue Orange Films</span>
             </div>
         </>
     );
