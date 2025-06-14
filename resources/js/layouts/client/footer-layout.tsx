@@ -6,8 +6,9 @@ const FooterLayout = () => {
         <footer className="flex flex-col items-center gap-10 bg-[#1E4E79] p-4 md:flex-row md:justify-between">
             <div className="flex flex-col items-center gap-5 text-white md:flex-row">
                 <CompanyLogoFooter />
-                <SocialMediaFooter color="white" />
             </div>
+
+            <SocialMediaFooter color="white" />
 
             <div className="flex flex-col items-center gap-5 text-white md:flex-row">
                 <p className="text-center">© 2025 Blue Orange Films All Right Reserved.</p>
