@@ -35,7 +35,7 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
                         data-aos-delay="100"
                         src={about?.image_url}
                         alt={about?.image_url}
-                        className="mx-auto block w-64 md:hidden"
+                        className="mx-auto block w-42 md:hidden"
                     />
                     <img data-aos="fade-left" data-aos-delay="50" src={about?.image_url} alt={about?.content} className="hidden w-72 md:block" />
 
