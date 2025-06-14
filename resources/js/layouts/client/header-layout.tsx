@@ -12,7 +12,7 @@ const HeaderLayout = () => {
 
     return (
         <>
-            <header className="absolute top-0 z-10 mb-6 w-full p-5">
+            <header className="absolute top-0 z-10 mb-6 w-full px-5 py-5 md:px-15">
                 <nav className="relative mx-auto flex items-center justify-between gap-4">
                     <CompanyLogo />
 
@@ -69,15 +69,7 @@ const HeaderLayout = () => {
                                 <div className="absolute top-0 left-0 h-full w-full bg-white opacity-90" />
 
                                 <div className="relative h-full w-full">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <Link
-                                            href="/"
-                                            className={`flex items-center gap-2 text-lg text-black ${pathname === '/home' ? 'font-semibold after:scale-x-100 after:bg-black' : ''}`}
-                                            onClick={() => setIsOpen(false)}
-                                        >
-                                            <span className="block h-px w-8 bg-black" />
-                                            Home
-                                        </Link>
+                                    <div className="grid grid-cols-1 gap-4">
                                         <Link
                                             href="/about"
                                             className={`flex items-center gap-2 text-lg text-black ${pathname === '/about' ? 'font-semibold after:scale-x-100 after:bg-black' : ''}`}
