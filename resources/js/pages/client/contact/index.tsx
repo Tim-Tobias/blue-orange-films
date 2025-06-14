@@ -29,7 +29,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
 
     return (
         <>
-            <Head title="Blue Orang Films - Contact" />
+            <Head title="Blue Orange Films - Contact" />
 
             <AppFrontWrapper className="grid h-screen pt-20 md:pt-0 max-w-[2000px] grid-cols-1 place-items-center">
                 <div className="flex w-full flex-col gap-8 p-8 lg:w-fit lg:flex-row">
