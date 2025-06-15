@@ -47,62 +47,82 @@ const InfoSection = ({ project }: InfoSectionProps) => {
         <>
             <AppFrontWrapper className="space-y-24">
                 <div className="px-6 py-10">
-                    <div className="text-2xl font-bold text-orange-400">{project.title}</div>
-                    <p className="text-sm">
+                    <div data-aos="fade-up" data-aos-delay={100} className="text-2xl font-bold text-orange-400">
+                        {project.title}
+                    </div>
+                    <p data-aos="fade-up" data-aos-delay={200} className="text-sm">
                         {project.category?.name} | {project.duration} | {project.aspect_ratio}
                     </p>
-                    <div className="mt-2 text-sm">{parser(project.description || '')}</div>
+                    <div data-aos="fade-up" data-aos-delay={300} className="mt-2 text-sm">
+                        {parser(project.description || '')}
+                    </div>
 
-                    <div className="mt-8 grid grid-cols-2 gap-6 text-sm md:grid-cols-3 lg:grid-cols-6">
+                    <div data-aos="fade-up" data-aos-delay={400} className="mt-8 grid grid-cols-2 gap-6 text-sm md:grid-cols-3 lg:grid-cols-6">
                         <div>
                             <p className="font-semibold text-orange-400">Year</p>
-                            <p className="">{project.year}</p>
+                            <p data-aos="fade-up" data-aos-delay={500} className="">
+                                {project.year}
+                            </p>
                         </div>
 
                         <div>
                             <p className="font-semibold text-orange-400">Client</p>
-                            <p className="">{project.client}</p>
+                            <p data-aos="fade-up" data-aos-delay={500} className="">
+                                {project.client}
+                            </p>
                         </div>
 
                         <div>
                             <p className="font-semibold text-orange-400">Agency</p>
-                            <p className="">Blue Orange Films</p>
+                            <p data-aos="fade-up" data-aos-delay={500} className="">
+                                Blue Orange Films
+                            </p>
                         </div>
 
                         {groupedByRole &&
                             Object.entries(groupedByRole).map(([role, names], idx) => (
                                 <div key={idx}>
-                                    <p className="font-semibold text-orange-400">{capitalizeWords(role)}</p>
+                                    <p data-aos="fade-up" data-aos-delay={500} className="font-semibold text-orange-400">
+                                        {capitalizeWords(role)}
+                                    </p>
                                     {names.map((name) => (
-                                        <p>{capitalizeWords(name)}</p>
+                                        <p data-aos="fade-up" data-aos-delay={500}>
+                                            {capitalizeWords(name)}
+                                        </p>
                                     ))}
                                 </div>
                             ))}
                     </div>
                 </div>
 
-                <h5 className="text-center text-2xl font-semibold">Behind The Scene</h5>
+                <h5 data-aos="fade-up" data-aos-delay={100} className="text-center text-2xl font-semibold">
+                    Behind The Scene
+                </h5>
 
                 {project.files?.map(
                     (file, index) =>
                         file.category === 'video' && (
-                            <div key={index} className="h-[550px]">
+                            <div data-aos="fade-up" data-aos-delay={200} key={index} className="h-[550px]">
                                 <Player controls={true} url={file.project_link} />
                             </div>
                         ),
                 )}
 
-                <div className="space-y-5">
-                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+                <div data-aos="fade-up" data-aos-delay={300} className="space-y-5">
+                    <div data-aos="fade-up" data-aos-delay={400} className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
                         {project.files?.map(
                             (item, val) =>
                                 item.category === 'image' && (
                                     <div
+                                        data-aos="fade-up"
+                                        data-aos-delay={300}
                                         className="group h-[250px] w-full cursor-pointer overflow-hidden"
                                         onClick={() => handleImageClick(val)}
                                         key={val}
                                     >
                                         <img
+                                            data-aos="fade-up"
+                                            data-aos-delay={600}
                                             className="h-full w-full object-cover transition-all group-hover:scale-110"
                                             src={item.project_url}
                                             alt=""
