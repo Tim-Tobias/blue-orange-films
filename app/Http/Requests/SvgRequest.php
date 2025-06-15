@@ -22,7 +22,7 @@ class SvgRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'background' => ['required', 'file', 'mimes:svg,svg+xml', 'max:10000']
+            'background' => ['required', 'file', 'mimes:svg,svg+xml', 'max:10240']
         ];
     }
 }
