@@ -31,9 +31,9 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
         <>
             <Head title="Blue Orange Films - Contact" />
 
-            <AppFrontWrapper className="grid h-screen pt-20 md:pt-0 max-w-[2000px] grid-cols-1 place-items-center">
+            <AppFrontWrapper className="grid h-screen max-w-[2000px] grid-cols-1 place-items-center pt-20 md:pt-0">
                 <div className="flex w-full flex-col gap-8 p-8 lg:w-fit lg:flex-row">
-                    <div className="h-[250px] w-full lg:h-[501px] lg:w-[1170px]">
+                    <div data-aos="fade-right" data-aos-delay={100} className="h-[250px] w-full lg:h-[501px] lg:w-[1170px]">
                         <Swiper
                             className="h-full w-full"
                             autoplay={{
@@ -42,7 +42,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                             }}
                             modules={[Pagination, Autoplay]}
                             loop
-                            pagination={{clickable: true}}
+                            pagination={{ clickable: true }}
                         >
                             {carousell?.map((src, i) => (
                                 <SwiperSlide className="h-full w-full" onClick={() => handleImageClick(i)} key={i}>
@@ -52,7 +52,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                         </Swiper>
                     </div>
 
-                    <div className="flex flex-col gap-8">
+                    <div data-aos="fade-left" data-aos-delay={200} className="flex flex-col gap-8">
                         <div>
                             <h2 className="mb-2 text-2xl font-bold text-orange-500">Talk to Us!</h2>
                             <div>{parser(contact_content?.content || '')}</div>
