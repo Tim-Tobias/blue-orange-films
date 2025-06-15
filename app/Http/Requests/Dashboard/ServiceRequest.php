@@ -24,7 +24,7 @@ class ServiceRequest extends FormRequest
         return [
             'title' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:255'],
-            'image' => $this->isMethod('post') ? ['required', 'image', 'max:2048'] : ['nullable', 'image', 'max:2048'],
+            'image' => $this->isMethod('post') ? ['required', 'image', 'max:10000'] : ['nullable', 'image', 'max:10000'],
             'is_active' => ['required']
         ];
     }   
