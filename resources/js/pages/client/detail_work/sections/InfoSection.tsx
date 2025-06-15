@@ -115,7 +115,7 @@ const InfoSection = ({ project }: InfoSectionProps) => {
                                 item.category === 'image' && (
                                     <div
                                         data-aos="fade-up"
-                                        data-aos-delay={500}
+                                        data-aos-delay={300}
                                         className="group h-[250px] w-full cursor-pointer overflow-hidden"
                                         onClick={() => handleImageClick(val)}
                                         key={val}
