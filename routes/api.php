@@ -22,7 +22,6 @@ Route::get('/roles', function (Request $request) {
     return \App\Models\CrewRole::query()
         ->when($search, fn($q) => $q->where('name', 'like', "%$search%"))
         ->select('id', 'name')
-        ->limit(10)
         ->get();
 });
 
@@ -32,6 +31,5 @@ Route::get('/team-names', function (Request $request) {
     return \App\Models\TeamName::query()
         ->when($search, fn($q) => $q->where('name', 'like', "%$search%"))
         ->select('id', 'name')
-        ->limit(10)
         ->get();
 });
