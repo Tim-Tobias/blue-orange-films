@@ -27,9 +27,9 @@ class AboutRequest extends FormRequest
         ];
 
         if ($this->isMethod('POST')) {
-            $rules['image'] = ['required', 'image', 'max:10000'];
+            $rules['image'] = ['required', 'image', 'max:10240'];
         } else {
-            $rules['image'] = ['nullable', 'image', 'max:10000'];
+            $rules['image'] = ['nullable', 'image', 'max:10240'];
         }
 
         return $rules;
