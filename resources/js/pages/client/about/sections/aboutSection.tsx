@@ -15,7 +15,7 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
             {banner?.category === 'image' ? (
                 <IntroduceLayout imgUrl={banner?.image_url ? banner.image_url : ''} title="About" />
             ) : (
-                <div className="h-[80vh] w-full md:h-full">
+                <div data-aos="fade-in" data-aos-delay={300} className="h-[80vh] w-full md:h-full">
                     {about?.image_url && (
                         <Player
                             muted={banner?.muted ? true : false}
