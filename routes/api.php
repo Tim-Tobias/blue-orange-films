@@ -8,11 +8,13 @@ Route::get('/socials', function (Request $request) {
     $instagram = Social::where('name', 'instagram')->first();
     $youtube = Social::where('name', 'youtube')->first();
     $linkedin = Social::where('name', 'linkedin')->first();
+    $email = Social::where('name', 'email')->first();
 
     return response()->json([
         'instagram' => $instagram,
         'youtube' => $youtube,
-        'linkedin' => $linkedin
+        'linkedin' => $linkedin,
+        'email' => $email,
     ]);
 });
 
