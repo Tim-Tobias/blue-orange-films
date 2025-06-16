@@ -11,9 +11,7 @@ const FooterLayout = () => {
             <SocialMediaFooter color="white" />
 
             <div className="flex flex-col items-center gap-5 text-white md:flex-row">
-                <p className="text-center"></p>
-                {/* © 2025 Blue Orange Films All Right Reserved. */}
-                {/* <SocialMediaFooter color="white" /> */}
+                {/* <p className="text-center">© 2025 Blue Orange Films All Right Reserved.</p> */}
             </div>
         </footer>
     );
