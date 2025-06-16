@@ -156,15 +156,16 @@ class ProjectsController extends Controller
     {
         DB::beginTransaction();
 
+        
         try {
             $data = $request->validated();
-
+            
             $project->update([
                 'title' => $data['title'],
                 'year' => $data['year'],
                 'duration' => $data['duration'],
                 'aspect_ratio' => $data['aspect_ratio'], 
-                'category_id' => $data['category'],
+                'id_project_category' => $data['category'],
                 'description' => $data['description'],
                 'client' => $data['client'],
                 'highlight_link' => $data['highlight'],
