@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, PaginatedResponse, Project } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -50,9 +50,16 @@ const Projects = ({ projects }: ProjectProps) => {
                                             <Link href={`/dashboard/projects/${row.id}/edit`}>
                                                 <Button variant="outline">Edit</Button>
                                             </Link>
-                                            <Link href={`/dashboard/projects/${row.id}/delete`}>
-                                                <Button variant="destructive">Delete</Button>
-                                            </Link>
+                                            <Button
+                                                variant="destructive"
+                                                onClick={() => {
+                                                if (confirm('Are you sure to delete this Data?')) {
+                                                router.delete(`/dashboard/projects/${row.id}`);
+                                                }
+                                                }}
+                                            >
+                                                Delete
+                                            </Button>
                                         </div>
                                     ),
                                 },

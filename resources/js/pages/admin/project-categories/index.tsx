@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, ProjectCategory, type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 import { router } from '@inertiajs/react';
 
@@ -23,11 +23,22 @@ interface TableProjectCategoryProps {
     projectCategories: PaginatedResponse<ProjectCategory>;
 }
 
+
+
 export default function TableProjectCategory({ projectCategories }: TableProjectCategoryProps) {
+    const { props } = usePage<{ flash: { error?: string; success?: string } }>();
+    const flashError = props.flash?.error;
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Project Category" />
 
+            {flashError && (
+                <div className="rounded-lg bg-red-100 p-3 text-sm text-red-800">
+                    {flashError}
+                </div>
+            )}
+            
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="flex w-full items-center justify-between">
                     <div className="relative w-64">
