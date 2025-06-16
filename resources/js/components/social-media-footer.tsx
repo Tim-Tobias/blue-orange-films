@@ -1,6 +1,5 @@
 import api from '@/services/axiosClient';
 import { Social } from '@/types';
-import { Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { CgMail } from 'react-icons/cg';
 import { FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
@@ -16,10 +15,10 @@ const SocialMediaFooter = ({ color }: SocialMediaFooterProps) => {
         linkedin: Social;
         email: Social;
     }>({
-        instagram: { id: 0 },
-        youtube: { id: 0 },
-        linkedin: { id: 0 },
-        email: { id: 0 },
+        instagram: { id: 0, link: '', name: '', is_active: true },
+        youtube: { id: 0, link: '', name: '', is_active: true },
+        linkedin: { id: 0, link: '', name: '', is_active: true },
+        email: { id: 0, link: '', name: '', is_active: true },
     });
 
     useEffect(() => {
@@ -40,27 +39,27 @@ const SocialMediaFooter = ({ color }: SocialMediaFooterProps) => {
     return (
         <div className={`flex items-center gap-5 text-${color}`}>
             {data?.instagram && (
-                <Link rel="noopener noreferrer" href={data.instagram.link!}>
+                <a target="_blank" rel="noopener noreferrer" href={data.instagram.link!}>
                     <FaInstagram className="text-xl" />
-                </Link>
+                </a>
             )}
 
             {data?.youtube && (
-                <Link rel="noopener noreferrer" href={data.youtube.link!}>
+                <a target="_blank" rel="noopener noreferrer" href={data.youtube.link!}>
                     <FaYoutube className="text-xl" />
-                </Link>
+                </a>
             )}
 
             {data?.linkedin && (
-                <Link rel="noopener noreferrer" href={data.linkedin.link!}>
+                <a target="_blank" rel="noopener noreferrer" href={data.linkedin.link!}>
                     <FaLinkedin className="text-xl" />
-                </Link>
+                </a>
             )}
 
             {data?.email && (
-                <Link rel="noopener noreferrer" href={`mailto:${data.email.link!}`}>
+                <a target="_blank" rel="noopener noreferrer" href={`mailto:${data.email.link!}`}>
                     <CgMail className="text-2xl" />
-                </Link>
+                </a>
             )}
         </div>
     );
