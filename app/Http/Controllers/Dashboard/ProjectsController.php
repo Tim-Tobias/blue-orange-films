@@ -156,9 +156,10 @@ class ProjectsController extends Controller
     {
         DB::beginTransaction();
 
+        
         try {
             $data = $request->validated();
-
+            
             $project->update([
                 'title' => $data['title'],
                 'year' => $data['year'],
