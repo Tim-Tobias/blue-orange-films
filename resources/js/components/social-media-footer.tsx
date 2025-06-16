@@ -1,5 +1,6 @@
 import api from '@/services/axiosClient';
 import { Social } from '@/types';
+import { Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { CgMail } from 'react-icons/cg';
 import { FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
@@ -39,27 +40,27 @@ const SocialMediaFooter = ({ color }: SocialMediaFooterProps) => {
     return (
         <div className={`flex items-center gap-5 text-${color}`}>
             {data?.instagram && (
-                <a href={data.instagram.link!}>
+                <Link rel="noopener noreferrer" href={data.instagram.link!}>
                     <FaInstagram className="text-xl" />
-                </a>
+                </Link>
             )}
 
             {data?.youtube && (
-                <a href={data.youtube.link!}>
+                <Link rel="noopener noreferrer" href={data.youtube.link!}>
                     <FaYoutube className="text-xl" />
-                </a>
+                </Link>
             )}
 
             {data?.linkedin && (
-                <a href={data.linkedin.link!}>
+                <Link rel="noopener noreferrer" href={data.linkedin.link!}>
                     <FaLinkedin className="text-xl" />
-                </a>
+                </Link>
             )}
 
             {data?.email && (
-                <a href={`mailto:${data.email.link!}`}>
+                <Link rel="noopener noreferrer" href={`mailto:${data.email.link!}`}>
                     <CgMail className="text-2xl" />
-                </a>
+                </Link>
             )}
         </div>
     );
