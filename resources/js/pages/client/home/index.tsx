@@ -15,7 +15,7 @@ interface WelcomeProps {
 export default function Welcome({ about, projects, client, banner }: WelcomeProps) {
     return (
         <>
-            <Head title="Blue Orang Film - Welcome" />
+            <Head title="Blue Orange Films - Welcome" />
 
             <JumbotronSection banner={banner} />
             <AboutSection about={about} />

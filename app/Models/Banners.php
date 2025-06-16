@@ -18,6 +18,8 @@ class Banners extends Model
         'banner',
         'section',
         'category',
+        'autoplay',
+        'muted',
     ];
 
     protected $appends = ['image_url'];
