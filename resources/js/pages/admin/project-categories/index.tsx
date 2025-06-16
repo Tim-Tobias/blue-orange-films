@@ -4,10 +4,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, ProjectCategory, type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Search } from 'lucide-react';
-import { router } from '@inertiajs/react';
 
+import { toast } from 'sonner';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
@@ -24,6 +24,17 @@ interface TableProjectCategoryProps {
 }
 
 export default function TableProjectCategory({ projectCategories }: TableProjectCategoryProps) {
+    const deleteProjectCategory = (id: number) => {
+        router.delete(`/dashboard/project-categories/${id}`, {
+            onSuccess: () => {
+                toast.success('Project category deleted successfully');
+            },
+            onError: () => {
+                toast.error('Failed to delete project category');
+            },
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Project Category" />
@@ -54,14 +65,7 @@ export default function TableProjectCategory({ projectCategories }: TableProject
                                                         Edit
                                                     </Button>
                                                 </Link>
-                                                <Button
-                                                    variant="destructive"
-                                                    onClick={() => {
-                                                    if (confirm('Are you sure to delete this Data?')) {
-                                                        router.delete(`/dashboard/project-categories/${row.id}`);
-                                                    }
-                                                    }}
-                                                >
+                                                <Button variant="destructive" onClick={() => deleteProjectCategory(row.id)}>
                                                     Delete
                                                 </Button>
                                             </div>
