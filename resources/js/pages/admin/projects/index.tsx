@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, PaginatedResponse, Project } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,6 +22,17 @@ interface ProjectProps {
 }
 
 const Projects = ({ projects }: ProjectProps) => {
+    const deleteProject = (id: number) => {
+        router.delete(`/dashboard/projects/${id}`, {
+            onSuccess: () => {
+                toast.success('Project deleted successfully');
+            },
+            onError: () => {
+                toast.error('Failed to delete project');
+            },
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Projects" />
@@ -50,9 +62,9 @@ const Projects = ({ projects }: ProjectProps) => {
                                             <Link href={`/dashboard/projects/${row.id}/edit`}>
                                                 <Button variant="outline">Edit</Button>
                                             </Link>
-                                            <Link href={`/dashboard/projects/${row.id}/delete`}>
-                                                <Button variant="destructive">Delete</Button>
-                                            </Link>
+                                            <Button variant="destructive" onClick={() => deleteProject(row.id)}>
+                                                Delete
+                                            </Button>
                                         </div>
                                     ),
                                 },

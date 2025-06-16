@@ -23,7 +23,7 @@ class ContactCarousellRequest extends FormRequest
     {
         return [
             'title' => ['nullable', 'string', 'max:255'],
-            'image' => $this->isMethod('post') ? ['required', 'image', 'max:10000'] : ['nullable', 'image', 'max:10000'],
+            'image' => $this->isMethod('post') ? ['required', 'image', 'max:10240'] : ['nullable', 'image', 'max:10240'],
         ];
     }
 }
