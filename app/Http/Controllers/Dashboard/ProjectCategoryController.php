@@ -117,10 +117,20 @@ class ProjectCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $projectCategory = ProjectCategory::findOrFail($id);
-        $projectCategory->delete();
+        try {
+            $category = ProjectCategory::findOrFail($id);
 
-        return redirect()->route('project-categories.index')->with('success', 'Category deleted successfully');
+            if ($category->projects()->exists()) {
+                return back()->with('error', 'Kategori tidak bisa dihapus karena masih digunakan oleh project.');
+            }
+
+            $category->delete();
+
+            return redirect()->route('project-categories.index')->with('success', 'Kategori berhasil dihapus.');
+        } catch (\Throwable $e) {
+            report($e);
+            return back()->with('error', 'Terjadi kesalahan saat menghapus kategori.');
+        }
     }
 
 
