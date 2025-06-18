@@ -14,6 +14,7 @@ const JumbotronSection = ({ banner }: { banner?: Banner }) => {
                         </div>
                     ) : (
                         <img
+                            fetchPriority="high"
                             data-aos="fade-in"
                             data-aos-delay={300}
                             src={banner?.image_url}
