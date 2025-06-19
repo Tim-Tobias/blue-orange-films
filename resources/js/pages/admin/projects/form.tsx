@@ -20,9 +20,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const projectSchema = z.object({
     title: z.string().min(1),
-    year: z.string().min(4),
+    date: z.string().min(4),
     duration: z.string(),
-    aspect_ratio: z.string(),
     category: z.string(),
     description: z.string(),
     highlight: z.string().min(1),
@@ -60,9 +59,8 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
         resolver: zodResolver(projectSchema),
         defaultValues: {
             title: isEdit ? project?.title : '',
-            year: isEdit ? String(project?.year) : '',
+            date: isEdit ? String(project?.date) : '',
             duration: isEdit ? project?.duration : '',
-            aspect_ratio: isEdit ? project?.aspect_ratio : '',
             category: isEdit ? String(project?.id_project_category) : '',
             description: isEdit ? project?.description : '',
             highlight: isEdit ? String(project?.highlight_link) : '',
@@ -93,9 +91,8 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
         const formData = new FormData();
 
         formData.append('title', data.title);
-        formData.append('year', data.year);
+        formData.append('date', data.date);
         formData.append('duration', data.duration);
-        formData.append('aspect_ratio', data.aspect_ratio);
         formData.append('category', data.category);
         formData.append('description', data.description);
         formData.append('client', data.client);

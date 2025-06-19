@@ -8,6 +8,11 @@ import { UseFormReturn } from 'react-hook-form';
 import Editor from 'react-simple-wysiwyg';
 import { ProjectFormData } from '../form';
 
+import DatePicker from 'react-datepicker';
+
+import { useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
+
 interface ProjectFormProps {
     categories: ProjectCategory[];
     isEdit: boolean;
@@ -17,6 +22,7 @@ interface ProjectFormProps {
 
 export default function ProjectForm({ categories, form, isEdit, project }: ProjectFormProps) {
     const { errors: inertiaErrors } = usePage().props;
+    const [startDate, setStartDate] = useState(new Date());
 
     const {
         register,
@@ -37,6 +43,11 @@ export default function ProjectForm({ categories, form, isEdit, project }: Proje
         return undefined;
     };
 
+    const changeDate = (date: Date) => {
+        setStartDate(date);
+        setValue('date', date.toISOString().split('T')[0]);
+    };
+
     return (
         <Card>
             <CardHeader className="text-xl font-semibold">Project Data</CardHeader>
@@ -46,9 +57,18 @@ export default function ProjectForm({ categories, form, isEdit, project }: Proje
                     {errorText('title') && <p className="text-sm text-red-500">{errorText('title')}</p>}
                 </div>
 
-                <div>
-                    <Input placeholder="Year" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" type="number" {...register('year')} />
-                    {errorText('year') && <p className="text-sm text-red-500">{errorText('year')}</p>}
+                <div className="w-full">
+                    <DatePicker
+                        className="w-full border p-2"
+                        wrapperClassName="w-full"
+                        calendarClassName="w-full"
+                        popperProps={{
+                            placement: 'bottom-start',
+                        }}
+                        selected={startDate}
+                        onChange={(date) => date && changeDate(date)}
+                    />
+                    {errorText('date') && <p className="text-sm text-red-500">{errorText('date')}</p>}
                 </div>
 
                 <div>
@@ -59,11 +79,6 @@ export default function ProjectForm({ categories, form, isEdit, project }: Proje
                 <div>
                     <Input placeholder="Duration" {...register('duration')} />
                     {errorText('duration') && <p className="text-sm text-red-500">{errorText('duration')}</p>}
-                </div>
-
-                <div>
-                    <Input placeholder="Aspect Ratio" {...register('aspect_ratio')} />
-                    {errorText('aspect_ratio') && <p className="text-sm text-red-500">{errorText('aspect_ratio')}</p>}
                 </div>
 
                 <div>

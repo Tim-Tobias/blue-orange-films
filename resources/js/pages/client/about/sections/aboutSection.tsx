@@ -32,14 +32,14 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
                 <div className="grid grid-cols-1 items-center justify-items-center gap-10 py-10 md:grid-cols-2">
                     <img
                         data-aos="fade-up"
-                        data-aos-delay="100"
+                        data-aos-delay="300"
                         src={about?.image_url}
                         alt={about?.image_url}
                         className="mx-auto block w-42 md:hidden"
                     />
-                    <img data-aos="fade-right" data-aos-delay="500" src={about?.image_url} alt={about?.content} className="hidden w-72 md:block" />
+                    <img data-aos="fade-right" data-aos-delay="300" src={about?.image_url} alt={about?.content} className="hidden w-72 md:block" />
 
-                    <div data-aos="fade-left" data-aos-delay="300" className="text-center md:text-left">
+                    <div data-aos="fade-left" data-aos-delay="500" className="text-center md:text-left">
                         {parser(about?.content || '')}
                     </div>
                 </div>

@@ -75,9 +75,8 @@ class ProjectsController extends Controller
 
             $project = Project::create([
                 'title' => $data['title'],
-                'year' => $data['year'],
+                'date' => $data['date'],
                 'duration' => $data['duration'],
-                'aspect_ratio' => $data['aspect_ratio'],
                 'id_project_category' => $data['category'],
                 'description' => $data['description'],
                 'highlight_link' => $data['highlight'],
@@ -162,9 +161,8 @@ class ProjectsController extends Controller
             
             $project->update([
                 'title' => $data['title'],
-                'year' => $data['year'],
+                'date' => $data['date'],
                 'duration' => $data['duration'],
-                'aspect_ratio' => $data['aspect_ratio'], 
                 'id_project_category' => $data['category'],
                 'description' => $data['description'],
                 'client' => $data['client'],

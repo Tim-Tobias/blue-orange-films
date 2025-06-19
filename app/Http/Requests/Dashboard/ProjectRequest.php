@@ -15,9 +15,8 @@ class ProjectRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'year' => 'required|string|max:10',
+            'date' => 'required|date',
             'duration' => 'nullable|string|max:50',
-            'aspect_ratio' => 'nullable|string|max:20',
             'category' => 'required|integer|exists:project_categories,id',
             'description' => 'nullable|string',
             'highlight' => $this->isMethod('post') ? 'required' : 'nullable',

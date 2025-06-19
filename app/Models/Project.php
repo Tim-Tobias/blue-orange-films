@@ -14,9 +14,8 @@ class Project extends Model
     protected $fillable = [
         'highlight_link',
         'title',
-        'year',
+        'date',
         'duration',
-        'aspect_ratio',
         'description',
         'client',
         'agency',

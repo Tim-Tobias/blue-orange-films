@@ -4,7 +4,7 @@ import { Banner } from '@/types';
 
 const JumbotronSection = ({ banner }: { banner?: Banner }) => {
     return (
-        <AppFrontContainer className="h-[80vh] w-full md:h-screen">
+        <AppFrontContainer className={`h-[80vh] w-full md:h-[${banner?.category === 'video' ? '80vh' : '100vh'}]`}>
             {banner?.category === 'video' ? (
                 <div data-aos="fade-in" data-aos-delay={300} className="h-[80vh] w-full cursor-pointer">
                     <Player url={banner.image_url ?? ''} playing={banner.autoplay ?? false} muted={banner?.muted ?? false} loop controls={true} />

@@ -31,7 +31,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
         <>
             <Head title="Blue Orange Films - Contact" />
 
-            <AppFrontWrapper className="grid h-screen max-w-[2000px] grid-cols-1 place-items-center pt-20 md:pt-0">
+            <AppFrontWrapper className="grid max-w-[2000px] grid-cols-1 place-items-center pt-20 md:h-screen md:pt-0 lg:h-[calc(100vh-69.45px)]">
                 <div className="flex w-full flex-col gap-8 p-8 lg:w-fit lg:flex-row">
                     <div data-aos="fade-right" data-aos-delay={100} className="h-[250px] w-full lg:h-[501px] lg:w-[1170px]">
                         <Swiper
