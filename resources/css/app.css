@@ -166,3 +166,8 @@ video {
 html {
     font-family: 'Open Sans', sans-serif;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: white !important;
+}

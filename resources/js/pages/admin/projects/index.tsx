@@ -49,12 +49,11 @@ const Projects = ({ projects }: ProjectProps) => {
                         <DataTable
                             columns={[
                                 { header: 'Title', accessor: 'title', searchable: true },
-                                { header: 'Year', accessor: 'year', sortable: true },
+                                { header: 'Date', accessor: 'date', sortable: true },
                                 { header: 'Client', accessor: 'client' },
                                 { header: 'Agency', accessor: 'agency' },
                                 { header: 'Category', accessor: (row) => row.category?.name },
                                 { header: 'Duration', accessor: 'duration' },
-                                { header: 'Aspect Ration', accessor: 'aspect_ratio' },
                                 {
                                     header: 'Action',
                                     accessor: (row) => (

@@ -16,12 +16,13 @@ class WorkController extends Controller
         $selectedCategory = $request->query('category');
         $categories = ProjectCategory::all();
         
-        $projects = Project::with('category')
+        $projects = Project::with('category')->whereYear('date', '>=', now()->year)
         ->when($selectedCategory && $selectedCategory !== 'all', function ($query) use ($selectedCategory) {
             $query->whereHas('category', function ($q) use ($selectedCategory) {
                 $q->where('name', $selectedCategory);
             });
         })
+        ->orderBy('date', 'desc')
         ->get();
 
         return Inertia::render('client/works/index', [

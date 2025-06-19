@@ -51,7 +51,7 @@ const InfoSection = ({ project }: InfoSectionProps) => {
                         {project.title}
                     </div>
                     <p data-aos="fade-up" data-aos-delay={200} className="text-sm">
-                        {project.category?.name} | {project.duration} | {project.aspect_ratio}
+                        {project.category?.name} | {project.duration}
                     </p>
                     <div data-aos="fade-up" data-aos-delay={300} className="mt-2 text-sm">
                         {parser(project.description || '')}
@@ -61,7 +61,7 @@ const InfoSection = ({ project }: InfoSectionProps) => {
                         <div>
                             <p className="font-semibold text-orange-400">Year</p>
                             <p data-aos="fade-up" data-aos-delay={500} className="">
-                                {project.year}
+                                {new Date(project.date).getFullYear()}
                             </p>
                         </div>
 

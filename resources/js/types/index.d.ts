@@ -72,9 +72,8 @@ export interface Banner {
 export interface Project {
     id: number;
     title: string;
-    year: string;
+    date: string;
     duration: string;
-    aspect_ratio: string;
     highlight_link: string;
     highlight_url?: string;
     highlight_image_url?: string;

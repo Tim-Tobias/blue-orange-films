@@ -1,6 +1,7 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import CardWork from '@/components/card-work';
 import CategoryFilter from '@/components/category-filter';
+import LogoBlueOrange from '@/images/Blueorange-Square.png';
 import { Project, ProjectCategory } from '@/types';
 import { Link } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -29,6 +30,13 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
     return (
         <>
             <AppFrontWrapper>
+                <div className="flex items-center justify-center gap-10 pt-20 text-center">
+                    <img data-aos="fade-right" data-aos-delay={300} src={LogoBlueOrange} alt="Blue Orange Films" className="h-10" />
+                    <h1 data-aos="fade-left" data-aos-delay={500} className="text-2xl font-bold">
+                        Blue Orange Showreel Compilation {new Date().getFullYear()}
+                    </h1>
+                </div>
+
                 <div className="py-10">
                     <CategoryFilter categories={categories} onSelect={setSelectedCategory} selected={selectedCategory} />
                 </div>
@@ -44,7 +52,7 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
                                 initial="hidden"
                                 animate={inView ? 'show' : 'hidden'}
                                 transition={{ delay: index * 0.1 }}
-                                className="min-h-[250px] 2xl:min-h-[400px] w-full cursor-pointer"
+                                className="min-h-[250px] w-full cursor-pointer 2xl:min-h-[400px]"
                             >
                                 <Link href={`/works/${service.id}`}>
                                     <CardWork imageUrl={service.highlight_image_url!} title={service.title} />

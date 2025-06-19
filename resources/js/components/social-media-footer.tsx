@@ -15,10 +15,10 @@ const SocialMediaFooter = ({ color }: SocialMediaFooterProps) => {
         linkedin: Social;
         email: Social;
     }>({
-        instagram: { id: 0 },
-        youtube: { id: 0 },
-        linkedin: { id: 0 },
-        email: { id: 0 },
+        instagram: { id: 0, link: '', name: '', is_active: true },
+        youtube: { id: 0, link: '', name: '', is_active: true },
+        linkedin: { id: 0, link: '', name: '', is_active: true },
+        email: { id: 0, link: '', name: '', is_active: true },
     });
 
     useEffect(() => {
@@ -39,25 +39,25 @@ const SocialMediaFooter = ({ color }: SocialMediaFooterProps) => {
     return (
         <div className={`flex items-center gap-5 text-${color}`}>
             {data?.instagram && (
-                <a href={data.instagram.link!}>
+                <a target="_blank" rel="noopener noreferrer" href={data.instagram.link!}>
                     <FaInstagram className="text-xl" />
                 </a>
             )}
 
             {data?.youtube && (
-                <a href={data.youtube.link!}>
+                <a target="_blank" rel="noopener noreferrer" href={data.youtube.link!}>
                     <FaYoutube className="text-xl" />
                 </a>
             )}
 
             {data?.linkedin && (
-                <a href={data.linkedin.link!}>
+                <a target="_blank" rel="noopener noreferrer" href={data.linkedin.link!}>
                     <FaLinkedin className="text-xl" />
                 </a>
             )}
 
             {data?.email && (
-                <a href={`mailto:${data.email.link!}`}>
+                <a target="_blank" rel="noopener noreferrer" href={`mailto:${data.email.link!}`}>
                     <CgMail className="text-2xl" />
                 </a>
             )}

@@ -1,5 +1,7 @@
 import CompanyLogo from '@/components/company-logo';
 import SocialMediaFooter from '@/components/social-media-footer';
+import useScrollPosition from '@/hooks/use-scroll-position';
+import { cn } from '@/lib/utils';
 import { Link, usePage } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
@@ -7,35 +9,61 @@ import { BiMenuAltRight, BiX } from 'react-icons/bi';
 
 const HeaderLayout = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const scrollY = useScrollPosition();
     const pathname = usePage().url;
 
     return (
         <>
-            <header className="absolute top-0 z-10 mb-6 w-full px-5 py-5 md:px-15">
+            <header className="fixed top-0 z-10 mb-6 w-full px-5 py-5 md:px-15">
+                <motion.div
+                    initial={{ y: -100 }}
+                    animate={{
+                        y: scrollY > 0 ? 0 : -100,
+                    }}
+                    transition={{
+                        type: 'spring',
+                        stiffness: 300,
+                        damping: 30,
+                    }}
+                    className="absolute top-0 left-0 h-full w-full bg-white"
+                />
                 <nav className="relative mx-auto flex items-center justify-between gap-4">
                     <CompanyLogo />
 
                     <div className="block text-3xl text-white md:hidden" onClick={() => setIsOpen(true)}>
-                        <BiMenuAltRight className={`text-black ${pathname === '/contact' ? 'text-black' : 'text-white'}`} />
+                        <BiMenuAltRight className={`text-black ${pathname === '/contact' || scrollY > 0 ? 'text-black' : 'text-white'}`} />
                     </div>
 
                     <div className="hidden items-center gap-4 text-white md:flex">
                         <Link
                             href="/about"
-                            className={`text-sm after:block after:h-[2px] after:origin-left after:scale-x-0 after:bg-white after:transition-transform after:duration-300 *:after:content-[''] hover:after:scale-x-100 md:text-2xl ${pathname === '/about' ? 'font-semibold after:scale-x-100 after:bg-white' : ''} ${pathname === '/contact' ? 'text-black' : ''}`}
+                            className={cn(
+                                `text-sm after:block after:h-[2px] after:origin-left after:scale-x-0 after:transition-transform after:duration-300 *:after:content-[''] hover:after:scale-x-100 md:text-2xl`,
+                                pathname === '/about' ? 'font-semibold after:scale-x-100 after:bg-white' : '',
+                                pathname === '/contact' || scrollY > 0 ? 'text-black' : '',
+                                scrollY > 0 ? 'after:bg-black' : 'after:bg-white',
+                            )}
                         >
                             About
                         </Link>
                         <Link
                             href="/works"
-                            className={`text-sm after:block after:h-[2px] after:origin-left after:scale-x-0 after:bg-white after:transition-transform after:duration-300 *:after:content-[''] hover:after:scale-x-100 md:text-2xl ${pathname === '/works' ? 'font-semibold after:scale-x-100 after:bg-white' : ''} ${pathname === '/contact' ? 'text-black' : ''}`}
+                            className={cn(
+                                `text-sm after:block after:h-[2px] after:origin-left after:scale-x-0 after:transition-transform after:duration-300 *:after:content-[''] hover:after:scale-x-100 md:text-2xl`,
+                                pathname === '/works' ? 'font-semibold after:scale-x-100 after:bg-white' : '',
+                                pathname === '/contact' || scrollY > 0 ? 'text-black' : '',
+                                scrollY > 0 ? 'after:bg-black' : 'after:bg-white',
+                            )}
                         >
                             Works
                         </Link>
                         <Link
                             href="/contact"
-                            className={`text-sm after:block after:h-[2px] after:origin-left after:scale-x-0 after:bg-white after:transition-transform after:duration-300 *:after:content-[''] hover:after:scale-x-100 md:text-2xl ${pathname === '/contact' ? 'font-semibold text-black after:scale-x-100 after:bg-black' : ''}`}
+                            className={cn(
+                                `text-sm after:block after:h-[2px] after:origin-left after:scale-x-0 after:transition-transform after:duration-300 *:after:content-[''] hover:after:scale-x-100 md:text-2xl`,
+                                pathname === '/contact' ? 'font-semibold text-black after:scale-x-100 after:bg-black' : '',
+                                scrollY > 0 ? 'text-black after:bg-black' : '',
+                            )}
                         >
                             Contact
                         </Link>
