@@ -78,7 +78,7 @@ class ContactContentController extends Controller
 
         $contactContent->save();
 
-        return redirect()->route('contact-content.index')->with('success', 'Data created');
+        return redirect()->route('contacts.index')->with('success', 'Data created');
     }
 
     /**
@@ -115,7 +115,7 @@ class ContactContentController extends Controller
 
         $contactContent->save();
 
-        return to_route('contact-content.index')->with('success', 'Data updated');
+        return to_route('contacts.index')->with('success', 'Data updated');
     }
 
     /**
@@ -126,6 +126,6 @@ class ContactContentController extends Controller
         $contactContent = ContactContent::findOrFail($id);
         $contactContent->delete();
 
-        return redirect()->route('contact-content.index')->with('success', 'Data deleted successfully');
+        return redirect()->route('contacts.index')->with('success', 'Data deleted successfully');
     }
 }

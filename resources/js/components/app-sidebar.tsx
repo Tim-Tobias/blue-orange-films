@@ -62,12 +62,6 @@ const mainNavItems: NavItem[] = [
         role: ['admin', 'user'],
     },
     {
-        title: 'Contact Content',
-        href: '/dashboard/contact-content',
-        icon: LayoutGrid,
-        role: ['admin', 'user'],
-    },
-    {
         title: 'Socials',
         href: '/dashboard/socials',
         icon: LayoutGrid,
