@@ -1,6 +1,7 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import CardWork from '@/components/card-work';
 import CategoryFilter from '@/components/category-filter';
+import useScrollPosition from '@/hooks/use-scroll-position';
 import LogoBlueOrange from '@/images/Blueorange-Square.png';
 import { Project, ProjectCategory } from '@/types';
 import { Link } from '@inertiajs/react';
@@ -20,6 +21,7 @@ interface WorkSectionProps {
 
 const WorkSection = ({ categories, projects }: WorkSectionProps) => {
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const scrollY = useScrollPosition();
 
     const { ref, inView } = useInView({
         threshold: 0,
@@ -30,12 +32,15 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
     return (
         <>
             <AppFrontWrapper>
-                <div className="flex items-center justify-center gap-10 pt-20 text-center">
-                    <img data-aos="fade-right" data-aos-delay={300} src={LogoBlueOrange} alt="Blue Orange Films" className="h-10" />
-                    <h1 data-aos="fade-left" data-aos-delay={500} className="text-2xl font-bold">
-                        Blue Orange Showreel Compilation {new Date().getFullYear()}
-                    </h1>
-                </div>
+                <motion.div
+                    initial={{ opacity: 1, y: 50 }}
+                    animate={scrollY > 0 ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    className="flex items-center justify-center gap-10 pt-10 text-center"
+                >
+                    <img src={LogoBlueOrange} alt="Blue Orange Films" className="h-10" />
+                    <h1 className="text-2xl font-bold">Blue Orange Showreel Compilation {new Date().getFullYear()}</h1>
+                </motion.div>
 
                 <div className="py-10">
                     <CategoryFilter categories={categories} onSelect={setSelectedCategory} selected={selectedCategory} />

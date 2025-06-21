@@ -1,5 +1,4 @@
 import AppFrontContainer from '@/components/app-front-container';
-import Player from '@/components/player';
 import { Banner } from '@/types';
 import { Parallax } from 'react-scroll-parallax';
 
@@ -10,7 +9,7 @@ const JumbotronSection = ({ banner }: { banner?: Banner }) => {
                 <Parallax translateY={[-20, 20]} speed={2} className="h-screen w-full">
                     {banner?.category === 'video' ? (
                         <div data-aos="fade-in" data-aos-delay={500} className="h-full w-full">
-                            <Player muted playing controls={false} loop url={banner?.image_url ? banner.image_url : ''} />
+                            <video src={banner?.image_url || ''} autoPlay muted loop playsInline className="h-full w-full object-cover" />
                         </div>
                     ) : (
                         <img

@@ -1,5 +1,4 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
-import Player from '@/components/player';
 import IntroduceLayout from '@/layouts/client/IntroduceLayout';
 import { About, Banner } from '@/types';
 import parser from 'html-react-parser';
@@ -17,12 +16,14 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
             ) : (
                 <div data-aos="fade-in" data-aos-delay={300} className="h-[80vh] w-full">
                     {about?.image_url && (
-                        <Player
-                            muted={banner?.muted ? true : false}
-                            playing={banner?.autoplay ? true : false}
-                            controls={true}
+                        <video
+                            src={banner?.image_url || ''}
+                            autoPlay={banner?.autoplay ?? false}
+                            muted={banner?.muted ?? false}
+                            controls
                             loop
-                            url={banner?.image_url ? banner.image_url : ''}
+                            playsInline={banner?.autoplay ?? false}
+                            className="h-full w-full object-cover"
                         />
                     )}
                 </div>
