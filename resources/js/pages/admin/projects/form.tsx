@@ -20,6 +20,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const projectSchema = z.object({
     title: z.string().min(1),
+    agency: z.string().min(1),
     date: z.string().min(4),
     duration: z.string(),
     category: z.string(),
@@ -66,6 +67,7 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
             highlight: isEdit ? String(project?.highlight_link) : '',
             client: isEdit ? project?.client : '',
             highlight_image: undefined,
+            agency: isEdit ? project?.agency : '',
             teams: isEdit
                 ? (project?.teams ?? []).map((team) => ({
                       id_name: team.id_name_crew,
@@ -91,6 +93,7 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
         const formData = new FormData();
 
         formData.append('title', data.title);
+        formData.append('agency', data.agency);
         formData.append('date', data.date);
         formData.append('duration', data.duration);
         formData.append('category', data.category);
@@ -102,19 +105,29 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
             formData.append('highlight_image', data.highlight_image);
         }
 
-        data.teams.forEach((team, i) => {
-            formData.append(`teams[${i}][id_name]`, String(team.id_name));
-            formData.append(`teams[${i}][id_role]`, String(team.id_role));
-            formData.append(`teams[${i}][name]`, String(team.name));
-            formData.append(`teams[${i}][role]`, String(team.role));
-        });
+        if (data.teams.length > 0) {
+            data.teams.forEach((team, i) => {
+                formData.append(`teams[${i}][id_name]`, String(team.id_name));
+                formData.append(`teams[${i}][id_role]`, String(team.id_role));
+                formData.append(`teams[${i}][name]`, String(team.name));
+                formData.append(`teams[${i}][role]`, String(team.role));
+            });
+        } else {
+            formData.append('teams', String([]));
+        }
 
-        data.files.forEach((file, i) => {
-            formData.append(`files[${i}][title]`, file.title);
-            formData.append(`files[${i}][category]`, file.category);
-            formData.append(`files[${i}][description]`, file.description);
-            formData.append(`files[${i}][project_link]`, file.project_link);
-        });
+        if (data.files.length > 0) {
+            data.files.forEach((file, i) => {
+                formData.append(`files[${i}][title]`, file.title);
+                formData.append(`files[${i}][category]`, file.category);
+                formData.append(`files[${i}][description]`, file.description);
+                formData.append(`files[${i}][project_link]`, file.project_link);
+            });
+        } else {
+            formData.append('files', String([]));
+        }
+
+        console.log(formData);
 
         if (isEdit) {
             formData.append('_method', 'PUT');

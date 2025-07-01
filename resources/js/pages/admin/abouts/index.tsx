@@ -3,10 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { limitText } from '@/helpers/limit_text';
 import AppLayout from '@/layouts/app-layout';
-import { PaginatedResponse, About, type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import parse from 'html-react-parser';
-import { router } from '@inertiajs/react';
+import { About, PaginatedResponse, type BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -44,12 +42,16 @@ export default function Abouts({ abouts }: AboutProps) {
                                 {
                                     header: 'Image',
                                     accessor: (row) => {
-                                        return (
-                                            row.image_url && <img src={row.image_url} alt='About' className="h-16 w-16 rounded-lg object-cover" />
-                                        );
+                                        return row.image_url && <img src={row.image_url} alt="About" className="h-16 w-16 rounded-lg object-cover" />;
                                     },
                                 },
-                                { header: 'Content', accessor: 'content', searchable: true },
+                                {
+                                    header: 'Content',
+                                    accessor: (row) => {
+                                        return limitText(row.content || '', 150);
+                                    },
+                                    searchable: true,
+                                },
                                 { header: 'Status', accessor: 'status_text', searchable: true },
                                 {
                                     header: 'Action',
@@ -64,9 +66,9 @@ export default function Abouts({ abouts }: AboutProps) {
                                                 <Button
                                                     variant="destructive"
                                                     onClick={() => {
-                                                    if (confirm('Are you sure to delete this abouts?')) {
-                                                        router.delete(`/dashboard/abouts/${row.id}`);
-                                                    }
+                                                        if (confirm('Are you sure to delete this abouts?')) {
+                                                            router.delete(`/dashboard/abouts/${row.id}`);
+                                                        }
                                                     }}
                                                 >
                                                     Delete

@@ -57,6 +57,11 @@ export default function ProjectForm({ categories, form, isEdit, project }: Proje
                     {errorText('title') && <p className="text-sm text-red-500">{errorText('title')}</p>}
                 </div>
 
+                <div>
+                    <Input placeholder="Agency" {...register('agency')} />
+                    {errorText('agency') && <p className="text-sm text-red-500">{errorText('agency')}</p>}
+                </div>
+
                 <div className="w-full">
                     <DatePicker
                         className="w-full border p-2"

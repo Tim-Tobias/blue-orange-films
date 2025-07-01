@@ -1,6 +1,7 @@
 export interface CardServiceProps {
     imageUrl: string;
     title: string;
+    client: string
 }
 
 const CardService = ({ title }: CardServiceProps) => {

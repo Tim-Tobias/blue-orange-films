@@ -60,7 +60,7 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
                                 className="min-h-[250px] w-full cursor-pointer 2xl:min-h-[400px]"
                             >
                                 <Link href={`/works/${service.id}`}>
-                                    <CardWork imageUrl={service.highlight_image_url!} title={service.title} />
+                                    <CardWork imageUrl={service.highlight_image_url!} title={service.title} client={service.client} />
                                 </Link>
                             </motion.div>
                         ))}
