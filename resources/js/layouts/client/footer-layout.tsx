@@ -3,7 +3,7 @@ import SocialMediaFooter from '@/components/social-media-footer';
 const FooterLayout = () => {
     return (
         <footer className="bg-[#1E4E79]">
-            <div className="mx-auto grid max-w-[1780px] grid-cols-1 items-center gap-5 py-5 md:grid-cols-2 md:justify-between md:gap-10">
+            <div className="mx-auto grid max-w-[1570px] grid-cols-1 items-center gap-5 py-5 md:grid-cols-2 md:justify-between md:gap-10">
                 <div className="flex items-center justify-between gap-5 pl-5">
                     <SocialMediaFooter color="white" />
                 </div>

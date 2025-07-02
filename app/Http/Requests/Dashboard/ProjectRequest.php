@@ -15,14 +15,12 @@ class ProjectRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'agency' => 'required|string|max:255',
             'date' => 'required|date',
             'duration' => 'nullable|string|max:50',
             'category' => 'required|integer|exists:project_categories,id',
             'description' => 'nullable|string',
             'highlight' => $this->isMethod('post') ? 'required' : 'nullable',
             'highlight_image' => $this->isMethod('post') ? 'required' : 'nullable',
-            'client' => 'required|string|max:255',
 
             'teams' => 'nullable|array',
             'teams.*.id_name' => 'required|integer',

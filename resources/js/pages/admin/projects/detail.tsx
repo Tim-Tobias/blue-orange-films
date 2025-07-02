@@ -1,13 +1,11 @@
 import { AppWrapper } from '@/components/app-wrapper';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { ProjectCategory, ProjectDetail, Projects, TeamMember, type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
-import { Trash2 } from 'lucide-react';
+import { ProjectCategory, ProjectDetail, type BreadcrumbItem } from '@/types';
+import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 import { z } from 'zod';
@@ -29,11 +27,11 @@ type FormProjectsProps = {
     categories?: ProjectCategory[];
 };
 type ProjectEntry = {
-    title: string
-    project_link: string
-    category: "image" | "video"
-    description: string
-}
+    title: string;
+    project_link: string;
+    category: 'image' | 'video';
+    description: string;
+};
 
 export const webContentScheme = z.object({
     title: z.string().optional(),
@@ -43,25 +41,18 @@ export const webContentScheme = z.object({
 export type WebContentFormData = z.infer<typeof webContentScheme>;
 
 export default function FormProjects({ isEdit = false, projects, categories }: FormProjectsProps) {
-
-
     const [dataCategories, setdataCategories] = useState<ProjectCategory[]>([]);
 
     const [ProjectDetail, setProjectDetail] = useState<ProjectDetail[]>([]);
-
 
     useEffect(() => {
         if (projects) {
             setProjectDetail([projects]);
         }
-        return () => {
-
-            
-        }
+        return () => {};
     }, [projects]);
 
     console.log(`ProjectDetail ${JSON.stringify(ProjectDetail)}`);
-
 
     useEffect(() => {
         if (categories) {
@@ -69,13 +60,8 @@ export default function FormProjects({ isEdit = false, projects, categories }: F
         }
     }, [categories]);
 
-
-
-
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-
             <Head title={`Admin Dashboard - Projects`} />
 
             <AppWrapper>
@@ -85,21 +71,16 @@ export default function FormProjects({ isEdit = false, projects, categories }: F
                     <CardContent>
                         <form encType="multipart/form-data" className="space-y-4">
                             <div className="w-full">
-                                <div className="flex flex-wrap w-full">
+                                <div className="flex w-full flex-wrap">
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Title</label>
-                                        <Input
-                                            type="text"
-                                            name="title"
-                                            className="form-control mt-2"
-                                            defaultValue={ProjectDetail[0]?.title}
-                                             />
+                                        <Input type="text" name="title" className="form-control mt-2" defaultValue={ProjectDetail[0]?.title} />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Highlight Link</label>
                                         <Input
                                             type="text"
-                                            name='highlight_link'
+                                            name="highlight_link"
                                             className="form-control mt-2"
                                             defaultValue={ProjectDetail[0]?.highlight_link}
                                         />
@@ -130,76 +111,58 @@ export default function FormProjects({ isEdit = false, projects, categories }: F
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Aspect Ratio</label>
-                                        <Input type="text" name="aspect_ratio" className="form-control mt-2" 
+                                        <Input
+                                            type="text"
+                                            name="aspect_ratio"
+                                            className="form-control mt-2"
                                             defaultValue={ProjectDetail[0]?.aspect_ratio}
                                         />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Client</label>
-                                        <Input type="text" name="client" className="form-control mt-2"
-                                            defaultValue={ProjectDetail[0]?.client}
-
-                                         />
+                                        <Input type="text" name="client" className="form-control mt-2" defaultValue={ProjectDetail[0]?.client} />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
-                                        <label>Agency </label>
-                                        <Input type="text" name="agency" className="form-control mt-2"
-                                            defaultValue={ProjectDetail[0]?.agency}
-                                         />
+                                        <label>Agency</label>
+                                        <Input type="text" name="agency" className="form-control mt-2" defaultValue={ProjectDetail[0]?.agency} />
                                     </div>
                                     <div className="p-4 md:w-1/2 lg:w-1/2">
                                         <label>Project Category </label>
-                                        <Input type="text" name="agency" className="form-control mt-2"
-                                            defaultValue={ProjectDetail[0]?.id}
-                                        />
+                                        <Input type="text" name="agency" className="form-control mt-2" defaultValue={ProjectDetail[0]?.id} />
                                     </div>
-                                    <div className="p-4 w-full">
+                                    <div className="w-full p-4">
                                         <label>Description</label>
                                         <textarea
-                                            name='description'
+                                            name="description"
                                             className="mt-2 w-full rounded border p-2"
                                             defaultValue={ProjectDetail[0]?.description}
-
-                                            rows={4}></textarea>
+                                            rows={4}
+                                        ></textarea>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className='w-full'>
+                            <div className="w-full">
                                 <Card>
                                     <CardHeader className="flex flex-row items-center justify-between">
                                         <CardTitle>Project Files</CardTitle>
-                                        
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-4">
                                             {ProjectDetail[0]?.projectFiles?.map((entry, index) => (
                                                 <div key={index} className="bg-muted/50 flex items-center gap-4 rounded-lg p-4">
                                                     <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
-
                                                         <div>
                                                             <Label htmlFor={`project-title-${index}`}>Title</Label>
-                                                            <Input
-                                                                id={`project-title-${index}`}
-                                                                defaultValue={entry.title}
-
-                                                                className="mt-1"
-                                                            />
+                                                            <Input id={`project-title-${index}`} defaultValue={entry.title} className="mt-1" />
                                                         </div>
                                                         <div>
                                                             <Label htmlFor={`project-link-${index}`}>Project Link</Label>
-                                                            <Input
-                                                                id={`project-link-${index}`}
-                                                                defaultValue={entry.project_link}
-
-                                                                className="mt-1"
-                                                            />
+                                                            <Input id={`project-link-${index}`} defaultValue={entry.project_link} className="mt-1" />
                                                         </div>
                                                         <div>
                                                             <Label htmlFor={`category-${index}`}>Category</Label>
-                                                            <Select
-                                                                defaultValue={entry.category}
-                                                            >
+                                                            <Select defaultValue={entry.category}>
                                                                 <SelectTrigger id={`category-${index}`} className="mt-1">
                                                                     <SelectValue placeholder="Select category" />
                                                                 </SelectTrigger>
@@ -209,7 +172,7 @@ export default function FormProjects({ isEdit = false, projects, categories }: F
                                                                 </SelectContent>
                                                             </Select>
                                                         </div>
-                                                        <div className='w-full'>
+                                                        <div className="w-full">
                                                             <Label htmlFor={`description-${index}`}>Description</Label>
                                                             <textarea
                                                                 id={`description-${index}`}
@@ -218,7 +181,6 @@ export default function FormProjects({ isEdit = false, projects, categories }: F
                                                             />
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             ))}
                                         </div>
@@ -230,7 +192,6 @@ export default function FormProjects({ isEdit = false, projects, categories }: F
                                 <Card>
                                     <CardHeader className="flex flex-row items-center justify-between">
                                         <CardTitle>Project Team</CardTitle>
-                                        
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-4">
@@ -245,29 +206,19 @@ export default function FormProjects({ isEdit = false, projects, categories }: F
                                                     <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
                                                         <div>
                                                             <Label htmlFor={`team-name-${member.id}`}>Team Name</Label>
-                                                            <Input
-                                                                id={`team-name-${member.id}`}
-                                                                defaultValue={member.nameTeam}
-                                                                className="mt-1"
-                                                            />
+                                                            <Input id={`team-name-${member.id}`} defaultValue={member.nameTeam} className="mt-1" />
                                                         </div>
                                                         <div>
                                                             <Label htmlFor={`crew-roles-${member.id}`}>Crew Roles</Label>
-                                                            <Input
-                                                                id={`crew-roles-${member.id}`}
-                                                                defaultValue={member.nameRoles}
-                                                                className="mt-1"
-                                                            />
+                                                            <Input id={`crew-roles-${member.id}`} defaultValue={member.nameRoles} className="mt-1" />
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             ))}
                                         </div>
                                     </CardContent>
                                 </Card>
                             </div>
-                           
                         </form>
                     </CardContent>
                 </Card>

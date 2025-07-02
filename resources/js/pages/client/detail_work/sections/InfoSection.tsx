@@ -65,20 +65,6 @@ const InfoSection = ({ project }: InfoSectionProps) => {
                             </p>
                         </div>
 
-                        <div>
-                            <p className="font-semibold text-orange-400">Client</p>
-                            <p data-aos="fade-up" data-aos-delay={500} className="">
-                                {project.client}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p className="font-semibold text-orange-400">Agency</p>
-                            <p data-aos="fade-up" data-aos-delay={500} className="">
-                                Blue Orange Films
-                            </p>
-                        </div>
-
                         {groupedByRole &&
                             Object.entries(groupedByRole).map(([role, names], idx) => (
                                 <div key={idx}>

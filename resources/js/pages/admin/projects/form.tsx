@@ -20,14 +20,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const projectSchema = z.object({
     title: z.string().min(1),
-    agency: z.string().min(1),
     date: z.string().min(4),
     duration: z.string(),
     category: z.string(),
     description: z.string(),
     highlight: z.string().min(1),
     highlight_image: z.instanceof(File).optional(),
-    client: z.string(),
 
     teams: z.array(
         z.object({
@@ -65,9 +63,7 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
             category: isEdit ? String(project?.id_project_category) : '',
             description: isEdit ? project?.description : '',
             highlight: isEdit ? String(project?.highlight_link) : '',
-            client: isEdit ? project?.client : '',
             highlight_image: undefined,
-            agency: isEdit ? project?.agency : '',
             teams: isEdit
                 ? (project?.teams ?? []).map((team) => ({
                       id_name: team.id_name_crew,
@@ -93,12 +89,10 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
         const formData = new FormData();
 
         formData.append('title', data.title);
-        formData.append('agency', data.agency);
         formData.append('date', data.date);
         formData.append('duration', data.duration);
         formData.append('category', data.category);
         formData.append('description', data.description);
-        formData.append('client', data.client);
         formData.append('highlight', data.highlight);
 
         if (data.highlight_image) {
@@ -154,7 +148,7 @@ export default function FormProjects({ isEdit = false, categories, project }: Fo
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                     <ProjectForm isEdit={isEdit} project={project} categories={categories} form={form} />
                     <TeamForm form={form} />
-                    <FilesForm isEdit={isEdit} form={form} />
+                    <FilesForm isEdit={isEdit} form={form} files={project?.files} />
 
                     <Button type="submit">Submit</Button>
                 </form>

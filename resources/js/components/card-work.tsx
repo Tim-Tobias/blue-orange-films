@@ -6,8 +6,10 @@ const CardWork = ({ imageUrl, title, client }: Omit<CardServiceProps, 'tag'>) =>
             <img src={imageUrl} className="absolute top-0 left-0 h-full w-full object-cover transition-all group-hover:scale-110" />
             <div className="absolute top-0 left-0 h-full w-full bg-black opacity-30" />
             <div className="relative grid h-full w-full grid-cols-1 text-white">
-                <h1 className="absolute top-5 left-5 font-bold text-xl">{client}</h1>
-                <h1 className="absolute bottom-5 left-5 text-xl">{title}</h1>
+                <div className="absolute bottom-5 left-5 text-md">
+                    <h1 className="font-bold text-xl">{client}</h1>
+                    <h1>{title}</h1>
+                </div>
             </div>
         </div>
     );

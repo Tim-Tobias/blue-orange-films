@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
+import { ProjectFile } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { X } from 'lucide-react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
@@ -11,9 +12,10 @@ import { ProjectFormData } from '../form';
 interface FilesFormProps {
     isEdit: boolean;
     form: UseFormReturn<ProjectFormData>;
+    files?: ProjectFile[];
 }
 
-export default function FilesForm({ form }: FilesFormProps) {
+export default function FilesForm({ form, files }: FilesFormProps) {
     const { errors: inertiaErrors } = usePage().props;
 
     const {
@@ -104,6 +106,9 @@ export default function FilesForm({ form }: FilesFormProps) {
                             )}
                             {inertiaErrors[`files.${index}.description`] && (
                                 <p className="text-sm text-red-500">{inertiaErrors[`files.${index}.description`]}</p>
+                            )}
+                            {files && files[index] && files[index].project_url && (
+                                <img src={files[index].project_url} width={100} height={100} className="object-cover" alt="" />
                             )}
 
                             {/* Remove button */}
