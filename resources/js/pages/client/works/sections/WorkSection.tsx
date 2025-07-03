@@ -56,7 +56,7 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
                                     initial="hidden"
                                     animate={inView ? 'show' : 'hidden'}
                                     transition={{ delay: index * 0.1 }}
-                                    className="min-h-[250px] w-full cursor-pointer 2xl:min-h-[400px]"
+                                    className="min-h-[250px] w-full cursor-pointer 2xl:min-h-[300px]"
                                 >
                                     <Link href={`/works/${service.id}`}>
                                         <CardWork

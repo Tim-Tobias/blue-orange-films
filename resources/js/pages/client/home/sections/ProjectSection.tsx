@@ -40,7 +40,15 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
                                 className="h-[304px] w-full cursor-pointer"
                             >
                                 <Link href={`/works/${service.id}`}>
-                                    <CardWork imageUrl={service.highlight_image_url!} title={service.title} />
+                                    <CardWork
+                                        imageUrl={service.highlight_image_url!}
+                                        title={service.title}
+                                        client={
+                                            service.teams && service.teams?.length > 0 && service.teams[0].name_crew
+                                                ? service.teams[0].name_crew.name
+                                                : ''
+                                        }
+                                    />
                                 </Link>
                             </motion.div>
                         ))}
