@@ -45,28 +45,36 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
                 <div className="py-10">
                     <CategoryFilter categories={categories} onSelect={setSelectedCategory} selected={selectedCategory} />
                 </div>
-            </AppFrontWrapper>
 
-            <AnimatePresence>
-                {projects && (
-                    <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-3">
-                        {projects.map((service, index) => (
-                            <motion.div
-                                key={index}
-                                variants={item}
-                                initial="hidden"
-                                animate={inView ? 'show' : 'hidden'}
-                                transition={{ delay: index * 0.1 }}
-                                className="min-h-[250px] w-full cursor-pointer 2xl:min-h-[400px]"
-                            >
-                                <Link href={`/works/${service.id}`}>
-                                    <CardWork imageUrl={service.highlight_image_url!} title={service.title} client={service.client} />
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
-                )}
-            </AnimatePresence>
+                <AnimatePresence>
+                    {projects && (
+                        <div ref={ref} className="grid grid-cols-1 pb-10 md:grid-cols-3">
+                            {projects.map((service, index) => (
+                                <motion.div
+                                    key={index}
+                                    variants={item}
+                                    initial="hidden"
+                                    animate={inView ? 'show' : 'hidden'}
+                                    transition={{ delay: index * 0.1 }}
+                                    className="min-h-[250px] w-full cursor-pointer 2xl:min-h-[400px]"
+                                >
+                                    <Link href={`/works/${service.id}`}>
+                                        <CardWork
+                                            imageUrl={service.highlight_image_url!}
+                                            title={service.title}
+                                            client={
+                                                service.teams && service.teams?.length > 0 && service.teams[0].name_crew
+                                                    ? service.teams[0].name_crew.name
+                                                    : ''
+                                            }
+                                        />
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </div>
+                    )}
+                </AnimatePresence>
+            </AppFrontWrapper>
         </>
     );
 };
