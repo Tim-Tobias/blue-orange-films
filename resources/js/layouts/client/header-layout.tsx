@@ -14,7 +14,7 @@ const HeaderLayout = () => {
 
     return (
         <>
-            <header className="fixed top-0 z-10 mb-6 w-full">
+            <header className="fixed top-0 z-10 mb-6 w-full px-5">
                 <motion.div
                     initial={{ y: -100 }}
                     animate={{
