@@ -23,7 +23,7 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
     });
 
     return (
-        <AppFrontWrapper className="max-w-[1440px] overflow-hidden">
+        <AppFrontWrapper className="overflow-hidden">
             <div className="space-y-10 py-12 md:py-25">
                 <h1 data-aos="fade-right" data-aos-delay="50" className="text-center md:text-3xl">
                     Latest Work
@@ -37,10 +37,18 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
                                 initial="hidden"
                                 animate={inView ? 'show' : 'hidden'}
                                 transition={{ delay: index * 0.1 }}
-                                className="h-[234px] w-full cursor-pointer"
+                                className="h-[304px] w-full cursor-pointer"
                             >
                                 <Link href={`/works/${service.id}`}>
-                                    <CardWork imageUrl={service.highlight_image_url!} title={service.title} />
+                                    <CardWork
+                                        imageUrl={service.highlight_image_url!}
+                                        title={service.title}
+                                        client={
+                                            service.teams && service.teams?.length > 0 && service.teams[0].name_crew
+                                                ? service.teams[0].name_crew.name
+                                                : ''
+                                        }
+                                    />
                                 </Link>
                             </motion.div>
                         ))}

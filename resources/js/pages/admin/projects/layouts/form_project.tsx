@@ -72,11 +72,6 @@ export default function ProjectForm({ categories, form, isEdit, project }: Proje
                 </div>
 
                 <div>
-                    <Input placeholder="Client" {...register('client')} />
-                    {errorText('client') && <p className="text-sm text-red-500">{errorText('client')}</p>}
-                </div>
-
-                <div>
                     <Input placeholder="Duration" {...register('duration')} />
                     {errorText('duration') && <p className="text-sm text-red-500">{errorText('duration')}</p>}
                 </div>

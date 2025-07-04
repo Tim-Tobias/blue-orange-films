@@ -80,8 +80,8 @@ class ProjectsController extends Controller
                 'id_project_category' => $data['category'],
                 'description' => $data['description'],
                 'highlight_link' => $data['highlight'],
-                'agency' => 'Blue Orange Films',
-                'client' => $data['client'],
+                'agency' => 'NULLABLE',
+                'client' => 'NULLABLE',
                 'highlight_image' => $highlightImagePath
             ]);
 
@@ -165,9 +165,9 @@ class ProjectsController extends Controller
                 'duration' => $data['duration'],
                 'id_project_category' => $data['category'],
                 'description' => $data['description'],
-                'client' => $data['client'],
+                'client' => 'NULLABLE',
                 'highlight_link' => $data['highlight'],
-                'agency' => 'Blue Orange Films',
+                'agency' => 'NULLABLE',
             ]);
 
             if($request->hasFile('highlight_image')) {

@@ -16,7 +16,11 @@ class WorkController extends Controller
         $selectedCategory = $request->query('category');
         $categories = ProjectCategory::all();
         
-        $projects = Project::with('category')->whereYear('date', '>=', now()->year)
+        $projects = Project::with(['category', 'teams' => function ($query) {
+            $query->whereHas('role', function ($q) {
+                $q->where('name', 'client');
+            })->with('role', 'nameCrew');
+        }])
         ->when($selectedCategory && $selectedCategory !== 'all', function ($query) use ($selectedCategory) {
             $query->whereHas('category', function ($q) use ($selectedCategory) {
                 $q->where('name', $selectedCategory);
