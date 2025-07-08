@@ -31,7 +31,7 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
 
     return (
         <>
-            <AppFrontWrapper>
+            <AppFrontWrapper id='work-home'>
                 <motion.div
                     initial={{ opacity: 1, y: 50 }}
                     animate={scrollY > 0 ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }}

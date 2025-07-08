@@ -45,7 +45,7 @@ const StepSection = ({ steps }: StepSectionProps) => {
 
                         {steps[2] && (
                             <motion.div
-                                className="absolute top-[40%] right-0 w-[40%] transition-all hover:scale-110"
+                                className="absolute top-[40%] right-0 w-[30%] transition-all hover:scale-110"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={inView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ delay: 3 * 0.3 }}
