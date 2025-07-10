@@ -45,7 +45,7 @@ const InfoSection = ({ project }: InfoSectionProps) => {
 
     return (
         <>
-            <AppFrontWrapper className="space-y-24">
+            <AppFrontWrapper id='detail-work-home' className="space-y-24">
                 <div className="px-6 py-10">
                     <div data-aos="fade-up" data-aos-delay={100} className="text-2xl font-bold text-orange-400">
                         {project.title}
