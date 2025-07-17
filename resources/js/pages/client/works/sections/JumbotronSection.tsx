@@ -1,6 +1,6 @@
 import AppFrontContainer from '@/components/app-front-container';
 import { Banner } from '@/types';
-import { FaAngleDoubleDown } from 'react-icons/fa';
+import { BiChevronsDown } from 'react-icons/bi';
 
 const JumbotronSection = ({ banner }: { banner?: Banner }) => {
     const handleScroll = () => {
@@ -13,7 +13,7 @@ const JumbotronSection = ({ banner }: { banner?: Banner }) => {
     return (
         <AppFrontContainer className={`h-[80vh] w-full md:h-[${banner?.category === 'video' ? '80vh' : '100vh'}]`}>
             <div onClick={handleScroll} className="absolute right-5 bottom-5 z-20 animate-bounce cursor-pointer text-4xl text-white lg:text-6xl">
-                <FaAngleDoubleDown />
+                <BiChevronsDown />
             </div>
 
             {banner?.category === 'video' ? (

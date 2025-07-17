@@ -37,7 +37,7 @@ const SocialMediaFooter = ({ color }: SocialMediaFooterProps) => {
     }, []);
 
     return (
-        <div className={`flex items-center gap-5 text-${color}`}>
+        <div className={`flex items-center justify-center gap-5 md:justify-start text-${color}`}>
             {data?.instagram && (
                 <a target="_blank" rel="noopener noreferrer" href={data.instagram.link!}>
                     <FaInstagram className="text-xl" />

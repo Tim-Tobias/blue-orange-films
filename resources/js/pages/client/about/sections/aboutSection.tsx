@@ -2,7 +2,7 @@ import { AppFrontWrapper } from '@/components/app-front-wrapper';
 import IntroduceLayout from '@/layouts/client/IntroduceLayout';
 import { About, Banner } from '@/types';
 import parser from 'html-react-parser';
-import { FaAngleDoubleDown } from 'react-icons/fa';
+import { BiChevronsDown } from 'react-icons/bi';
 
 interface AboutSectionProps {
     about?: About;
@@ -21,7 +21,7 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
         <>
             <div className="relative">
                 <div onClick={handleScroll} className="absolute right-5 bottom-5 z-20 animate-bounce cursor-pointer text-4xl text-white lg:text-6xl">
-                    <FaAngleDoubleDown />
+                    <BiChevronsDown />
                 </div>
 
                 {banner?.category === 'image' ? (
@@ -43,7 +43,7 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
                 )}
             </div>
 
-            <div id="about-home" className='py-20'>
+            <div id="about-home" className="py-20">
                 <AppFrontWrapper className="max-w-[1140px]">
                     <div className="grid grid-cols-1 items-center justify-items-center gap-10 py-10 md:grid-cols-2">
                         <img

@@ -31,15 +31,15 @@ const WorkSection = ({ categories, projects }: WorkSectionProps) => {
 
     return (
         <>
-            <AppFrontWrapper id='work-home'>
+            <AppFrontWrapper id="work-home">
                 <motion.div
                     initial={{ opacity: 1, y: 50 }}
                     animate={scrollY > 0 ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}
-                    className="flex items-center justify-center gap-10 pt-10 text-center"
+                    className="flex items-center justify-center md:gap-10 pt-10 text-center"
                 >
                     <img src={LogoBlueOrange} alt="Blue Orange Films" className="h-10" />
-                    <h1 className="text-2xl font-bold">Blue Orange Showreel Compilation {new Date().getFullYear()}</h1>
+                    <h1 className="text-lg font-bold md:text-2xl">Blue Orange Showreel Compilation {new Date().getFullYear()}</h1>
                 </motion.div>
 
                 <div className="py-10">

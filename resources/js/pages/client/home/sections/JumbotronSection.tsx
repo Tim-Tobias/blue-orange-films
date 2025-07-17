@@ -1,6 +1,6 @@
 import AppFrontContainer from '@/components/app-front-container';
 import { Banner } from '@/types';
-import { FaAngleDoubleDown } from 'react-icons/fa';
+import { BiChevronsDown } from 'react-icons/bi';
 import { Parallax } from 'react-scroll-parallax';
 
 const JumbotronSection = ({ banner }: { banner?: Banner }) => {
@@ -32,8 +32,8 @@ const JumbotronSection = ({ banner }: { banner?: Banner }) => {
                 </Parallax>
             </div>
             <div className="absolute top-0 left-0 h-full w-full bg-black opacity-50" />
-            <div onClick={handleScroll} className="absolute right-5 bottom-5 animate-bounce cursor-pointer text-4xl lg:text-6xl text-white">
-                <FaAngleDoubleDown />
+            <div onClick={handleScroll} className="absolute right-5 bottom-5 animate-bounce cursor-pointer text-4xl text-white lg:text-6xl">
+                <BiChevronsDown />
             </div>
         </AppFrontContainer>
     );

@@ -23,7 +23,7 @@ const ProjectSection = ({ projects }: ProjectSectionProps) => {
     });
 
     return (
-        <AppFrontWrapper className="overflow-hidden px-6 md:px-5 lg:px-4 xl:px-0 xl:pl-4">
+        <AppFrontWrapper className="overflow-hidden p-5">
             <div className="space-y-10 py-12 md:py-25">
                 <h1 data-aos="fade-right" data-aos-delay="50" className="text-center md:text-3xl">
                     Latest Work
