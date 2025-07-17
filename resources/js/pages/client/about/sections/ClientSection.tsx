@@ -7,7 +7,7 @@ interface ClientSectionProps {
 
 const ClientSection = ({ client }: ClientSectionProps) => {
     return (
-        <AppFrontWrapper className='p-5'>
+        <AppFrontWrapper>
             <div className="space-y-10 py-12">
                 <h3 data-aos="fade-left" data-aos-delay={100} className="text-center text-2xl font-bold uppercase">
                     Our Client
