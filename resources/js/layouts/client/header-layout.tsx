@@ -14,7 +14,7 @@ const HeaderLayout = () => {
 
     return (
         <>
-            <header className="fixed top-0 z-10 mb-6 w-full px-5">
+            <header className="fixed top-0 z-10 mb-6 w-full">
                 <motion.div
                     initial={{ y: -100 }}
                     animate={{
@@ -27,7 +27,7 @@ const HeaderLayout = () => {
                     }}
                     className="absolute top-0 left-0 h-full w-full bg-white"
                 />
-                <nav className="relative mx-auto flex max-w-[1570px] items-center justify-between gap-4 py-5">
+                <nav className="relative mx-auto flex max-w-[1570px] items-center justify-between gap-4 p-5">
                     <CompanyLogo />
 
                     <div className="block text-3xl text-white md:hidden" onClick={() => setIsOpen(true)}>
