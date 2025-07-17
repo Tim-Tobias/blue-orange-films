@@ -27,7 +27,7 @@ const HeaderLayout = () => {
                     }}
                     className="absolute top-0 left-0 h-full w-full bg-white"
                 />
-                <nav className="relative mx-auto flex max-w-[1570px] items-center justify-between gap-4 p-5">
+                <nav className="relative mx-auto flex max-w-[1570px] items-center justify-between gap-4 px-15 py-5">
                     <CompanyLogo />
 
                     <div className="block text-3xl text-white md:hidden" onClick={() => setIsOpen(true)}>
