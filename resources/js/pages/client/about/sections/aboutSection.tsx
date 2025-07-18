@@ -1,6 +1,8 @@
 import { AppFrontWrapper } from '@/components/app-front-wrapper';
+import useScrollPosition from '@/hooks/use-scroll-position';
 import IntroduceLayout from '@/layouts/client/IntroduceLayout';
 import { About, Banner } from '@/types';
+import { motion } from 'framer-motion';
 import parser from 'html-react-parser';
 import { BiChevronsDown } from 'react-icons/bi';
 
@@ -17,13 +19,11 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
         }
     };
 
+    const scrollY = useScrollPosition();
+
     return (
         <>
             <div className="relative">
-                <div onClick={handleScroll} className="absolute right-5 bottom-5 z-20 animate-bounce cursor-pointer text-4xl text-white lg:text-6xl">
-                    <BiChevronsDown />
-                </div>
-
                 {banner?.category === 'image' ? (
                     <IntroduceLayout imgUrl={banner?.image_url ? banner.image_url : ''} title="About" />
                 ) : (
@@ -42,6 +42,18 @@ const AboutSection = ({ about, banner }: AboutSectionProps) => {
                     </div>
                 )}
             </div>
+
+            <AppFrontWrapper>
+                <motion.div
+                    initial={{ opacity: 1, y: 50 }}
+                    animate={scrollY > 0 ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    onClick={handleScroll}
+                    className="absolute right-5 bottom-0 z-20 animate-bounce cursor-pointer text-4xl text-white lg:text-6xl"
+                >
+                    <BiChevronsDown className="text-[#666b67]" />
+                </motion.div>
+            </AppFrontWrapper>
 
             <div id="about-home" className="py-20">
                 <AppFrontWrapper className="max-w-[1140px]">
