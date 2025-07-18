@@ -16,9 +16,9 @@ const HeaderLayout = () => {
         <>
             <header className="fixed top-0 z-10 mb-6 w-full">
                 <motion.div
-                    initial={{ y: -100 }}
+                    initial={{ y: '-105%' }}
                     animate={{
-                        y: scrollY > 0 ? 0 : -100,
+                        y: scrollY > 0 ? 0 : '-105%',
                     }}
                     transition={{
                         type: 'spring',
