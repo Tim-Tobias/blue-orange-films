@@ -66,7 +66,7 @@ export default function FormWebContent({ isEdit = false, sosmed, existingNames }
         }
     };
 
-    const SECTION_SOCIALS = ['email', 'instagram', 'youtube', 'linkedin'];
+    const SECTION_SOCIALS = ['instagram', 'youtube', 'linkedin'];
 
     const usedSocials = existingNames ?? [];
     const availableSocials = SECTION_SOCIALS.filter((social) => !usedSocials.includes(social));

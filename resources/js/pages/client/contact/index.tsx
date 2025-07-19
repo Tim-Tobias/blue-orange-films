@@ -54,10 +54,10 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
 
                     <div data-aos="fade-left" data-aos-delay={200} className="flex flex-col gap-8">
                         <div>
-                            <h2 className="mb-2 text-2xl font-bold text-orange-500">Talk to Us!</h2>
+                            <h2 className="mb-2 text-2xl font-bold text-orange-500">Let's Connect</h2>
                             <div>{parser(contact_content?.content || '')}</div>
-                            <p className="mt-2">Phone: {contact?.phone}</p>
-                            <p>Email: {contact?.email}</p>
+                            <p className="mt-2">{contact?.phone}</p>
+                            <p>{contact?.email}</p>
                         </div>
 
                         <div>

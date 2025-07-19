@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { PaginatedResponse, Social, type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,6 +21,12 @@ interface SocialsProps {
 }
 
 export default function Socials({ socials }: SocialsProps) {
+    const handleDelete = (id: number) => {
+        if (confirm('Are you sure you want to delete this social media?')) {
+            router.delete(`/dashboard/socials/${id}`);
+        }
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Socials" />
@@ -50,6 +56,9 @@ export default function Socials({ socials }: SocialsProps) {
                                                         Edit
                                                     </Button>
                                                 </Link>
+                                                <Button variant="destructive" onClick={() => handleDelete(row.id)}>
+                                                    Delete
+                                                </Button>
                                             </div>
                                         );
                                     },

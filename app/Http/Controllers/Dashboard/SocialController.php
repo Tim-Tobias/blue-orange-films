@@ -117,8 +117,11 @@ class SocialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Social $social)
+    public function destroy(string $id)
     {
-        //
+        $user = Social::findOrFail($id);
+        $user->delete();
+
+        return back()->with('success', 'Social Media berhasil dihapus.');
     }
 }
