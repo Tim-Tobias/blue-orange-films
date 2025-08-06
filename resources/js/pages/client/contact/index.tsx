@@ -33,7 +33,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
 
             <AppFrontWrapper className="grid grid-cols-1 items-center pt-20 md:h-screen md:pt-0 lg:h-[calc(100vh-69.45px)]">
                 <div className="flex w-full flex-col gap-8 py-8 lg:w-fit lg:flex-row">
-                    <div data-aos="fade-right" data-aos-delay={100} className="h-[250px] w-full lg:h-[453px] lg:w-[1140px]">
+                    <div data-aos="fade-right" data-aos-delay={100} className="h-[250px] w-full lg:h-[453px] lg:w-full max-w-[912px] aspect-[21/9] overflow-hidden">
                         <Swiper
                             className="h-full w-full"
                             autoplay={{
@@ -46,7 +46,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                         >
                             {carousell?.map((src, i) => (
                                 <SwiperSlide className="h-full w-full" onClick={() => handleImageClick(i)} key={i}>
-                                    <img src={src.image_url} alt={src.title} className="h-full w-full object-cover" />
+                                    <img src={src.image_url} alt={src.title} className="h-full w-full object-cover object-center" />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -83,7 +83,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                                 animate={{ scale: 1, y: 0, opacity: 1 }}
                                 exit={{ scale: 0.9, y: 50, opacity: 0 }}
                                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                                className="mx-auto h-full w-[90%]"
+                                className="mx-auto h-auto w-[90%] max-w-[912px] aspect-[21/9] my-auto flex items-center justify-center"
                             >
                                 <Swiper
                                     modules={[Navigation]}
@@ -94,7 +94,7 @@ const ContactPage = ({ contact, carousell, contact_content }: ContactPageProps) 
                                 >
                                     {carousell?.map((img, idx) => (
                                         <SwiperSlide key={idx}>
-                                            <img src={img.image_url} alt={img.title} className="h-full w-full object-cover" />
+                                            <img src={img.image_url} alt={img.title} className="h-full w-full object-cover object-center" />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
